@@ -16,6 +16,7 @@ from common_tpu import *
 from fi_config import *
 from utils import LHLogger, Timer, copy_tf_tensor, log_and_crash
 
+
 def parse_args() -> Tuple[argparse.Namespace, List[str]]:
     parser = argparse.ArgumentParser(description="D(L)eiT TPU radiation setup")
     parser.add_argument("--iterations", "-it", default=1, type=int)
@@ -38,6 +39,7 @@ def parse_args() -> Tuple[argparse.Namespace, List[str]]:
     parser.add_argument("--reload", "-r", action="store_true")
     parser.add_argument("--vit", "-v", "--notokens", "-nt", dest="vit", action="store_true", default=True)
     parser.add_argument("--log_interval", default=10, type=int)
+    parser.add_argument("--imageindex", "-idx", type=int, help="Specify a single image index to process")
     args = parser.parse_args()
     if args.generate:
         args.iterations = 1
@@ -50,8 +52,7 @@ def are_equal(lhs: tf.Tensor, rhs: tf.Tensor, threshold: Union[None, float]) -> 
     return np.all(tf.equal(lhs, rhs))
 
 
-
-def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, csv_filename):
+def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, csv_filename, args):
     fault_types = ["single", "small-box", "medium-box"]
     with open(csv_filename, mode="w", newline="") as file:
         writer = csv.writer(file)
@@ -60,8 +61,11 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, c
             for type in fault_types:
                 layer_name, total_runs, err, miss_classification = "", 0, 0, 0
                 layer_area, num_ops, status = -1, -1, 0
+
+                img_indices = [args.imageindex] if args.imageindex is not None else range(n_images)
+
                 for _ in range(max_iterations):
-                    for img_index in range(n_images):
+                    for img_index in img_indices:
                         image = images[img_index]
                         fi_init_profile(fi_layer)
                         output = run_inference(interpreter, image, tokens)
@@ -114,6 +118,7 @@ def main():
         logger.info(f"WARNING n_images:{args.testsamples} input_images:{len(images)}")
         if terminal_logger:
             terminal_logger.warning(f"Requested {args.testsamples} images but only {len(images)} available.")
+
     n_images = min(args.testsamples, len(images), len(golden) if not args.generate else float('inf'))
 
     run_fault_injection(
@@ -122,7 +127,8 @@ def main():
         tokens=tokens,
         n_images=n_images,
         max_iterations=args.iterations,
-        csv_filename="fault_injection_results.csv"
+        csv_filename="fault_injection_results.csv",
+        args=args
     )
 
     print("Results saved in fault_injection_results.csv")

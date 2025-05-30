@@ -16,8 +16,6 @@ def remap_model_output(mask_pred):
     # 0 = pet, 1 = background, 2 = edge → pet = 1, background = 0
     return np.where(mask_pred == 1, 0, 1)
 
-
-
 # === Utility: Critical SDC Checker ===
 def is_critical_sdc(faulty_mask, golden_mask):
     total_pixels = golden_mask.size
@@ -31,16 +29,19 @@ def is_critical_sdc(faulty_mask, golden_mask):
     faulty_classes = set(np.unique(faulty_mask))
     return golden_classes != faulty_classes
 
-
 def parse_args():
     parser = argparse.ArgumentParser(description="Fault Injection on Segmentation Model")
     parser.add_argument("--model", "-m", default="256",
                         help="Model size (256 or 128). Defaults to 256 model.")
-    parser.add_argument("--input", "-i", default="./segmentation/inputs", help="Path to input image folder (default: ./segmentation/inputs)")
-    parser.add_argument("--iterations", "-it", default=1, type=int, help="Number of FI iterations per image")
-    parser.add_argument("--generate", "-gen", action="store_true", help="Disable golden comparison (e.g., dry-run)")
+    parser.add_argument("--input", "-i", default="./segmentation/inputs",
+                        help="Path to input image folder (default: ./segmentation/inputs)")
+    parser.add_argument("--iterations", "-it", default=1, type=int,
+                        help="Number of FI iterations per image")
+    parser.add_argument("--generate", "-gen", action="store_true",
+                        help="Disable golden comparison (e.g., dry-run)")
+    parser.add_argument("--imageindex", "-img", type=int, default=None,
+                        help="Index of a single image to process (0-based)")
     return parser.parse_args()
-
 
 def run_inference(interpreter, image_np):
     input_details = interpreter.get_input_details()
@@ -51,37 +52,27 @@ def run_inference(interpreter, image_np):
     output = interpreter.get_tensor(output_details[0]['index'])[0]
     return output
 
-
 def load_images_from_folder(model_input_size, folder_path, target_size):
-    # image_files = sorted(f for f in os.listdir(folder_path) if f.endswith(".jpg"))
-    images, names = [], []
-
-    # for fname in image_files:
-    #     path = os.path.join(folder_path, fname)
-    #     img = Image.open(path).convert('RGB')
-    #     img = img.resize(target_size, Image.LANCZOS)
-    #     images.append(np.array(img))
-    #     names.append(fname)
-
+    # Load preprocessed numpy array of images
     images = np.load(f"./segmentation/inputs/oxford_images_{model_input_size}.npy")
-
+    names = [f"image_{i}.npy" for i in range(len(images))]  # dummy names
     return images, names
 
-
-def run_fault_injection(interpreter, images, names, max_iterations, csv_filename):
+def run_fault_injection(interpreter, images, names, max_iterations, csv_filename, image_index=None):
     fault_types = ["single", "small-box", "medium-box"]
     with open(csv_filename, mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "layer area", "num_ops"])
 
-        for fi_layer in range(55,56):  # adjust as needed
+        for fi_layer in range(56):  # adjust as needed
             for fi_type in fault_types:
                 layer_name, total_runs, errors, sdc_count = "", 0, 0, 0
                 layer_area, num_ops, status = -1, -1, 0
 
                 for _ in range(max_iterations):
-                    for idx in range(len(images)):
-                        image = images[idx,0,:,:,:]
+                    indices_to_process = [image_index] if image_index is not None else range(len(images))
+                    for idx in indices_to_process:
+                        image = images[idx, 0, :, :, :]
                         fi_init_profile(fi_layer)
 
                         golden = run_inference(interpreter, image)
@@ -101,12 +92,10 @@ def run_fault_injection(interpreter, images, names, max_iterations, csv_filename
                             errors += 1
                         if is_critical_sdc(output_bin, golden_bin):
                             sdc_count += 1
-                        exit()
 
                 if total_runs > 0:
                     sdc_rate = sdc_count / total_runs
                     writer.writerow([fi_layer, layer_name, fi_type, total_runs, errors, sdc_count, sdc_rate, layer_area, num_ops])
-
 
 def main():
     args = parse_args()
@@ -132,11 +121,11 @@ def main():
         images=images,
         names=names,
         max_iterations=args.iterations,
-        csv_filename="segmentation_fi_results.csv"
+        csv_filename="segmentation_fi_results.csv",
+        image_index=args.imageindex
     )
 
     print("Results saved in segmentation_fi_results.csv")
-
 
 if __name__ == "__main__":
     try:
