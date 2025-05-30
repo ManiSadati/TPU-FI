@@ -16,19 +16,27 @@ from common_tpu import *
 from fi_config import *
 from utils import LHLogger, Timer, copy_tf_tensor, log_and_crash
 
-
 def parse_args() -> Tuple[argparse.Namespace, List[str]]:
     parser = argparse.ArgumentParser(description="D(L)eiT TPU radiation setup")
-    parser.add_argument("--iterations", "-it", default=int(1), type=int)
-    parser.add_argument("--testsamples", "-n", default=128, type=int)
+    parser.add_argument("--iterations", "-it", default=1, type=int)
+    parser.add_argument("--testsamples", "-n", default=32, type=int)
     parser.add_argument("--generate", "-gen", action="store_true")
     parser.add_argument("--enableconsolelog", "-log", action="store_true")
-    parser.add_argument("--model", "-m", required=True)
+    parser.add_argument(
+        "--model", "-m",
+        default="models2/vit_im64_ps8_proj128_nlayers3_nheads8_mlphead256_ops0.tflite"
+    )
     parser.add_argument("--tokens", "-t")
-    parser.add_argument("--input", "-i", required=True)
-    parser.add_argument("--golden", "-g", required=True)
+    parser.add_argument(
+        "--input", "-i",
+        default="data/inputs/vit_base_8_images.npy"
+    )
+    parser.add_argument(
+        "--golden", "-g",
+        default="data/golden/vit_base_8_golden.npy"
+    )
     parser.add_argument("--reload", "-r", action="store_true")
-    parser.add_argument("--vit", "-v", "--notokens", "-nt", dest="vit", action="store_true")
+    parser.add_argument("--vit", "-v", "--notokens", "-nt", dest="vit", action="store_true", default=True)
     parser.add_argument("--log_interval", default=10, type=int)
     args = parser.parse_args()
     if args.generate:
