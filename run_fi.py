@@ -19,7 +19,7 @@ from utils import LHLogger, Timer, copy_tf_tensor, log_and_crash
 
 def parse_args() -> Tuple[argparse.Namespace, List[str]]:
     parser = argparse.ArgumentParser(description="D(L)eiT TPU radiation setup")
-    parser.add_argument("--iterations", "-it", default=1, type=int)
+    parser.add_argument("--iterations", "-it", default=1000, type=int)
     parser.add_argument("--testsamples", "-n", default=32, type=int)
     parser.add_argument("--generate", "-gen", action="store_true")
     parser.add_argument("--enableconsolelog", "-log", action="store_true")

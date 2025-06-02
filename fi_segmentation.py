@@ -35,7 +35,7 @@ def parse_args():
                         help="Model size (256 or 128). Defaults to 256 model.")
     parser.add_argument("--input", "-i", default="./segmentation/inputs",
                         help="Path to input image folder (default: ./segmentation/inputs)")
-    parser.add_argument("--iterations", "-it", default=1, type=int,
+    parser.add_argument("--iterations", "-it", default=200, type=int,
                         help="Number of FI iterations per image")
     parser.add_argument("--generate", "-gen", action="store_true",
                         help="Disable golden comparison (e.g., dry-run)")
