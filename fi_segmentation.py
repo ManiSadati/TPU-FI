@@ -8,7 +8,7 @@ from PIL import Image
 from typing import Union
 
 from utils import copy_tf_tensor, log_and_crash, Timer
-from fi_config import fi_init_profile, fi_init_inject
+from fi_config import fi_init_profile, fi_init_inject, get_dims
 from common_tpu import load_model, load_input_data
 
 # === Remap model output to binary (pet vs background)
@@ -65,21 +65,26 @@ def run_fault_injection(interpreter, images, names, max_iterations, csv_filename
         writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "layer area", "num_ops"])
 
         for fi_layer in range(56):  # adjust as needed
+            indices_to_process = [image_index] if image_index is not None else range(len(images))
+            golden_list = []
+            for idx in indices_to_process:
+                image = images[idx, 0, :, :, :]
+                fi_init_profile(fi_layer)
+
+                golden = run_inference(interpreter, image)
+                golden = np.argmax(golden, axis=-1) if golden.ndim == 3 else golden
+                golden_bin = remap_model_output(golden)
+                golden_dims = get_dims()
+                golden_list.append((golden_bin, golden_dims, idx))
+
             for fi_type in fault_types:
                 layer_name, total_runs, errors, sdc_count = "", 0, 0, 0
                 layer_area, num_ops, status = -1, -1, 0
 
                 for _ in range(max_iterations):
-                    indices_to_process = [image_index] if image_index is not None else range(len(images))
-                    for idx in indices_to_process:
+                    for golden_bin, golden_dims, idx in golden_list:
                         image = images[idx, 0, :, :, :]
-                        fi_init_profile(fi_layer)
-
-                        golden = run_inference(interpreter, image)
-                        golden = np.argmax(golden, axis=-1) if golden.ndim == 3 else golden
-                        golden_bin = remap_model_output(golden)
-
-                        layer_name, status, layer_area, num_ops = fi_init_inject(fi_layer, fi_type)
+                        layer_name, status, layer_area, num_ops = fi_init_inject(fi_layer, fi_type, golden_dims)
                         if status == -1:
                             continue
 

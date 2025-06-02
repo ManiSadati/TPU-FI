@@ -12,8 +12,13 @@ def fi_init_profile(layer):
     with open("./fi_mode.txt", "w") as file:
         file.write(f"profiling {layer}\n")
 
+def get_dims():
+    with open("./fi_dimension.txt", "r") as file:
+        dimensions = file.read().split()
+    return dimensions
 
-def fi_init_inject(layer, type):
+
+def fi_init_inject(layer, type, dimensions):
     # Define initial values for variables
     box_x = box_y = l_x = r_x = l_y = r_y = -1
     x_size = y_size = c_size = 0
@@ -25,14 +30,14 @@ def fi_init_inject(layer, type):
         file.write("0\n")
 
     # Reading dimensions
-    with open("./fi_dimension.txt", "r") as file:
-        dimensions = file.read().split()
-        print(dimensions)
-        layer_name = dimensions[0]
-        c_size = int(dimensions[2])
-        x_size = int(dimensions[3])
-        y_size = int(dimensions[4])
-        num_ops = int(dimensions[5])
+    # with open("./fi_dimension.txt", "r") as file:
+    #     dimensions = file.read().split()
+    #     print(dimensions)
+    layer_name = dimensions[0]
+    c_size = int(dimensions[2])
+    x_size = int(dimensions[3])
+    y_size = int(dimensions[4])
+    num_ops = int(dimensions[5])
     
 
     # Determine the type and calculate probabilities and dimensions
