@@ -58,21 +58,28 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, c
         writer = csv.writer(file)
         writer.writerow(["layer", "name", "type", "total runs", "error", "missclassification", "sdc rate", "layer area", "num_ops"])
         for fi_layer in range(190):
+
+            img_indices = [args.imageindex] if args.imageindex is not None else range(n_images)
+            golden_list = []
+            for img_index in img_indices:
+                image = images[img_index]
+                fi_init_profile(fi_layer)
+                output = run_inference(interpreter, image, tokens)
+                golden = copy_tf_tensor(output)
+                golden_dims = get_dims()
+                golden_list.append((golden, golden_dims, img_index))
+                del output
+
             for type in fault_types:
                 layer_name, total_runs, err, miss_classification = "", 0, 0, 0
                 layer_area, num_ops, status = -1, -1, 0
 
-                img_indices = [args.imageindex] if args.imageindex is not None else range(n_images)
 
                 for _ in range(max_iterations):
-                    for img_index in img_indices:
+                    for golden, golden_dims, img_index in golden_list:
                         image = images[img_index]
-                        fi_init_profile(fi_layer)
-                        output = run_inference(interpreter, image, tokens)
-                        golden = copy_tf_tensor(output)
-                        del output
 
-                        layer_name, status, layer_area, num_ops = fi_init_inject(fi_layer, type)
+                        layer_name, status, layer_area, num_ops = fi_init_inject(fi_layer, type, golden_dims)
                         if status == -1:
                             continue
 
@@ -81,6 +88,7 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, c
                         total_runs += 1
                         if golden.argmax() != output.argmax():
                             miss_classification += 1
+                        print(miss_classification)
                         if not equal:
                             err += 1
                         del output
