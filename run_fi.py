@@ -23,6 +23,10 @@ def parse_args() -> Tuple[argparse.Namespace, List[str]]:
     parser.add_argument("--testsamples", "-n", default=32, type=int)
     parser.add_argument("--generate", "-gen", action="store_true")
     parser.add_argument("--enableconsolelog", "-log", action="store_true")
+    parser.add_argument("--start_layer", "-start_layer", default=0, type=int,
+                        help="start_layer")
+    parser.add_argument("--end_layer", "-end_layer", default=190, type=int,
+                        help="end_layer")
     parser.add_argument(
         "--model", "-m",
         default="models2/vit_im64_ps8_proj128_nlayers3_nheads8_mlphead256_ops0.tflite"
@@ -52,12 +56,12 @@ def are_equal(lhs: tf.Tensor, rhs: tf.Tensor, threshold: Union[None, float]) -> 
     return np.all(tf.equal(lhs, rhs))
 
 
-def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, csv_filename, args):
+def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, start_layer, end_layer, csv_filename, args):
     fault_types = ["single", "small-box", "medium-box"]
     with open(csv_filename, mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["layer", "name", "type", "total runs", "error", "missclassification", "sdc rate", "layer area", "num_ops"])
-        for fi_layer in range(190):
+        for fi_layer in range(start_layer, end_layer):
 
             img_indices = [args.imageindex] if args.imageindex is not None else range(n_images)
             golden_list = []
@@ -135,6 +139,8 @@ def main():
         tokens=tokens,
         n_images=n_images,
         max_iterations=args.iterations,
+        start_layer=args.start_layer,
+        end_layer=args.end_layer,
         csv_filename="fault_injection_results.csv",
         args=args
     )
