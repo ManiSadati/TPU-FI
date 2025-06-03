@@ -37,6 +37,10 @@ def parse_args():
                         help="Path to input image folder (default: ./segmentation/inputs)")
     parser.add_argument("--iterations", "-it", default=200, type=int,
                         help="Number of FI iterations per image")
+    parser.add_argument("--start_layer", "-start_layer", default=0, type=int,
+                        help="start_layer")
+    parser.add_argument("--end_layer", "-end_layer", default=56, type=int,
+                        help="end_layer")
     parser.add_argument("--generate", "-gen", action="store_true",
                         help="Disable golden comparison (e.g., dry-run)")
     parser.add_argument("--imageindex", "-img", type=int, default=None,
@@ -58,13 +62,13 @@ def load_images_from_folder(model_input_size, folder_path, target_size):
     names = [f"image_{i}.npy" for i in range(len(images))]  # dummy names
     return images, names
 
-def run_fault_injection(interpreter, images, names, max_iterations, csv_filename, image_index=None):
+def run_fault_injection(interpreter, images, names, max_iterations, start_layer, end_layer, csv_filename, image_index=None):
     fault_types = ["single", "small-box", "medium-box"]
     with open(csv_filename, mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "layer area", "num_ops"])
 
-        for fi_layer in range(56):  # adjust as needed
+        for fi_layer in range(start_layer, end_layer):  # adjust as needed
             indices_to_process = [image_index] if image_index is not None else range(len(images))
             golden_list = []
             for idx in indices_to_process:
@@ -126,6 +130,8 @@ def main():
         images=images,
         names=names,
         max_iterations=args.iterations,
+        start_layer=args.start_layer,
+        end_layer=args.end_layer,
         csv_filename="segmentation_fi_results.csv",
         image_index=args.imageindex
     )
