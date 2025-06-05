@@ -60,7 +60,7 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
     fault_types = ["single", "small-box", "medium-box"]
     with open(csv_filename, mode="w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["layer", "name", "type", "total runs", "error", "missclassification", "sdc rate", "layer area", "num_ops"])
+        writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "layer area", "num_ops"])
         for fi_layer in range(start_layer, end_layer):
 
             img_indices = [args.imageindex] if args.imageindex is not None else range(n_images)
