@@ -63,8 +63,8 @@ def load_images_from_folder(model_input_size, folder_path, target_size):
     return images, names
 
 def run_fault_injection(interpreter, images, names, max_iterations, start_layer, end_layer, csv_filename, image_index=None):
-    # fault_types = ["single", "small-box", "medium-box"]
-    fault_types = ["medium-box"]
+    fault_types = ["single", "small-box", "medium-box"]
+    # fault_types = ["medium-box"]
     with open(csv_filename, mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "d(out_c)", "layer area", "num_ops"])
