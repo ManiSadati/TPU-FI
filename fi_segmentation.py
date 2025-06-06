@@ -83,10 +83,12 @@ def run_fault_injection(interpreter, images, names, max_iterations, start_layer,
                 golden_list.append((golden_bin, golden_dims, idx))
 
             for fi_type in fault_types:
+                print("fi layer", fi_layer,"fi type", fi_type)
                 layer_name, total_runs, errors, sdc_count = "", 0, 0, 0
                 layer_area, num_ops, status = -1, -1, 0
 
                 for _ in range(max_iterations):
+                    print(_,"/",max_iterations)
                     for golden_bin, golden_dims, idx in golden_list:
                         image = images[idx, 0, :, :, :]
                         layer_name, status, layer_area, num_ops, c = fi_init_inject(fi_layer, fi_type, golden_dims)

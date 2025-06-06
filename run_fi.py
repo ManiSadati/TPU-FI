@@ -76,11 +76,13 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
                 del output
 
             for fi_type in fault_types:
+                print("fi layer", fi_layer,"fi type", fi_type)
                 layer_name, total_runs, errors, sdc_count = "", 0, 0, 0
                 layer_area, num_ops, status = -1, -1, 0
 
 
                 for _ in range(max_iterations):
+                    print(_,"/",max_iterations)
                     for golden, golden_dims, img_index in golden_list:
                         image = images[img_index]
 
