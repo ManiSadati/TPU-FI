@@ -60,7 +60,8 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
     fault_types = ["single", "small-box", "medium-box"]
     with open(csv_filename, mode="w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "layer area", "num_ops"])
+        writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "d(out_c)", "layer area", "num_ops"])
+
         for fi_layer in range(start_layer, end_layer):
 
             img_indices = [args.imageindex] if args.imageindex is not None else range(n_images)
@@ -74,8 +75,8 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
                 golden_list.append((golden, golden_dims, img_index))
                 del output
 
-            for type in fault_types:
-                layer_name, total_runs, err, miss_classification = "", 0, 0, 0
+            for fi_type in fault_types:
+                layer_name, total_runs, errors, sdc_count = "", 0, 0, 0
                 layer_area, num_ops, status = -1, -1, 0
 
 
@@ -83,7 +84,7 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
                     for golden, golden_dims, img_index in golden_list:
                         image = images[img_index]
 
-                        layer_name, status, layer_area, num_ops = fi_init_inject(fi_layer, type, golden_dims)
+                        layer_name, status, layer_area, num_ops, c = fi_init_inject(fi_layer, fi_type, golden_dims)
                         if status == -1:
                             continue
 
@@ -91,15 +92,16 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
                         equal = are_equal(output, golden, None)
                         total_runs += 1
                         if golden.argmax() != output.argmax():
-                            miss_classification += 1
-                        print(miss_classification)
+                            sdc_count += 1
+                        print(sdc_count)
                         if not equal:
-                            err += 1
+                            errors += 1
                         del output
 
-                if total_runs > -1:
-                    sdc_rate = miss_classification / (total_runs + 1)
-                    writer.writerow([fi_layer, layer_name, type, total_runs, err, miss_classification, sdc_rate, layer_area, num_ops])
+                if total_runs > 0:
+                    sdc_rate = sdc_count / total_runs
+                    writer.writerow([fi_layer, layer_name, fi_type, total_runs, errors, sdc_count, sdc_rate, c, layer_area, num_ops])
+
 
 
 def main():

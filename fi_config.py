@@ -45,22 +45,22 @@ def fi_init_inject(layer, type, dimensions):
         box_x = box_y = 1
         prob = 1.0
     elif type == "small-box":
-        area = random.randint(41, 113)
+        area = random.randint(41, max(41,min(x_size * y_size,113)))
         if area > x_size * y_size:
-            return layer_name, -1,  x_size * y_size, num_ops
+            return layer_name, -1, c_size,  x_size * y_size, num_ops
         box_y = random.randint(max(1,area//x_size), min(y_size, area))
         box_x = max(1, area // box_y)
         if box_x > x_size:
-            return layer_name, -1,  x_size * y_size, num_ops
+            return layer_name, -1, c_size,  x_size * y_size, num_ops
         prob = 0.07
     elif type == "medium-box":
-        area = random.randint(949, 1351)
+        area = random.randint(949, max(949,min(x_size * y_size,1351)))
         if area > x_size * y_size:
-            return layer_name, -1,  x_size * y_size, num_ops
+            return layer_name, -1, c_size,  x_size * y_size, num_ops
         box_y = random.randint(max(1,area//x_size), min(y_size, area))
         box_x = max(1, area // box_y)
         if box_x > x_size:
-            return layer_name, -1,  x_size * y_size, num_ops
+            return layer_name, -1, c_size,  x_size * y_size, num_ops
         prob = 0.03
 
     l_x = random.randint(0, x_size - box_x)
@@ -83,4 +83,4 @@ def fi_init_inject(layer, type, dimensions):
     with open("./fi_mode.txt", "w") as file:
         file.write(f"injection {layer}\n")
     
-    return layer_name, 0,  x_size * y_size, num_ops
+    return layer_name, 0, c_size, x_size * y_size, num_ops

@@ -63,10 +63,11 @@ def load_images_from_folder(model_input_size, folder_path, target_size):
     return images, names
 
 def run_fault_injection(interpreter, images, names, max_iterations, start_layer, end_layer, csv_filename, image_index=None):
-    fault_types = ["single", "small-box", "medium-box"]
+    # fault_types = ["single", "small-box", "medium-box"]
+    fault_types = ["medium-box"]
     with open(csv_filename, mode="w", newline="") as file:
         writer = csv.writer(file)
-        writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "layer area", "num_ops"])
+        writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "d(out_c)", "layer area", "num_ops"])
 
         for fi_layer in range(start_layer, end_layer):  # adjust as needed
             indices_to_process = [image_index] if image_index is not None else range(len(images))
@@ -88,7 +89,7 @@ def run_fault_injection(interpreter, images, names, max_iterations, start_layer,
                 for _ in range(max_iterations):
                     for golden_bin, golden_dims, idx in golden_list:
                         image = images[idx, 0, :, :, :]
-                        layer_name, status, layer_area, num_ops = fi_init_inject(fi_layer, fi_type, golden_dims)
+                        layer_name, status, layer_area, num_ops, c = fi_init_inject(fi_layer, fi_type, golden_dims)
                         if status == -1:
                             continue
 
@@ -104,7 +105,7 @@ def run_fault_injection(interpreter, images, names, max_iterations, start_layer,
 
                 if total_runs > 0:
                     sdc_rate = sdc_count / total_runs
-                    writer.writerow([fi_layer, layer_name, fi_type, total_runs, errors, sdc_count, sdc_rate, layer_area, num_ops])
+                    writer.writerow([fi_layer, layer_name, fi_type, total_runs, errors, sdc_count, sdc_rate, c, layer_area, num_ops])
 
 def main():
     args = parse_args()
