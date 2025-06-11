@@ -86,7 +86,7 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
                     for golden, golden_dims, img_index in golden_list:
                         image = images[img_index]
 
-                        layer_name, status, layer_area, num_ops, c = fi_init_inject(fi_layer, fi_type, golden_dims)
+                        layer_name, status, c , layer_area, num_ops = fi_init_inject(fi_layer, fi_type, golden_dims)
                         if status == -1:
                             continue
 
@@ -145,11 +145,11 @@ def main():
         max_iterations=args.iterations,
         start_layer=args.start_layer,
         end_layer=args.end_layer,
-        csv_filename="fault_injection_results.csv",
+        csv_filename="./results/FI-vit-results.csv",
         args=args
     )
 
-    print("Results saved in fault_injection_results.csv")
+    print("Results saved in ./results/FI-vit-results.csv")
     logger.end_log_file()
 
 

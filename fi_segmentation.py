@@ -91,7 +91,7 @@ def run_fault_injection(interpreter, images, names, max_iterations, start_layer,
                     print(_,"/",max_iterations)
                     for golden_bin, golden_dims, idx in golden_list:
                         image = images[idx, 0, :, :, :]
-                        layer_name, status, layer_area, num_ops, c = fi_init_inject(fi_layer, fi_type, golden_dims)
+                        layer_name, status, c , layer_area, num_ops = fi_init_inject(fi_layer, fi_type, golden_dims)
                         if status == -1:
                             continue
 
@@ -135,11 +135,11 @@ def main():
         max_iterations=args.iterations,
         start_layer=args.start_layer,
         end_layer=args.end_layer,
-        csv_filename="segmentation_fi_results.csv",
+        csv_filename=f"./results/FI-segmentation-{model_input_size}-results.csv",
         image_index=args.imageindex
     )
 
-    print("Results saved in segmentation_fi_results.csv")
+    print(f"Results saved in ./results/FI-segmentation-{model_input_size}-results.csv")
 
 if __name__ == "__main__":
     try:
