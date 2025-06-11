@@ -2,3 +2,6 @@ __pycache__/*
 *.txt
 *.csv
 plots/*
+results/*
+*.png
+*.csv
