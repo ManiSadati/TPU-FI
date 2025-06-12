@@ -128,7 +128,7 @@ def main():
     timer.toc()
     print(f"Loaded {len(images)} images in {timer.diff_time_str}")
 
-    os.mkaedirs("./results", exist_ok=True)
+    os.makedirs("./results", exist_ok=True)
     run_fault_injection(
         interpreter=interpreter,
         images=images,

@@ -137,7 +137,7 @@ def main():
 
     n_images = min(args.testsamples, len(images), len(golden) if not args.generate else float('inf'))
 
-    os.mkaedirs("./results", exist_ok=True)
+    os.makedirs("./results", exist_ok=True)
     run_fault_injection(
         interpreter=interpreter,
         images=images,
