@@ -35,10 +35,11 @@ def merge_files():
         
         dfs[0].drop(columns=['sdc_rate'], inplace=True)
 
-        dfs[0].rename(columns={'layer area': 'tmp',}, inplace=True)
-        dfs[0].rename(columns={'num_ops': 'layer area',}, inplace=True)
-        dfs[0].rename(columns={'d(out_c)': 'num_ops',}, inplace=True)
-        dfs[0].rename(columns={'tmp': 'd(out_c)',}, inplace=True)
+        exit()
+        # dfs[0].rename(columns={'layer area': 'tmp',}, inplace=True)
+        # dfs[0].rename(columns={'num_ops': 'layer area',}, inplace=True)
+        # dfs[0].rename(columns={'d(out_c)': 'num_ops',}, inplace=True)
+        # dfs[0].rename(columns={'tmp': 'd(out_c)',}, inplace=True)
 
         new_file_path = os.path.join(prefix_path, f"Merged_{model}.csv")
         dfs[0].to_csv(new_file_path, index=False)
@@ -57,8 +58,8 @@ def add_fit_columns():
         df['sdc_rate'] = df['errors'] / df['total runs']
         df['critical_sdc_rate'] = df['sdc_count'] / df['total runs']
         df['portion_of_tpu'] = df['num_ops'] * 100 / 1258291200
-        df['fault_fit_rate'] = df['type'].map(fault_types_fit_rates)
-        df['layer_vs_fault_fit_rate'] = df['portion_of_tpu'] * df['fault_fit_rate']
+        df['fault_type_fit_rate'] = df['type'].map(fault_types_fit_rates)
+        df['layer_vs_fault_fit_rate'] = df['portion_of_tpu'] * df['fault_type_fit_rate']
         df['fit_times_avf'] = df['errors'] * df['layer_vs_fault_fit_rate'] / df['total runs']
         df['fit_times_avf_critical'] = df['sdc_count'] * df['layer_vs_fault_fit_rate'] / df['total runs']
         file_path = os.path.join(prefix_path, f"Full_{model}.csv")
