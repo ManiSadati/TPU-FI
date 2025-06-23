@@ -5,3 +5,6 @@ plots/*
 results/*
 *.png
 *.csv
+diff_results/*
+attention_results/*
+fi/*

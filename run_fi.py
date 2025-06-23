@@ -14,7 +14,8 @@ from typing import Tuple, List, Union
 import console_logger
 from common_tpu import *
 from fi_config import *
-from utils import LHLogger, Timer, copy_tf_tensor, log_and_crash
+from utils import LHLogger, Timer, copy_tf_tensor, log_and_crash, attention_calculation, which_attention_layer2log
+
 
 
 def parse_args() -> Tuple[argparse.Namespace, List[str]]:
@@ -25,7 +26,7 @@ def parse_args() -> Tuple[argparse.Namespace, List[str]]:
     parser.add_argument("--enableconsolelog", "-log", action="store_true")
     parser.add_argument("--start_layer", "-start_layer", default=0, type=int,
                         help="start_layer")
-    parser.add_argument("--end_layer", "-end_layer", default=190, type=int,
+    parser.add_argument("--end_layer", "-end_layer", default=191, type=int,
                         help="end_layer")
     parser.add_argument(
         "--model", "-m",
@@ -58,6 +59,9 @@ def are_equal(lhs: tf.Tensor, rhs: tf.Tensor, threshold: Union[None, float]) -> 
 
 def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, start_layer, end_layer, csv_filename, args):
     fault_types = ["single", "small-box", "medium-box"]
+    attention_layers, map_attention_layer = attention_calculation()
+    
+    init_fi()
     with open(csv_filename, mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "d(out_c)", "layer area", "num_ops"])
@@ -66,9 +70,12 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
 
             img_indices = [args.imageindex] if args.imageindex is not None else range(n_images)
             golden_list = []
+            logged_layers = which_attention_layer2log(fi_layer, map_attention_layer, attention_layers)
+            if(logged_layers == []):
+                continue
             for img_index in img_indices:
                 image = images[img_index]
-                fi_init_profile(fi_layer)
+                fi_init_profile(fi_layer, img_index, logged_layers)
                 output = run_inference(interpreter, image, tokens)
                 golden = copy_tf_tensor(output)
                 golden_dims = get_dims()
@@ -81,12 +88,12 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
                 layer_area, num_ops, status = -1, -1, 0
 
 
-                for _ in range(max_iterations):
-                    print(_,"/",max_iterations)
+                for it in range(max_iterations):
+                    print(it,"/",max_iterations)
                     for golden, golden_dims, img_index in golden_list:
                         image = images[img_index]
 
-                        layer_name, status, c , layer_area, num_ops = fi_init_inject(fi_layer, fi_type, golden_dims)
+                        layer_name, status, c , layer_area, num_ops = fi_init_inject(fi_layer, img_index, fi_type, it, golden_dims)
                         if status == -1:
                             continue
 
@@ -103,6 +110,8 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
                 if total_runs > 0:
                     sdc_rate = sdc_count / total_runs
                     writer.writerow([fi_layer, layer_name, fi_type, total_runs, errors, sdc_count, sdc_rate, c, layer_area, num_ops])
+                for _, golden_dims, img_index in golden_list:
+                    fi_post_process(logged_layers, fi_layer, img_index, [fi_type], max_iterations)
 
 
 
