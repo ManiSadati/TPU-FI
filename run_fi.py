@@ -71,8 +71,7 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
             img_indices = [args.imageindex] if args.imageindex is not None else range(n_images)
             golden_list = []
             logged_layers = which_attention_layer2log(fi_layer, map_attention_layer, attention_layers)
-            if(logged_layers == []):
-                continue
+            logged_layers = [fi_layer] # this needs to change
             for img_index in img_indices:
                 image = images[img_index]
                 fi_init_profile(fi_layer, img_index, logged_layers)
