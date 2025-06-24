@@ -8,7 +8,7 @@ from PIL import Image
 from typing import Union
 
 from utils import copy_tf_tensor, log_and_crash, Timer
-from fi_config import fi_init_profile, fi_init_inject, get_dims
+from fi_config import *
 from common_tpu import load_model, load_input_data
 
 # === Remap model output to binary (pet vs background)
@@ -59,39 +59,40 @@ def run_inference(interpreter, image_np):
 def load_images_from_folder(model_input_size, folder_path, target_size):
     # Load preprocessed numpy array of images
     images = np.load(f"./segmentation/inputs/oxford_images_{model_input_size}.npy")
-    names = [f"image_{i}.npy" for i in range(len(images))]  # dummy names
+    names = [f"image_{i}.npy" for i in range(len(images))]
     return images, names
 
 def run_fault_injection(interpreter, images, names, max_iterations, start_layer, end_layer, csv_filename, image_index=None):
     fault_types = ["single", "small-box", "medium-box"]
-    # fault_types = ["medium-box"]
+    
+    init_fi()
     with open(csv_filename, mode="w", newline="") as file:
         writer = csv.writer(file)
         writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "d(out_c)", "layer area", "num_ops"])
 
-        for fi_layer in range(start_layer, end_layer):  # adjust as needed
+        for fi_layer in range(start_layer, end_layer):
             indices_to_process = [image_index] if image_index is not None else range(len(images))
             golden_list = []
-            for idx in indices_to_process:
-                image = images[idx, 0, :, :, :]
-                fi_init_profile(fi_layer)
-
+            logged_layers = [fi_layer] # this needs to change, I only log the layer FI happens in.
+            for img_index in indices_to_process:
+                image = images[img_index, 0, :, :, :]
+                fi_init_profile(fi_layer, img_index, logged_layers)
                 golden = run_inference(interpreter, image)
                 golden = np.argmax(golden, axis=-1) if golden.ndim == 3 else golden
                 golden_bin = remap_model_output(golden)
                 golden_dims = get_dims()
-                golden_list.append((golden_bin, golden_dims, idx))
+                golden_list.append((golden_bin, golden_dims, img_index))
 
             for fi_type in fault_types:
                 print("fi layer", fi_layer,"fi type", fi_type)
                 layer_name, total_runs, errors, sdc_count = "", 0, 0, 0
                 layer_area, num_ops, status = -1, -1, 0
 
-                for _ in range(max_iterations):
-                    print(_,"/",max_iterations)
-                    for golden_bin, golden_dims, idx in golden_list:
-                        image = images[idx, 0, :, :, :]
-                        layer_name, status, c , layer_area, num_ops = fi_init_inject(fi_layer, fi_type, golden_dims)
+                for it in range(max_iterations):
+                    print(it,"/",max_iterations)
+                    for golden_bin, golden_dims, img_index in golden_list:
+                        image = images[img_index, 0, :, :, :]
+                        layer_name, status, c , layer_area, num_ops = fi_init_inject(fi_layer, img_index, fi_type, it, golden_dims)
                         if status == -1:
                             continue
 
@@ -108,6 +109,8 @@ def run_fault_injection(interpreter, images, names, max_iterations, start_layer,
                 if total_runs > 0:
                     sdc_rate = sdc_count / total_runs
                     writer.writerow([fi_layer, layer_name, fi_type, total_runs, errors, sdc_count, sdc_rate, c, layer_area, num_ops])
+                for _, golden_dims, img_index in golden_list:
+                    fi_post_process(logged_layers, fi_layer, img_index, [fi_type], max_iterations)
 
 def main():
     args = parse_args()
