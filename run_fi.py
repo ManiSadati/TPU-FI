@@ -67,7 +67,7 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
         writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "d(out_c)", "layer area", "num_ops"])
 
         for fi_layer in range(start_layer, end_layer):
-
+            reset_fi_folder()
             img_indices = [args.imageindex] if args.imageindex is not None else range(n_images)
             golden_list = []
             logged_layers = which_attention_layer2log(fi_layer, map_attention_layer, attention_layers)

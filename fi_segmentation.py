@@ -71,10 +71,11 @@ def run_fault_injection(interpreter, images, names, max_iterations, start_layer,
         writer.writerow(["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate", "d(out_c)", "layer area", "num_ops"])
 
         for fi_layer in range(start_layer, end_layer):
-            indices_to_process = [image_index] if image_index is not None else range(len(images))
+            reset_fi_folder()
+            img_indices = [image_index] if image_index is not None else range(len(images))
             golden_list = []
             logged_layers = [fi_layer] # this needs to change, I only log the layer FI happens in.
-            for img_index in indices_to_process:
+            for img_index in img_indices:
                 image = images[img_index, 0, :, :, :]
                 fi_init_profile(fi_layer, img_index, logged_layers)
                 golden = run_inference(interpreter, image)

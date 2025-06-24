@@ -8,9 +8,11 @@ def init_fi():
     os.makedirs("./diff_results", exist_ok=True)
 
 
-def reset_files():
+def reset_fi_folder():
     shutil.rmtree("./fi", ignore_errors=True)
     os.makedirs("./fi", exist_ok=True)
+    
+def reset_files():
     open("./fi/layer_num.txt", "w").close()
     open("./fi/mode.txt", "w").close()
     open("./fi/locations.txt", "w").close()
@@ -102,22 +104,30 @@ def fi_init_inject(layer, img_index, type, it, dimensions):
     return layer_name, 0, c_size, x_size * y_size, num_ops
 
 def get_tensor_from_file(layer_output, fi_layer, img_index, type, it):
-    with open(f"./fi/output_{layer_output}-{fi_layer}-{img_index}-{type}-{it}.txt", "r") as file:
-        #read first line
+    file_path = f"./fi/output_{layer_output}-{fi_layer}-{img_index}-{type}-{it}.txt"
+    if not os.path.exists(file_path):
+        print (file_path)
+        return None, -1
+    with open(file_path, "r") as file:
+        # read first line
         c_size, x_size, y_size = map(int, file.readline().split())
         output = file.read().splitlines()
         output = np.array([list(map(float, line.split())) for line in output])
         output = output.reshape((c_size, x_size, y_size))
-    return output
+    return output, 1
 
 
 
 def fi_post_process(layer_output_list, fi_layer, img_index, fault_types, max_iterations):
     for layer_output in layer_output_list:
-        golden_tensor = get_tensor_from_file(layer_output, fi_layer, img_index, "None", -1)
+        golden_tensor, _ = get_tensor_from_file(layer_output, fi_layer, img_index, "None", -1)
+        if _ == -1:
+            print("wwwwwwwwwwhaaaaaaaaaaat")
         for type in fault_types:
             for it in range(max_iterations):
-                output_tensor = get_tensor_from_file(layer_output, fi_layer, img_index, type, it)
+                output_tensor, status = get_tensor_from_file(layer_output, fi_layer, img_index, type, it)
+                if status == -1:
+                    continue
                 diff = output_tensor - golden_tensor
                 np.save(f"./diff_results/diff_{layer_output}-{fi_layer}-{img_index}-{type}-{it}.npy", diff)
     return
