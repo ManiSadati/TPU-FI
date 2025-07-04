@@ -24,6 +24,7 @@ def parse_args() -> Tuple[argparse.Namespace, List[str]]:
     parser.add_argument("--testsamples", "-n", default=32, type=int)
     parser.add_argument("--generate", "-gen", action="store_true")
     parser.add_argument("--enableconsolelog", "-log", action="store_true")
+    parser.add_argument("--check_attention", "-attention", action="store_true")
     parser.add_argument("--start_layer", "-start_layer", default=0, type=int,
                         help="start_layer")
     parser.add_argument("--end_layer", "-end_layer", default=191, type=int,
@@ -70,8 +71,9 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
             reset_fi_folder()
             img_indices = [args.imageindex] if args.imageindex is not None else range(n_images)
             golden_list = []
-            logged_layers = which_attention_layer2log(fi_layer, map_attention_layer, attention_layers)
             logged_layers = [fi_layer] # this needs to change
+            if (args.check_attention):
+                logged_layers = which_attention_layer2log(fi_layer, map_attention_layer, attention_layers)
             for img_index in img_indices:
                 image = images[img_index]
                 fi_init_profile(fi_layer, img_index, logged_layers)
