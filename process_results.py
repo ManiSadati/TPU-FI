@@ -56,8 +56,9 @@ def add_fit_columns():
         file_path = os.path.join(prefix_path, f"Merged_{model}.csv")
         df = pd.read_csv(file_path)
         df['sdc_rate'] = df['errors'] / df['total runs']
+        df['num_ops_limited'] = df['num_ops'].clip(upper=256*256)
         df['critical_sdc_rate'] = df['sdc_count'] / df['total runs']
-        df['portion_of_tpu'] = df['num_ops'] * 100 / 1258291200
+        df['portion_of_tpu'] = df['num_ops_limited'] * 100 / 1258291200
         df['fault_type_fit_rate'] = df['type'].map(fault_types_fit_rates)
         df['layer_vs_fault_fit_rate'] = df['portion_of_tpu'] * df['fault_type_fit_rate']
         df['fit_times_avf'] = df['errors'] * df['layer_vs_fault_fit_rate'] / df['total runs']
