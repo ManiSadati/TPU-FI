@@ -4,7 +4,7 @@ import os
 
 attention_layers, map_attention_layer = attention_calculation()
 
-
+os.makedirs("./attention_results", exist_ok=True)
 
 files = set(os.listdir("diff_results"))
 for analysis in ["sum", "num_diff"]:
