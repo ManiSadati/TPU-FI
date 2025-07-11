@@ -20,6 +20,8 @@ from utils import LHLogger, Timer, copy_tf_tensor, log_and_crash, attention_calc
 
 def parse_args() -> Tuple[argparse.Namespace, List[str]]:
     parser = argparse.ArgumentParser(description="D(L)eiT TPU radiation setup")
+    parser.add_argument("--model_p", "-mp", default="8",
+                        help="Model precision (8 or 16). Defaults to 8-bit model.")
     parser.add_argument("--iterations", "-it", default=1000, type=int)
     parser.add_argument("--testsamples", "-n", default=32, type=int)
     parser.add_argument("--generate", "-gen", action="store_true")
@@ -27,17 +29,9 @@ def parse_args() -> Tuple[argparse.Namespace, List[str]]:
     parser.add_argument("--check_attention", "-attention", action="store_true")
     parser.add_argument("--start_layer", "-start_layer", default=0, type=int,
                         help="start_layer")
-    parser.add_argument("--end_layer", "-end_layer", default=191, type=int,
+    parser.add_argument("--end_layer", "-end_layer", default=662, type=int,
                         help="end_layer")
-    parser.add_argument(
-        "--model", "-m",
-        default="models2/vit_im64_ps8_proj128_nlayers3_nheads8_mlphead256_ops0.tflite"
-    )
     parser.add_argument("--tokens", "-t")
-    parser.add_argument(
-        "--input", "-i",
-        default="data/inputs/vit_base_8_images.npy"
-    )
     parser.add_argument(
         "--golden", "-g",
         default="data/golden/vit_base_8_golden.npy"
@@ -49,6 +43,10 @@ def parse_args() -> Tuple[argparse.Namespace, List[str]]:
     args = parser.parse_args()
     if args.generate:
         args.iterations = 1
+    args.input = f"./benchmarks/vit/inputs/vit_base_{args.model_p}_images.npy"
+    args.model = f"./benchmarks/vit/models/vit{args.model_p}_p{args.model_p}.tflite"
+    if args.model_p == "8":
+        args.end_layer = max(191, args.end_layer) 
     return args, [f"{k}={v}" for k, v in vars(args).items()]
 
 
@@ -133,7 +131,6 @@ def main():
 
     timer.tic()
     images = load_input_data(args.input)
-    golden = load_golden(args.golden) if not args.generate else []
     tokens = load_tokens(args.tokens) if not args.vit else None
     timer.toc()
     logger.perf(f"loaded_object:data load_time:{timer.diff_time_str}")
@@ -145,7 +142,7 @@ def main():
         if terminal_logger:
             terminal_logger.warning(f"Requested {args.testsamples} images but only {len(images)} available.")
 
-    n_images = min(args.testsamples, len(images), len(golden) if not args.generate else float('inf'))
+    n_images = min(args.testsamples, len(images))
 
     os.makedirs("./results", exist_ok=True)
     run_fault_injection(
