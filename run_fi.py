@@ -46,7 +46,7 @@ def parse_args() -> Tuple[argparse.Namespace, List[str]]:
     args.input = f"./benchmarks/vit/inputs/vit_base_{args.model_p}_images.npy"
     args.model = f"./benchmarks/vit/models/vit{args.model_p}_p{args.model_p}.tflite"
     if args.model_p == "8":
-        args.end_layer = max(191, args.end_layer) 
+        args.end_layer = min(191, args.end_layer) 
     return args, [f"{k}={v}" for k, v in vars(args).items()]
 
 
