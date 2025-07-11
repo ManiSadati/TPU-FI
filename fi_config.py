@@ -106,7 +106,7 @@ def fi_init_inject(layer, img_index, type, it, dimensions):
 def get_tensor_from_file(layer_output, fi_layer, img_index, type, it):
     file_path = f"./fi/output_{layer_output}-{fi_layer}-{img_index}-{type}-{it}.txt"
     if not os.path.exists(file_path):
-        print (file_path)
+        print("path not exists",(file_path))
         return None, -1
     with open(file_path, "r") as file:
         # read first line
@@ -122,7 +122,8 @@ def fi_post_process(layer_output_list, fi_layer, img_index, fault_types, max_ite
     for layer_output in layer_output_list:
         golden_tensor, _ = get_tensor_from_file(layer_output, fi_layer, img_index, "None", -1)
         if _ == -1:
-            print("wwwwwwwwwwhaaaaaaaaaaat")
+            print("Golden tensor not found!")
+            exit()
         for type in fault_types:
             for it in range(max_iterations):
                 output_tensor, status = get_tensor_from_file(layer_output, fi_layer, img_index, type, it)
