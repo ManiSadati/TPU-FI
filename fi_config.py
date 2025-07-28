@@ -71,14 +71,18 @@ def fi_init_inject(layer, img_index, type, it, dimensions):
         prob = 0.07
     elif type == "medium-box":
         area = random.randint(949, max(949,min(x_size * y_size,1351)))
-        print ("area: ",area)
         if area > x_size * y_size:
-            return layer_name, -1, c_size,  x_size * y_size, num_ops
-        box_y = random.randint(max(1,math.ceil(area/x_size)), min(y_size, area))
-        box_x = max(1, area // box_y)
-        print ("box_x , x_size, box_y, y_size ",box_x, x_size, box_y, y_size)
-        if box_x > x_size:
-            return layer_name, -1, c_size,  x_size * y_size, num_ops
+            area = x_size * y_size
+            # print ("area: ",area)
+            box_x = x_size
+            box_y = y_size
+            #return layer_name, -1, c_size,  x_size * y_size, num_ops
+        else:
+            box_y = random.randint(max(1,math.ceil(area/x_size)), min(y_size, area))
+            box_x = max(1, area // box_y)
+            # print ("box_x , x_size, box_y, y_size ",box_x, x_size, box_y, y_size)
+            if box_x > x_size:
+                return layer_name, -1, c_size,  x_size * y_size, num_ops
         prob = 0.03
 
     l_x = random.randint(0, x_size - box_x)
