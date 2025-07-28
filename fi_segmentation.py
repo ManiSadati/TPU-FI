@@ -65,8 +65,8 @@ def load_images_from_folder(input_path, target_size):
     return images, names
 
 def run_fault_injection(interpreter, images, names, max_iterations, start_layer, end_layer, csv_filename, arch, image_index=None):
-    fault_types = ["medium-box"]#, "small-box", "medium-box"]
-    
+    fault_types = ["single", "small-box", "medium-box"]
+
     init_fi()
     with open(csv_filename, mode="w", newline="") as file:
         writer = csv.writer(file)
