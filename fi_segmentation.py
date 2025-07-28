@@ -64,8 +64,8 @@ def load_images_from_folder(input_path, target_size):
     names = [f"image_{i}.npy" for i in range(len(images))]
     return images, names
 
-def run_fault_injection(interpreter, images, names, max_iterations, start_layer, end_layer, csv_filename, image_index=None):
-    fault_types = ["single"]#, "small-box", "medium-box"]
+def run_fault_injection(interpreter, images, names, max_iterations, start_layer, end_layer, csv_filename, arch, image_index=None):
+    fault_types = ["medium-box"]#, "small-box", "medium-box"]
     
     init_fi()
     with open(csv_filename, mode="w", newline="") as file:
@@ -82,13 +82,14 @@ def run_fault_injection(interpreter, images, names, max_iterations, start_layer,
                 
                 fi_init_profile(fi_layer, img_index, logged_layers)
                 golden = run_inference(interpreter, image)
-                print(sum(golden))
-                golden = np.argmax(golden, axis=-1) if golden.ndim == 3 else golden
-                golden_bin = remap_model_output(golden)
+                
+                if(arch == "unet"):
+                    golden = np.argmax(golden, axis=-1) if golden.ndim == 3 else golden
+                    golden_bin = remap_model_output(golden)
+                if(arch == "deeplab"):
+                    golden_bin = golden
                 golden_dims = get_dims()
-                print(golden_dims)
                 golden_list.append((golden_bin, golden_dims, img_index))
-                exit()
 
             for fi_type in fault_types:
                 print("fi layer", fi_layer,"fi type", fi_type)
@@ -104,9 +105,11 @@ def run_fault_injection(interpreter, images, names, max_iterations, start_layer,
                             continue
 
                         output = run_inference(interpreter, image)
-                        output = np.argmax(output, axis=-1) if output.ndim == 3 else output
-                        output_bin = remap_model_output(output)
-
+                        if(arch == "unet"):
+                            output = np.argmax(output, axis=-1) if output.ndim == 3 else output
+                            output_bin = remap_model_output(output)
+                        if(arch == "deeplab"):
+                            output_bin = output
                         total_runs += 1
                         if not np.array_equal(output_bin, golden_bin):
                             errors += 1
@@ -125,6 +128,7 @@ def main():
     input_path = ""
     if args.architecture == "deeplab":
         input_path = "./benchmarks/segmentation/deeplab/inputs/deeplabv3_mnv2_pascal_quant_cityscape_pascalvoc_inputs.npy"
+        args.end_layer = min(args.end_layer, 55)
         if args.model_type == "1":
             model_path = "./benchmarks/segmentation/deeplab/models/deeplabv3_mnv2_pascal_quant.tflite"
         elif args.model_type == "2":
@@ -162,6 +166,7 @@ def main():
         start_layer=args.start_layer,
         end_layer=args.end_layer,
         csv_filename=f"./results/FI-segmentation-{args.model_type}-results.csv",
+        arch=args.architecture,
         image_index=args.imageindex
     )
 
