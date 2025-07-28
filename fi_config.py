@@ -83,7 +83,7 @@ def fi_init_inject(layer, img_index, type, it, dimensions):
             # print ("box_x , x_size, box_y, y_size ",box_x, x_size, box_y, y_size)
             if box_x > x_size:
                 return layer_name, -1, c_size,  x_size * y_size, num_ops
-        prob = 0.03
+        prob = 0.035
 
     l_x = random.randint(0, x_size - box_x)
     l_y = random.randint(0, y_size - box_y)
