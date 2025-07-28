@@ -55,6 +55,13 @@ def are_equal(lhs: tf.Tensor, rhs: tf.Tensor, threshold: Union[None, float]) -> 
         return np.all(np.abs(lhs.numpy() - rhs.numpy()) <= threshold)
     return np.all(tf.equal(lhs, rhs))
 
+def compute_confidence(logits, id):
+    # Convert logits to probabilities using softmax
+    exp_logits = np.exp(logits - np.max(logits))  # for numerical stability
+    probs = exp_logits / np.sum(exp_logits)
+    confidence = np.max(probs)
+    predicted_class = np.argmax(probs)
+    return round(confidence.item(),4), id, predicted_class.item()
 
 def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, start_layer, end_layer, csv_filename, args):
     fault_types = ["single", "small-box", "medium-box"]
@@ -72,15 +79,18 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
             logged_layers = [fi_layer] # this needs to change
             if (args.check_attention):
                 logged_layers = which_attention_layer2log(fi_layer, map_attention_layer, attention_layers)
+            # confs = []
             for img_index in img_indices:
                 image = images[img_index]
                 fi_init_profile(fi_layer, img_index, logged_layers)
                 output = run_inference(interpreter, image, tokens)
+                # confs.append(compute_confidence(output, img_index))
                 golden = copy_tf_tensor(output)
                 golden_dims = get_dims()
                 golden_list.append((golden, golden_dims, img_index))
                 del output
-
+            # print(sorted(confs))
+            # exit()
             for fi_type in fault_types:
                 print("fi layer", fi_layer,"fi type", fi_type)
                 layer_name, total_runs, errors, sdc_count = "", 0, 0, 0
