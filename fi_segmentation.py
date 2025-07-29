@@ -76,7 +76,7 @@ def run_fault_injection(interpreter, images, names, max_iterations, start_layer,
             reset_fi_folder()
             img_indices = [image_index] if image_index is not None else range(len(images))
             golden_list = []
-            logged_layers = [fi_layer] # this needs to change, I only log the layer FI happens in.
+            logged_layers = [] # this needs to change.
             for img_index in img_indices:
                 image = images[img_index, 0, :, :, :]
                 

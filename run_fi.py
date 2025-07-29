@@ -76,7 +76,7 @@ def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, s
             reset_fi_folder()
             img_indices = [args.imageindex] if args.imageindex is not None else range(n_images)
             golden_list = []
-            logged_layers = [fi_layer] # this needs to change
+            logged_layers = [] # this needs to change
             if (args.check_attention):
                 logged_layers = which_attention_layer2log(fi_layer, map_attention_layer, attention_layers)
             # confs = []
