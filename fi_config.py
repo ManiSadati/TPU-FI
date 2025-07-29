@@ -84,6 +84,9 @@ def fi_init_inject(layer, img_index, type, it, dimensions):
             if box_x > x_size:
                 return layer_name, -1, c_size,  x_size * y_size, num_ops
         prob = 0.035
+    elif type == "cpu":
+        box_x = box_y = 1
+        prob = 1.0
 
     l_x = random.randint(0, x_size - box_x)
     l_y = random.randint(0, y_size - box_y)
@@ -99,6 +102,8 @@ def fi_init_inject(layer, img_index, type, it, dimensions):
     with open("./fi/locations.txt", "w") as file:
         for loc in locs:
             fi_bit = 0 if random.random() <= 0.59 else random.randint(1, 7) # do +-1 with prob of 59% and other bitflips otherwise.
+            if type == "cpu":
+                fi_bit = random.randint(0, 7) # always do bitflip for cpu
             file.write(f"{l_c} {loc[0] + l_x} {loc[1] + l_y} {fi_bit}\n")
 
     # Update mode file with layer and mode
