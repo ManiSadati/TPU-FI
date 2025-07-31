@@ -65,6 +65,7 @@ def compute_confidence(logits, id):
 
 def run_fault_injection(interpreter, images, tokens, n_images, max_iterations, start_layer, end_layer, csv_filename, args):
     fault_types = ["single", "small-box", "medium-box"]
+    fault_types = ["cpu"]
     attention_layers, map_attention_layer = attention_calculation()
     
     init_fi()
