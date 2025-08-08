@@ -54,7 +54,7 @@ def fi_init_inject(layer, img_index, type, it, dimensions):
     x_size = int(dimensions[3])
     y_size = int(dimensions[4])
     num_ops = int(dimensions[5])
-    
+    print(f"Layer: {layer_name}, Channels: {c_size}, X Size: {x_size}, Y Size: {y_size}, Num Ops: {num_ops}")
 
     # Determine the type and calculate probabilities and dimensions
     if type == "single":
@@ -63,7 +63,7 @@ def fi_init_inject(layer, img_index, type, it, dimensions):
     elif type == "small-box":
         area = random.randint(41, max(41,min(x_size * y_size,113)))
         if area > x_size * y_size:
-            area = (x_size * y_size) // 2
+            area = max(1,(x_size * y_size) // 2)
             # return layer_name, -1, c_size,  x_size * y_size, num_ops
         box_y = random.randint(max(1,math.ceil(area/x_size)), min(y_size, area))
         box_x = max(1, area // box_y)
