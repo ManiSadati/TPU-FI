@@ -63,7 +63,7 @@ def fi_init_inject(layer, img_index, type, it, dimensions):
     elif type == "small-box":
         area = random.randint(41, max(41,min(x_size * y_size,113)))
         if area > x_size * y_size:
-            area = x_size * y_size / 2
+            area = (x_size * y_size) // 2
             # return layer_name, -1, c_size,  x_size * y_size, num_ops
         box_y = random.randint(max(1,math.ceil(area/x_size)), min(y_size, area))
         box_x = max(1, area // box_y)
