@@ -202,5 +202,5 @@ def get_fit_sums():
 
 if __name__ == "__main__":
     # merge_files()
-    # add_fit_columns()
+    add_fit_columns()
     get_fit_sums()
