@@ -127,7 +127,7 @@ def main():
     model_path = ""
     input_path = ""
     if args.architecture == "deeplab":
-        input_path = "./benchmarks/segmentation/deeplab/inputs/deeplabv3_mnv2_pascal_quant_cityscape_pascalvoc_inputs.npy"
+        input_path = "./benchmarks/segmentation/deeplab/inputs/deeplabv3_mnv2_pascal_quant_cityscape_pascalvoc_2_inputs.npy"
         args.end_layer = min(args.end_layer, 55)
         if args.model_type == "1":
             model_path = "./benchmarks/segmentation/deeplab/models/deeplabv3_mnv2_pascal_quant.tflite"
