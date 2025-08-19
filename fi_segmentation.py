@@ -129,10 +129,10 @@ def main():
     if args.architecture == "deeplab":
         input_path = "./benchmarks/segmentation/deeplab/inputs/deeplabv3_mnv2_pascal_quant_cityscape_pascalvoc_inputs.npy"
         args.end_layer = min(args.end_layer, 55)
+        input_path = "./benchmarks/segmentation/deeplab/inputs/deeplabv3_mnv2_pascal_quant_cityscape_pascalvoc_2_inputs.npy"
         if args.model_type == "1":
             model_path = "./benchmarks/segmentation/deeplab/models/deeplabv3_mnv2_pascal_quant.tflite"
         elif args.model_type == "2":
-            input_path = "./benchmarks/segmentation/deeplab/inputs/deeplabv3_mnv2_pascal_quant_cityscape_pascalvoc_2_inputs.npy"
             model_path = "./benchmarks/segmentation/deeplab/models/deeplabv3_mnv2_dm05_pascal_quant.tflite"
     elif args.architecture == "unet":
         if args.model_type == "1":
