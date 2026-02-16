@@ -1,12 +1,12 @@
 # TPU-FI
 Fault Injection in TFlite for TPU models.
 
-# Setup & Build Instructions
+## Setup & Build Instructions
 
 These instructions require **Docker** to be installed on your system.
 
 
-## 1. Create the docker
+### 1. Create the docker container
 
 Create a file named `Dockerfile` in the root of the repository with the following content:
 
@@ -28,22 +28,22 @@ WORKDIR /workspace
 ```
 
 
-### Build the Docker Image
+#### Build the Docker Image:
 
 ```bash
 $ docker build -t tf_min_dev .
 ```
 
 
-### Run the Container
+#### Run the Container
 
-#### First time:
+First time (building the container):
 
 ```bash
 $ docker run --name tf_tfbuild -it -v $HOME/tfdata:/workspace tf_min_dev
 ```
 
-#### After the first time:
+After the first time:
 
 ```bash
 docker start -ai tf_tfbuild
@@ -51,64 +51,41 @@ docker start -ai tf_tfbuild
 
 
 
-## 2. Inside the Docker Container
+### 2. Inside the Docker Container
 
 
-### Clone the Repository
+Clone the Repository and reun the setup script
 
 ```bash
 git clone --recurse-submodules https://github.com/ManiSadati/TPU-FI.git
 cd TPU-FI
-```
-
-### Run Setup Script
-
-```bash
 bash install.sh
 ```
 
 
-## 3. Install Modified TensorFlow
+### 3. Install Modified TensorFlow
 
-Navigate to the TensorFlow submodule:
+Navigate to the TensorFlow submodule and run configuration:
 
 ```bash
 cd /workspace/TPU-FI/third_party/tensorflow/
-```
-
-Run configuration:
-
-```bash
 ./configure
 ```
 
 For all configuration prompts, press **Enter** to accept the default values.
 
 
-### Build TensorFlow Wheel
+Build TensorFlow Wheel and install the newly built wheel:
 
 ```bash
 bazel build -j $(nproc) //tensorflow/tools/pip_package:wheel --repo_env=WHEEL_NAME=tensorflow_cpu
-```
-
-
-### Install the Built TensorFlow
-
-First uninstall any existing TensorFlow CPU version:
-
-```bash
 pip uninstall tensorflow-cpu -y
-```
-
-Then install the newly built wheel:
-
-```bash
 pip install bazel-bin/tensorflow/tools/pip_package/wheel_house/tensorflow_cpu-2.19.0-cp310-cp310-linux_x86_64.whl
 ```
 
 
 
-## 4. Setup Complete
+### 4. Setup Complete
 
 You are now ready to run the fault injection framework!
 
