@@ -13,7 +13,7 @@ from fi_runner import FIRunConfig, FITask, run_fault_injection
 
 
 
-def parse_args() -> Tuple[argparse.Namespace, List[str]]:
+def parse_args() -> tuple[argparse.Namespace, list[str]]:
     parser = argparse.ArgumentParser(description="D(L)eiT TPU radiation setup")
     parser.add_argument("--model_p", "-mp", default="8",
                         help="Model precision (8 or 16). Defaults to 8-bit model.")
