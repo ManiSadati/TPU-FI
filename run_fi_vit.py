@@ -4,6 +4,8 @@ from pathlib import Path
 import numpy as np
 import tensorflow as tf
 
+from typing import Tuple, List, Union
+
 import console_logger
 from common_tpu import load_model, load_input_data, run_inference, load_tokens
 from utils import LHLogger, Timer, copy_tf_tensor, log_and_crash, attention_calculation, which_attention_layer2log
