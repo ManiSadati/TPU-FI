@@ -132,7 +132,7 @@ def fi_init_inject(layer, img_index, type, it, dimensions):
     x_size = int(dimensions[3])
     y_size = int(dimensions[4])
     num_ops = int(dimensions[5])
-    print(f"Layer: {layer_name}, Channels: {c_size}, X Size: {x_size}, Y Size: {y_size}, Num Ops: {num_ops}")
+    print(f"     Injecting into Layer: {layer_name}, Channels: {c_size}, X Size: {x_size}, Y Size: {y_size}, Num Ops: {num_ops}")
 
     # -------------------------------------------------------------------------
     # Fault model parameterization:

@@ -115,6 +115,7 @@ def run_fault_injection(task: FITask, cfg: FIRunConfig) -> None:
             # -----------------------------
             # Profiling phase (goldens)
             # -----------------------------
+            print("----- PROFILING -----")
             golden_list: List[GoldenEntry] = []
             for img_index in cfg.img_indices:
                 model_input = task.prepare_input(img_index)
@@ -132,6 +133,7 @@ def run_fault_injection(task: FITask, cfg: FIRunConfig) -> None:
             # -----------------------------
             # Injection phase
             # -----------------------------
+            print("----- INJECTION -----")
             for fi_type in cfg.fault_types:
                 print(f"[{task.name}] fi_layer={fi_layer} fi_type={fi_type}")
 
@@ -159,6 +161,7 @@ def run_fault_injection(task: FITask, cfg: FIRunConfig) -> None:
 
                         raw_output = task.infer(model_input)
                         out_obj = task.make_golden(raw_output)  # same transform as golden
+                        del raw_output
 
                         is_error, is_sdc = task.compare(out_obj, golden_obj)
 
