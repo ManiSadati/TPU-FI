@@ -4,10 +4,60 @@ import numpy as np
 from pathlib import Path
 
 from fi_runner import FIRunConfig, FITask, run_fault_injection
-from fi_config import init_fi
 from common_tpu import load_model
 from utils import Timer, log_and_crash
+import argparse
 
+def parse_args():
+    parser = argparse.ArgumentParser(description="TPU-FI setup")
+    parser.add_argument("--architecture", "-a", default="unet",
+                        help="Model architecture (unet or deeplab). Defaults to unet model.")
+    parser.add_argument("--model_type", "-m", default="small",
+                        help="Model size (large or small). Defaults to the smaller model.")
+    parser.add_argument("--iterations", "-it", default=1000, type=int)
+    parser.add_argument("--testsamples", "-n", default=32, type=int)
+    parser.add_argument("--enableconsolelog", "-log", action="store_true")
+    parser.add_argument("--check_attention", "-attention", action="store_true")
+    parser.add_argument("--start_layer", "-start_layer", default=0, type=int,
+                        help="start_layer")
+    parser.add_argument("--end_layer", "-end_layer", default=662, type=int,
+                        help="end_layer")
+    parser.add_argument("--tokens", "-t")
+    parser.add_argument("--imageindex", "-idx", type=int, help="Specify a single image index to process")
+    args = parser.parse_args()
+
+
+    if args.architecture == "deeplab":
+        args.end_layer = min(args.end_layer, 55)
+
+    args.model_path = None
+    args.input_path = None
+
+    if args.architecture == "deeplab":
+        if args.model_type == "large":
+            args.model_path = "./benchmarks/segmentation/deeplab/models/deeplabv3_mnv2_pascal_quant.tflite"
+        elif args.model_type == "small":
+            args.model_path = "./benchmarks/segmentation/deeplab/models/deeplabv3_mnv2_dm05_pascal_quant.tflite"
+    elif args.architecture == "unet":
+        if args.model_type == "large":
+            args.model_path = "./benchmarks/segmentation/unet/models/keras_post_training_unet_mv2_256_quant.tflite"
+        elif args.model_type == "small":
+            args.model_path = "./benchmarks/segmentation/unet/models/keras_post_training_unet_mv2_128_quant.tflite"
+    
+
+    if args.architecture == "deeplab":
+        args.input_path = "./benchmarks/segmentation/deeplab/inputs/deeplabv3_mnv2_pascal_quant_cityscape_pascalvoc_2_inputs.npy"
+    elif args.architecture == "unet":
+        if args.model_type == "small":
+            args.input_path = "./benchmarks/segmentation/unet/inputs/oxford_images_128.npy"
+        elif args.model_type == "large":
+            args.input_path = "./benchmarks/segmentation/unet/inputs/oxford_images_256.npy"
+        
+        
+
+    return args
+
+    
 
 def remap_model_output(mask_pred):
     return np.where(mask_pred == 1, 0, 1)
@@ -19,10 +69,6 @@ def is_critical_sdc(faulty_mask, golden_mask):
     if pixel_diff_ratio > 0.01:
         return True
     return set(np.unique(faulty_mask)) != set(np.unique(golden_mask))
-
-def parse_args():
-    # keep your existing args
-    ...
 
 
 def run_inference(interpreter, image_np):
@@ -42,18 +88,10 @@ def load_images_from_folder(input_path, target_size):
 def main():
     args = parse_args()
 
-    # your existing model_path / input_path selection logic
-    model_path = ...
-    input_path = ...
-    arch = args.architecture
 
-    timer = Timer()
-    timer.tic()
-    interpreter = load_model(model_path, cpu=True)
-    input_size = interpreter.get_input_details()[0]['shape'][1:3]
-    timer.toc()
+    images = np.load(args.input_path)
+    interpreter = load_model(args.model_path, cpu=True)
 
-    images, names = load_images_from_folder(input_path, target_size=tuple(input_size))
 
     img_indices = [args.imageindex] if args.imageindex is not None else list(range(len(images)))
 
@@ -65,20 +103,22 @@ def main():
         return run_inference(interpreter, image)
 
     def make_golden(output):
-        if arch == "unet":
+        if args.architecture == "unet":
             pred = np.argmax(output, axis=-1) if output.ndim == 3 else output
             return remap_model_output(pred)
-        if arch == "deeplab":
+        if args.architecture == "deeplab":
             return output
         return output
 
-    def compare(out_obj, golden_obj):
+    def compare(out_obj, golden_obj):  # early exit so that we don't calculate sdc
         is_error = (not np.array_equal(out_obj, golden_obj))
+        if(is_error == False):
+            return is_error, False
         is_sdc = is_critical_sdc(out_obj, golden_obj)
         return is_error, is_sdc
 
     task = FITask(
-        name=f"seg-{arch}",
+        name=f"seg-{args.architecture}",
         prepare_input=prepare_input,
         infer=infer,
         make_golden=make_golden,
