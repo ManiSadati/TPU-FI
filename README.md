@@ -59,6 +59,7 @@ Clone the Repository and reun the setup script
 ```bash
 git clone --recurse-submodules https://github.com/ManiSadati/TPU-FI.git
 cd TPU-FI
+cd third_party/tensorflow/ && git pull origin master && cd -
 bash install.sh
 ```
 
