@@ -15,8 +15,8 @@ from fi_runner import FIRunConfig, FITask, run_fault_injection
 
 
 
-def parse_args() -> tuple[argparse.Namespace, list[str]]:
-    parser = argparse.ArgumentParser(description="D(L)eiT TPU radiation setup")
+def parse_args():
+    parser = argparse.ArgumentParser(description="TPU-FI setup")
     parser.add_argument("--model_p", "-mp", default="8",
                         help="Model precision (8 or 16). Defaults to 8-bit model.")
     parser.add_argument("--iterations", "-it", default=1000, type=int)
@@ -44,7 +44,7 @@ def parse_args() -> tuple[argparse.Namespace, list[str]]:
     args.model = f"./benchmarks/vit/models/vit{args.model_p}_p{args.model_p}.tflite"
     if args.model_p == "8":
         args.end_layer = min(191, args.end_layer) 
-    return args, [f"{k}={v}" for k, v in vars(args).items()]
+    return args
 
 
 
@@ -56,9 +56,7 @@ def are_equal(lhs: tf.Tensor, rhs: tf.Tensor, threshold: Union[None, float]) -> 
 
 
 def main():
-    args, formatted_args = parse_args()
-    logger = LHLogger()
-    terminal_logger = console_logger.ColoredLogger(os.path.basename(__file__).replace(".py", "")) if args.enableconsolelog else None
+    args = parse_args()
 
     print(f"running model {Path(args.model).stem}")
 
@@ -89,6 +87,8 @@ def main():
         # error = tensor not equal, sdc = argmax differs
         equal = are_equal(out_obj, golden_obj, None)
         is_error = (not equal)
+        if(is_error == False):  # early exit so that we don't calculate sdc
+            return is_error, False 
         is_sdc = (golden_obj.argmax() != out_obj.argmax())
         return is_error, is_sdc
 
