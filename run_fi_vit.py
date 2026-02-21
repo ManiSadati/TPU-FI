@@ -1,49 +1,36 @@
 import argparse
 import os
 from pathlib import Path
+
 import numpy as np
 import tensorflow as tf
+from typing import Union
 
-from typing import Tuple, List, Union
-
-import console_logger
-from common_tpu import load_model, load_input_data, run_inference, load_tokens
-from utils import LHLogger, Timer, copy_tf_tensor, log_and_crash, attention_calculation, which_attention_layer2log
+from common_tpu import load_model, load_input_data, run_inference
+from utils import copy_tf_tensor, log_and_crash, attention_calculation, which_attention_layer2log
 
 from fi_runner import FIRunConfig, FITask, run_fault_injection
 
 
-
-
 def parse_args():
-    parser = argparse.ArgumentParser(description="TPU-FI setup")
-    parser.add_argument("--model_p", "-mp", default="8",
+    parser = argparse.ArgumentParser(description="TPU-FI setup (ViT)")
+    parser.add_argument("--model_p", "-mp", default="8", choices=["8", "16"],
                         help="Model precision (8 or 16). Defaults to 8-bit model.")
     parser.add_argument("--iterations", "-it", default=1000, type=int)
     parser.add_argument("--testsamples", "-n", default=32, type=int)
-    parser.add_argument("--generate", "-gen", action="store_true")
-    parser.add_argument("--enableconsolelog", "-log", action="store_true")
     parser.add_argument("--check_attention", "-attention", action="store_true")
-    parser.add_argument("--start_layer", "-start_layer", default=0, type=int,
-                        help="start_layer")
-    parser.add_argument("--end_layer", "-end_layer", default=662, type=int,
-                        help="end_layer")
-    parser.add_argument("--tokens", "-t")
-    parser.add_argument(
-        "--golden", "-g",
-        default="data/golden/vit_base_8_golden.npy"
-    )
-    parser.add_argument("--reload", "-r", action="store_true")
-    parser.add_argument("--vit", "-v", "--notokens", "-nt", dest="vit", action="store_true", default=True)
-    parser.add_argument("--log_interval", default=10, type=int)
-    parser.add_argument("--imageindex", "-idx", type=int, help="Specify a single image index to process")
+    parser.add_argument("--start_layer", default=0, type=int)
+    parser.add_argument("--end_layer", default=662, type=int)
+    parser.add_argument("--imageindex", "-idx", type=int)
+
     args = parser.parse_args()
-    if args.generate:
-        args.iterations = 1
+
     args.input = f"./benchmarks/vit/inputs/vit_base_{args.model_p}_images.npy"
     args.model = f"./benchmarks/vit/models/vit{args.model_p}_p{args.model_p}.tflite"
+
     if args.model_p == "8":
-        args.end_layer = min(191, args.end_layer) 
+        args.end_layer = min(191, args.end_layer)
+
     return args
 
 
@@ -112,7 +99,6 @@ def main():
 
     run_fault_injection(task, cfg)
     print("Results saved in ./results/FI-vit-results.csv")
-    logger.end_log_file()
 
 
 if __name__ == "__main__":

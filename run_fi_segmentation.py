@@ -7,10 +7,10 @@ from common_tpu import load_model
 from utils import log_and_crash
 
 def parse_args():
-    parser = argparse.ArgumentParser(description="TPU-FI setup")
-    parser.add_argument("--architecture", "-a", default="unet",
+    parser = argparse.ArgumentParser(description="TPU-FI setup (Segmentation models)")
+    parser.add_argument("--architecture", "-a", default="unet", choices=["unet", "deeplab"],
                         help="Model architecture (unet or deeplab). Defaults to unet model.")
-    parser.add_argument("--model_type", "-m", default="small",
+    parser.add_argument("--model_type", "-m", default="small", choices=["small", "large"],
                         help="Model size (large or small). Defaults to the smaller model.")
     parser.add_argument("--iterations", "-it", default=1000, type=int)
     parser.add_argument("--start_layer", "-start_layer", default=0, type=int,
