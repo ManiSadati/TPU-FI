@@ -1,12 +1,10 @@
-# run_fi_segmentation.py (your old fi_segmentation.py but loop removed)
+import argparse
 import os
 import numpy as np
-from pathlib import Path
 
 from fi_runner import FIRunConfig, FITask, run_fault_injection
 from common_tpu import load_model
-from utils import Timer, log_and_crash
-import argparse
+from utils import log_and_crash
 
 def parse_args():
     parser = argparse.ArgumentParser(description="TPU-FI setup")
@@ -15,14 +13,10 @@ def parse_args():
     parser.add_argument("--model_type", "-m", default="small",
                         help="Model size (large or small). Defaults to the smaller model.")
     parser.add_argument("--iterations", "-it", default=1000, type=int)
-    parser.add_argument("--testsamples", "-n", default=32, type=int)
-    parser.add_argument("--enableconsolelog", "-log", action="store_true")
-    parser.add_argument("--check_attention", "-attention", action="store_true")
     parser.add_argument("--start_layer", "-start_layer", default=0, type=int,
                         help="start_layer")
     parser.add_argument("--end_layer", "-end_layer", default=662, type=int,
                         help="end_layer")
-    parser.add_argument("--tokens", "-t")
     parser.add_argument("--imageindex", "-idx", type=int, help="Specify a single image index to process")
     args = parser.parse_args()
 
@@ -79,10 +73,6 @@ def run_inference(interpreter, image_np):
     interpreter.invoke()
     return interpreter.get_tensor(output_details[0]['index'])[0]
 
-def load_images_from_folder(input_path, target_size):
-    images = np.load(input_path)
-    names = [f"image_{i}.npy" for i in range(len(images))]
-    return images, names
 
 
 def main():
