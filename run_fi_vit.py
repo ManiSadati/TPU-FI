@@ -90,7 +90,7 @@ def main():
 
     os.makedirs("./results", exist_ok=True)
     cfg = FIRunConfig(
-        csv_filename="./results/FI-vit-results.csv",
+        csv_filename=f"./results/FI-vit-{args.model_p}-results.csv",
         start_layer=args.start_layer,
         end_layer=args.end_layer,
         max_iterations=args.iterations,
@@ -98,7 +98,8 @@ def main():
     )
 
     run_fault_injection(task, cfg)
-    print("Results saved in ./results/FI-vit-results.csv")
+    print(f"Results saved in {cfg.csv_filename}")
+
 
 
 if __name__ == "__main__":

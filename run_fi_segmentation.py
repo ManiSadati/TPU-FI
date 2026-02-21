@@ -118,7 +118,7 @@ def main():
 
     os.makedirs("./results", exist_ok=True)
     cfg = FIRunConfig(
-        csv_filename=f"./results/FI-segmentation-{args.model_type}-results.csv",
+        csv_filename=f"./results/FI-segmentation-{args.architecture}-{args.model_type}-results.csv",
         start_layer=args.start_layer,
         end_layer=args.end_layer,
         max_iterations=args.iterations,
