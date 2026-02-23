@@ -90,7 +90,7 @@ def main():
 
     os.makedirs("./results", exist_ok=True)
     cfg = FIRunConfig(
-        csv_filename=f"./results/FI-vit-{args.model_p}-results.csv",
+        csv_filename=f"./results/FI-vit-{args.model_p}-results{ "(img"+str(args.imageindex)+")" if args.imageindex is not None else ""}.csv",
         start_layer=args.start_layer,
         end_layer=args.end_layer,
         max_iterations=args.iterations,
