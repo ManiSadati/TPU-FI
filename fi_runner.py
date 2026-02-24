@@ -93,6 +93,8 @@ def run_fault_injection(task: FITask, cfg: FIRunConfig) -> None:
     """
     init_fi()
 
+    fc_layer_counter = 0
+
     with open(cfg.csv_filename, mode="w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow([
@@ -102,7 +104,6 @@ def run_fault_injection(task: FITask, cfg: FIRunConfig) -> None:
 
         for fi_layer in range(cfg.start_layer, cfg.end_layer):
             reset_fi_folder()
-
             logged_layers = task.get_logged_layers(fi_layer) or []
 
             # Decide which images to process for this layer.
@@ -121,14 +122,27 @@ def run_fault_injection(task: FITask, cfg: FIRunConfig) -> None:
                 model_input = task.prepare_input(img_index)
 
                 # This resets files + sets mode.txt to profiling and also sets layer_num.txt = 0.
-                fi_init_profile(fi_layer, img_index, logged_layers)
+                fi_init_profile(fi_layer, img_index, [])
 
                 raw_output = task.infer(model_input)
                 golden_obj = task.make_golden(raw_output)
                 golden_dims = get_dims()  # from fi/dimension.txt written by kernel
 
+
                 golden_list.append((golden_obj, golden_dims, img_index))
                 del raw_output
+
+                
+                if(golden_dims[0] == "FullyConnected"):
+                    fc_layer_counter += 1
+                    logged_layers = task.get_logged_layers(fc_layer_counter)
+
+                    if(logged_layers != []):
+                        if(golden_dims[0] == "FullyConnected"):
+                            fi_init_profile(fi_layer, img_index, logged_layers)
+                            raw_output = task.infer(model_input)
+                            del raw_output
+                        
 
             # -----------------------------
             # Injection phase

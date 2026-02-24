@@ -1,50 +1,6 @@
-import os, shutil
+import os
 import pandas as pd
 
-prefix_path = "./results"
-static_columns = ['layer', 'name', 'type', 'd(out_c)', 'layer area', 'num_ops']
-dynamic_columns = ['total runs', 'errors', 'sdc_count']
-
-def merge_files():
-
-    models = [
-        "aug9-vit8",
-        "aug9-vit16",
-        "aug9-deeplab1",
-        "aug9-deeplab2",
-        "aug9-unet1",
-        "aug9-unet2"
-    ]
-    for model in models:
-        dfs = []
-        for i in range(32):
-            file_path = os.path.join(prefix_path, f"{model}/FI-vit-results_{i}.csv")
-            if os.path.exists(file_path):
-                df = pd.read_csv(file_path)
-                dfs.append(df)
-            else:
-                print(f"file {file_path} is missing ...")
-                exit()
-        print(dfs[0].shape)
-        print(dfs[0].columns)
-        for i in range(1, len(dfs)):
-            if(dfs[i].shape != dfs[0].shape):
-                print(f"file {i} has different shape: {dfs[i].shape} != {dfs[0].shape}")
-                exit()
-            for row in range(dfs[0].shape[0]):
-                for col in static_columns:
-                    if dfs[0][col][row] != dfs[i][col][row]:
-                        print(f"file {i} has different value at row {row}, column {col}: {dfs[0][col][row]} != {dfs[i][col][row]}")
-                        exit()
-                for col in dynamic_columns:
-                    dfs[0].loc[row, col] += dfs[i].loc[row, col]
-        
-        dfs[0].drop(columns=['sdc_rate'], inplace=True)
-
-
-        new_file_path = os.path.join(prefix_path, f"Merged_{model}.csv")
-        dfs[0].to_csv(new_file_path, index=False)
-        print(f"merged file saved to {new_file_path}")
 
 def add_fit_columns():
     fault_types_fit_rates = {
@@ -53,18 +9,35 @@ def add_fit_columns():
         'medium-box': 8.946236559,
         'cpu': 0.0
     }
-    models = [
-        "aug9-vit8",
-        "aug9-vit16",
-        "aug9-deeplab1",
-        "aug9-deeplab2",
-        "aug9-unet1",
-        "aug9-unet2"
-    ]
+    results_dir = "./results"
 
-    for model in models:
-        file_path = os.path.join(prefix_path, f"Merged_{model}.csv")
-        df = pd.read_csv(file_path)
+    if not os.path.exists(results_dir):
+        print(f"Results directory not found: {results_dir}")
+        return
+
+    # Iterate over all CSV files in ./results
+    for filename in os.listdir(results_dir):
+        if not filename.endswith(".csv"):
+            continue
+        
+        if filename.startswith("Full"):
+            continue
+
+        # Optional: skip already-processed files
+        if filename.endswith("_by_fault_type.csv"):
+            continue
+
+        file_path = os.path.join(results_dir, filename)
+        model = os.path.splitext(filename)[0]
+
+        print(f"\n\nProcessing model: {model}")
+
+        try:
+            df = pd.read_csv(file_path)
+        except Exception as e:
+            print(f"  Failed to read {file_path}: {e}")
+            continue
+        
         df['sdc_rate'] = df['errors'] / df['total runs']
         df['num_ops_limited'] = df['num_ops'].clip(upper=256*256)
         df['critical_sdc_rate'] = df['sdc_count'] / df['total runs']
@@ -73,14 +46,11 @@ def add_fit_columns():
         df['layer_vs_fault_fit_rate'] = df['portion_of_tpu'] * df['fault_type_fit_rate']
         df['fit_times_avf'] = df['errors'] * df['layer_vs_fault_fit_rate'] / df['total runs']
         df['fit_times_avf_critical'] = df['sdc_count'] * df['layer_vs_fault_fit_rate'] / df['total runs']
-        file_path = os.path.join(prefix_path, f"Full_{model}.csv")
+        file_path = os.path.join(results_dir, f"Full_{model}.csv")
         df.to_csv(file_path, index=False)
         print(f"full file saved to {file_path}")
     
     return df
-
-import os
-import pandas as pd
 
 def get_fit_sums():
     weights = {
@@ -90,24 +60,37 @@ def get_fit_sums():
         'cpu': 0.0
     }
 
-    models = [
-        "aug9-vit8",
-        "aug9-vit16",
-        "aug9-deeplab1",
-        "aug9-deeplab2",
-        "aug9-unet1",
-        "aug9-unet2"
-    ]
+    results_dir = "./results"
 
-    for model in models:
-        print(f"\n\nProcessing model: {model}")
-        file_path = os.path.join(prefix_path, f"Full_{model}.csv")
-        if not os.path.exists(file_path):
-            print(f"  File not found: {file_path}")
+    if not os.path.exists(results_dir):
+        print(f"Results directory not found: {results_dir}")
+        return
+
+    # Iterate over all CSV files in ./results
+    for filename in os.listdir(results_dir):
+        if not filename.endswith(".csv"):
             continue
 
-        df = pd.read_csv(file_path)
+        if not filename.startswith("Full"):
+            continue
 
+        
+
+        # Optional: skip already-processed files
+        if filename.endswith("_by_fault_type.csv"):
+            continue
+
+        file_path = os.path.join(results_dir, filename)
+        model = os.path.splitext(filename)[0]
+
+        print(f"\n\nProcessing model: {model}")
+
+        try:
+            df = pd.read_csv(file_path)
+        except Exception as e:
+            print(f"  Failed to read {file_path}: {e}")
+            continue
+        
         # ---- Basic checks ----
         needed = ['layer','name','type','sdc_rate','critical_sdc_rate','fit_times_avf','fit_times_avf_critical']
         missing = [c for c in needed if c not in df.columns]
@@ -165,9 +148,9 @@ def get_fit_sums():
             'num_layers_type':'num_layers'
         })
 
-        out_by_layer_type = os.path.join(prefix_path, f"{model}_by_layer_type.csv")
-        by_layer_type.to_csv(out_by_layer_type, index=False)
-        print(f"  Saved by-layer-type to {out_by_layer_type}")
+        out_path = os.path.join(results_dir, f"ByLayerType_{model}.csv")
+        by_layer_type.to_csv(out_path, index=False)
+        print(f"  Saved by-layer-type to {out_path}")
 
         # ---- BY FAULT TYPE ----
         fit_by_fault = (
@@ -194,13 +177,12 @@ def get_fit_sums():
             'type':'fault_type'
         })
 
-        out_by_fault_type = os.path.join(prefix_path, f"{model}_by_fault_type.csv")
-        by_fault_type.to_csv(out_by_fault_type, index=False)
-        print(f"  Saved by-fault-type to {out_by_fault_type}")
+        out_path = os.path.join(results_dir, f"ByFaultType_{model}.csv")
+        by_fault_type.to_csv(out_path, index=False)
+        print(f"  Saved by-fault-type to {out_path}")
 
 
 
 if __name__ == "__main__":
-    # merge_files()
     add_fit_columns()
     get_fit_sums()
