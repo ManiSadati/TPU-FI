@@ -22,6 +22,7 @@ def parse_args():
     parser.add_argument("--iterations", "-it", default=1000, type=int)
     parser.add_argument("--testsamples", "-n", default=32, type=int)
     parser.add_argument("--check_attention", "-attention", action="store_true")
+    parser.add_argument("--check_confidence", "-confidence", action="store_true")
     parser.add_argument("--start_layer", default=0, type=int)
     parser.add_argument("--end_layer", default=662, type=int)
     parser.add_argument("--imageindex", "-idx", type=int)
@@ -44,6 +45,34 @@ def are_equal(lhs: tf.Tensor, rhs: tf.Tensor, threshold: Union[None, float]) -> 
     return np.all(tf.equal(lhs, rhs))
 
 
+def compute_confidence(logits: np.ndarray, img_id: int):
+    """
+    Computes softmax confidence
+    Returns: (confidence, image_id, predicted_class)
+    """
+    logits = np.asarray(logits).squeeze()
+
+    exp_logits = np.exp(logits - np.max(logits))  # numerical stability
+    probs = exp_logits / np.sum(exp_logits)
+
+    confidence = np.max(probs)
+    predicted_class = np.argmax(probs)
+
+    return round(confidence.item(), 4), img_id, predicted_class.item()
+
+def print_image_confidences(interpreter, images: np.ndarray, img_indices: list[int]):
+    """
+    Runs golden inference and prints confidence for each image.
+    """
+    print("\n===== Golden Image Confidences =====")
+    for idx in img_indices:
+        out = run_inference(interpreter, images[idx], None)
+        out_np = np.asarray(copy_tf_tensor(out)).squeeze()
+
+        conf, img_id, pred = compute_confidence(out_np, idx)
+        print(f"img {img_id:2d} -> pred={pred:4d}, confidence={conf}")
+        del out
+    print("===================================\n")
 
 def main():
     args = parse_args()
@@ -57,6 +86,9 @@ def main():
     n_images = min(args.testsamples, len(images))
     img_indices = [args.imageindex] if args.imageindex is not None else list(range(n_images))
 
+    if(args.check_confidence):
+        print_image_confidences(interpreter, images, img_indices)
+        exit
 
     attn_map = AttentionMapping("head_fc_mapping_3fc_exec.json")
 
