@@ -166,9 +166,9 @@ def main():
     plt.xticks(ranks, labels)  # show which original head each rank is
     plt.tight_layout()
     out1 = out_dir / f"top{topk}_avg_{args.metric}_{args.err}.png"
-    plt.savefig(out1)
-    plt.close()
-    print(f"Saved plot: {out1}")
+    # plt.savefig(out1)
+    # plt.close()
+    # print(f"Saved plot: {out1}")
 
     # -------------------------
     # Plot 2: per-image winner score (restricted to top8 heads)
@@ -197,9 +197,9 @@ def main():
     plt.xticks(ranks, labels)
     plt.tight_layout()
     out2 = out_dir / f"top{topk}_winner_score.png"
-    plt.savefig(out2)
-    plt.close()
-    print(f"Saved plot: {out2}")
+    # plt.savefig(out2)
+    # plt.close()
+    # print(f"Saved plot: {out2}")
 
     # -------------------------
     # Write a readable mapping table
