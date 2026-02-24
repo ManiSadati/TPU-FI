@@ -1,0 +1,4434 @@
+{
+  "tflite": "benchmarks/vit/models/vit16_p16.tflite",
+  "heads_per_block": 16,
+  "ignored_lm_softmax_op": 1172,
+  "all_fc_ops_sorted": [
+    19,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40,
+    41,
+    42,
+    43,
+    47,
+    48,
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    58,
+    59,
+    63,
+    64,
+    68,
+    69,
+    73,
+    74,
+    78,
+    79,
+    83,
+    84,
+    88,
+    89,
+    93,
+    95,
+    96,
+    98,
+    99,
+    100,
+    101,
+    102,
+    103,
+    104,
+    105,
+    110,
+    111,
+    112,
+    113,
+    115,
+    116,
+    118,
+    119,
+    121,
+    122,
+    124,
+    125,
+    127,
+    128,
+    130,
+    131,
+    133,
+    134,
+    135,
+    140,
+    141,
+    142,
+    147,
+    148,
+    149,
+    154,
+    155,
+    156,
+    161,
+    162,
+    163,
+    168,
+    169,
+    170,
+    175,
+    177,
+    189,
+    197,
+    199,
+    207,
+    220,
+    221,
+    222,
+    223,
+    224,
+    225,
+    226,
+    227,
+    228,
+    229,
+    230,
+    231,
+    232,
+    233,
+    234,
+    235,
+    236,
+    237,
+    241,
+    242,
+    246,
+    247,
+    251,
+    252,
+    256,
+    257,
+    261,
+    262,
+    266,
+    267,
+    271,
+    272,
+    276,
+    277,
+    281,
+    282,
+    286,
+    287,
+    291,
+    292,
+    296,
+    297,
+    301,
+    302,
+    306,
+    307,
+    311,
+    312,
+    316,
+    318,
+    319,
+    321,
+    322,
+    324,
+    325,
+    327,
+    328,
+    330,
+    331,
+    333,
+    334,
+    336,
+    337,
+    339,
+    340,
+    342,
+    343,
+    345,
+    346,
+    348,
+    349,
+    351,
+    352,
+    354,
+    355,
+    357,
+    358,
+    360,
+    361,
+    363,
+    365,
+    377,
+    385,
+    387,
+    395,
+    408,
+    409,
+    410,
+    411,
+    412,
+    413,
+    414,
+    415,
+    416,
+    417,
+    418,
+    419,
+    420,
+    421,
+    422,
+    423,
+    424,
+    425,
+    429,
+    430,
+    434,
+    435,
+    439,
+    440,
+    444,
+    445,
+    449,
+    450,
+    454,
+    455,
+    459,
+    460,
+    464,
+    465,
+    469,
+    470,
+    474,
+    475,
+    479,
+    480,
+    484,
+    485,
+    489,
+    490,
+    494,
+    495,
+    499,
+    500,
+    504,
+    506,
+    507,
+    509,
+    510,
+    512,
+    513,
+    515,
+    516,
+    518,
+    519,
+    521,
+    522,
+    524,
+    525,
+    527,
+    528,
+    530,
+    531,
+    533,
+    534,
+    536,
+    537,
+    539,
+    540,
+    542,
+    543,
+    545,
+    546,
+    548,
+    549,
+    551,
+    553,
+    565,
+    573,
+    575,
+    583,
+    596,
+    597,
+    598,
+    599,
+    600,
+    601,
+    602,
+    603,
+    604,
+    605,
+    606,
+    607,
+    608,
+    609,
+    610,
+    611,
+    612,
+    613,
+    617,
+    618,
+    622,
+    623,
+    627,
+    628,
+    632,
+    633,
+    637,
+    638,
+    642,
+    643,
+    647,
+    648,
+    652,
+    653,
+    657,
+    658,
+    662,
+    663,
+    667,
+    668,
+    672,
+    673,
+    677,
+    678,
+    682,
+    683,
+    687,
+    688,
+    692,
+    694,
+    695,
+    697,
+    698,
+    700,
+    701,
+    703,
+    704,
+    706,
+    707,
+    709,
+    710,
+    712,
+    713,
+    715,
+    716,
+    718,
+    719,
+    721,
+    722,
+    724,
+    725,
+    727,
+    728,
+    730,
+    731,
+    733,
+    734,
+    736,
+    737,
+    739,
+    741,
+    753,
+    761,
+    763,
+    771,
+    784,
+    785,
+    786,
+    787,
+    788,
+    789,
+    790,
+    791,
+    792,
+    793,
+    794,
+    795,
+    796,
+    797,
+    798,
+    799,
+    800,
+    801,
+    805,
+    806,
+    810,
+    811,
+    815,
+    816,
+    820,
+    821,
+    825,
+    826,
+    830,
+    831,
+    835,
+    836,
+    840,
+    841,
+    845,
+    846,
+    850,
+    851,
+    855,
+    856,
+    860,
+    861,
+    865,
+    866,
+    870,
+    871,
+    875,
+    876,
+    880,
+    882,
+    883,
+    885,
+    886,
+    888,
+    889,
+    891,
+    892,
+    894,
+    895,
+    897,
+    898,
+    900,
+    901,
+    903,
+    904,
+    906,
+    907,
+    909,
+    910,
+    912,
+    913,
+    915,
+    916,
+    918,
+    919,
+    921,
+    922,
+    924,
+    925,
+    927,
+    929,
+    941,
+    949,
+    951,
+    959,
+    972,
+    973,
+    974,
+    975,
+    976,
+    977,
+    978,
+    979,
+    980,
+    981,
+    982,
+    983,
+    984,
+    985,
+    986,
+    987,
+    988,
+    989,
+    993,
+    994,
+    998,
+    999,
+    1003,
+    1004,
+    1008,
+    1009,
+    1013,
+    1014,
+    1018,
+    1019,
+    1023,
+    1024,
+    1028,
+    1029,
+    1033,
+    1034,
+    1038,
+    1039,
+    1043,
+    1044,
+    1048,
+    1049,
+    1053,
+    1054,
+    1058,
+    1059,
+    1063,
+    1064,
+    1068,
+    1070,
+    1071,
+    1073,
+    1074,
+    1076,
+    1077,
+    1079,
+    1080,
+    1082,
+    1083,
+    1085,
+    1086,
+    1088,
+    1089,
+    1091,
+    1092,
+    1094,
+    1095,
+    1097,
+    1098,
+    1100,
+    1101,
+    1103,
+    1104,
+    1106,
+    1107,
+    1109,
+    1110,
+    1112,
+    1113,
+    1115,
+    1117,
+    1129,
+    1137,
+    1139,
+    1147,
+    1161,
+    1169,
+    1171
+  ],
+  "all_softmax_ops_sorted_no_lm": [
+    46,
+    57,
+    62,
+    67,
+    72,
+    77,
+    82,
+    87,
+    92,
+    108,
+    138,
+    145,
+    152,
+    159,
+    166,
+    173,
+    240,
+    245,
+    250,
+    255,
+    260,
+    265,
+    270,
+    275,
+    280,
+    285,
+    290,
+    295,
+    300,
+    305,
+    310,
+    315,
+    428,
+    433,
+    438,
+    443,
+    448,
+    453,
+    458,
+    463,
+    468,
+    473,
+    478,
+    483,
+    488,
+    493,
+    498,
+    503,
+    616,
+    621,
+    626,
+    631,
+    636,
+    641,
+    646,
+    651,
+    656,
+    661,
+    666,
+    671,
+    676,
+    681,
+    686,
+    691,
+    804,
+    809,
+    814,
+    819,
+    824,
+    829,
+    834,
+    839,
+    844,
+    849,
+    854,
+    859,
+    864,
+    869,
+    874,
+    879,
+    992,
+    997,
+    1002,
+    1007,
+    1012,
+    1017,
+    1022,
+    1027,
+    1032,
+    1037,
+    1042,
+    1047,
+    1052,
+    1057,
+    1062,
+    1067
+  ],
+  "heads": [
+    {
+      "head_id": 0,
+      "block": 0,
+      "head_in_block": 0,
+      "softmax_op": 46,
+      "fc_logits": 43,
+      "fc_mid": 95,
+      "cand_ops_raw": [
+        42,
+        43,
+        95
+      ],
+      "head_fc_ops": [
+        42,
+        43,
+        95
+      ],
+      "head_fc_new_ids": [
+        11,
+        12,
+        36
+      ],
+      "head_fc_exec_layers": [
+        13,
+        14,
+        47
+      ],
+      "fc_mid_exec_layer": 47
+    },
+    {
+      "head_id": 1,
+      "block": 0,
+      "head_in_block": 1,
+      "softmax_op": 57,
+      "fc_logits": 54,
+      "fc_mid": 115,
+      "cand_ops_raw": [
+        53,
+        54,
+        115
+      ],
+      "head_fc_ops": [
+        53,
+        54,
+        115
+      ],
+      "head_fc_new_ids": [
+        19,
+        20,
+        50
+      ],
+      "head_fc_exec_layers": [
+        22,
+        23,
+        62
+      ],
+      "fc_mid_exec_layer": 62
+    },
+    {
+      "head_id": 2,
+      "block": 0,
+      "head_in_block": 2,
+      "softmax_op": 62,
+      "fc_logits": 59,
+      "fc_mid": 118,
+      "cand_ops_raw": [
+        58,
+        59,
+        118
+      ],
+      "head_fc_ops": [
+        58,
+        59,
+        118
+      ],
+      "head_fc_new_ids": [
+        21,
+        22,
+        52
+      ],
+      "head_fc_exec_layers": [
+        25,
+        26,
+        64
+      ],
+      "fc_mid_exec_layer": 64
+    },
+    {
+      "head_id": 3,
+      "block": 0,
+      "head_in_block": 3,
+      "softmax_op": 67,
+      "fc_logits": 64,
+      "fc_mid": 121,
+      "cand_ops_raw": [
+        63,
+        64,
+        121
+      ],
+      "head_fc_ops": [
+        63,
+        64,
+        121
+      ],
+      "head_fc_new_ids": [
+        23,
+        24,
+        54
+      ],
+      "head_fc_exec_layers": [
+        28,
+        29,
+        66
+      ],
+      "fc_mid_exec_layer": 66
+    },
+    {
+      "head_id": 4,
+      "block": 0,
+      "head_in_block": 4,
+      "softmax_op": 72,
+      "fc_logits": 69,
+      "fc_mid": 124,
+      "cand_ops_raw": [
+        68,
+        69,
+        124
+      ],
+      "head_fc_ops": [
+        68,
+        69,
+        124
+      ],
+      "head_fc_new_ids": [
+        25,
+        26,
+        56
+      ],
+      "head_fc_exec_layers": [
+        31,
+        32,
+        68
+      ],
+      "fc_mid_exec_layer": 68
+    },
+    {
+      "head_id": 5,
+      "block": 0,
+      "head_in_block": 5,
+      "softmax_op": 77,
+      "fc_logits": 74,
+      "fc_mid": 98,
+      "cand_ops_raw": [
+        73,
+        74,
+        98
+      ],
+      "head_fc_ops": [
+        73,
+        74,
+        98
+      ],
+      "head_fc_new_ids": [
+        27,
+        28,
+        38
+      ],
+      "head_fc_exec_layers": [
+        34,
+        35,
+        49
+      ],
+      "fc_mid_exec_layer": 49
+    },
+    {
+      "head_id": 6,
+      "block": 0,
+      "head_in_block": 6,
+      "softmax_op": 82,
+      "fc_logits": 79,
+      "fc_mid": 127,
+      "cand_ops_raw": [
+        78,
+        79,
+        127
+      ],
+      "head_fc_ops": [
+        78,
+        79,
+        127
+      ],
+      "head_fc_new_ids": [
+        29,
+        30,
+        58
+      ],
+      "head_fc_exec_layers": [
+        37,
+        38,
+        70
+      ],
+      "fc_mid_exec_layer": 70
+    },
+    {
+      "head_id": 7,
+      "block": 0,
+      "head_in_block": 7,
+      "softmax_op": 87,
+      "fc_logits": 84,
+      "fc_mid": 130,
+      "cand_ops_raw": [
+        83,
+        84,
+        130
+      ],
+      "head_fc_ops": [
+        83,
+        84,
+        130
+      ],
+      "head_fc_new_ids": [
+        31,
+        32,
+        60
+      ],
+      "head_fc_exec_layers": [
+        40,
+        41,
+        72
+      ],
+      "fc_mid_exec_layer": 72
+    },
+    {
+      "head_id": 8,
+      "block": 0,
+      "head_in_block": 8,
+      "softmax_op": 92,
+      "fc_logits": 89,
+      "fc_mid": 133,
+      "cand_ops_raw": [
+        88,
+        89,
+        133
+      ],
+      "head_fc_ops": [
+        88,
+        89,
+        133
+      ],
+      "head_fc_new_ids": [
+        33,
+        34,
+        62
+      ],
+      "head_fc_exec_layers": [
+        43,
+        44,
+        74
+      ],
+      "fc_mid_exec_layer": 74
+    },
+    {
+      "head_id": 9,
+      "block": 0,
+      "head_in_block": 9,
+      "softmax_op": 108,
+      "fc_logits": 105,
+      "fc_mid": 110,
+      "cand_ops_raw": [
+        104,
+        105,
+        110
+      ],
+      "head_fc_ops": [
+        104,
+        105,
+        110
+      ],
+      "head_fc_new_ids": [
+        44,
+        45,
+        46
+      ],
+      "head_fc_exec_layers": [
+        55,
+        56,
+        58
+      ],
+      "fc_mid_exec_layer": 58
+    },
+    {
+      "head_id": 10,
+      "block": 0,
+      "head_in_block": 10,
+      "softmax_op": 138,
+      "fc_logits": 135,
+      "fc_mid": 140,
+      "cand_ops_raw": [
+        134,
+        135,
+        140
+      ],
+      "head_fc_ops": [
+        134,
+        135,
+        140
+      ],
+      "head_fc_new_ids": [
+        63,
+        64,
+        65
+      ],
+      "head_fc_exec_layers": [
+        75,
+        76,
+        78
+      ],
+      "fc_mid_exec_layer": 78
+    },
+    {
+      "head_id": 11,
+      "block": 0,
+      "head_in_block": 11,
+      "softmax_op": 145,
+      "fc_logits": 142,
+      "fc_mid": 147,
+      "cand_ops_raw": [
+        141,
+        142,
+        147
+      ],
+      "head_fc_ops": [
+        141,
+        142,
+        147
+      ],
+      "head_fc_new_ids": [
+        66,
+        67,
+        68
+      ],
+      "head_fc_exec_layers": [
+        79,
+        80,
+        82
+      ],
+      "fc_mid_exec_layer": 82
+    },
+    {
+      "head_id": 12,
+      "block": 0,
+      "head_in_block": 12,
+      "softmax_op": 152,
+      "fc_logits": 149,
+      "fc_mid": 154,
+      "cand_ops_raw": [
+        148,
+        149,
+        154
+      ],
+      "head_fc_ops": [
+        148,
+        149,
+        154
+      ],
+      "head_fc_new_ids": [
+        69,
+        70,
+        71
+      ],
+      "head_fc_exec_layers": [
+        83,
+        84,
+        86
+      ],
+      "fc_mid_exec_layer": 86
+    },
+    {
+      "head_id": 13,
+      "block": 0,
+      "head_in_block": 13,
+      "softmax_op": 159,
+      "fc_logits": 156,
+      "fc_mid": 161,
+      "cand_ops_raw": [
+        155,
+        156,
+        161
+      ],
+      "head_fc_ops": [
+        155,
+        156,
+        161
+      ],
+      "head_fc_new_ids": [
+        72,
+        73,
+        74
+      ],
+      "head_fc_exec_layers": [
+        87,
+        88,
+        90
+      ],
+      "fc_mid_exec_layer": 90
+    },
+    {
+      "head_id": 14,
+      "block": 0,
+      "head_in_block": 14,
+      "softmax_op": 166,
+      "fc_logits": 163,
+      "fc_mid": 168,
+      "cand_ops_raw": [
+        162,
+        163,
+        168
+      ],
+      "head_fc_ops": [
+        162,
+        163,
+        168
+      ],
+      "head_fc_new_ids": [
+        75,
+        76,
+        77
+      ],
+      "head_fc_exec_layers": [
+        91,
+        92,
+        94
+      ],
+      "fc_mid_exec_layer": 94
+    },
+    {
+      "head_id": 15,
+      "block": 0,
+      "head_in_block": 15,
+      "softmax_op": 173,
+      "fc_logits": 170,
+      "fc_mid": 175,
+      "cand_ops_raw": [
+        169,
+        170,
+        175
+      ],
+      "head_fc_ops": [
+        169,
+        170,
+        175
+      ],
+      "head_fc_new_ids": [
+        78,
+        79,
+        80
+      ],
+      "head_fc_exec_layers": [
+        95,
+        96,
+        98
+      ],
+      "fc_mid_exec_layer": 98
+    },
+    {
+      "head_id": 16,
+      "block": 1,
+      "head_in_block": 0,
+      "softmax_op": 240,
+      "fc_logits": 237,
+      "fc_mid": 318,
+      "cand_ops_raw": [
+        236,
+        237,
+        318
+      ],
+      "head_fc_ops": [
+        236,
+        237,
+        318
+      ],
+      "head_fc_new_ids": [
+        102,
+        103,
+        135
+      ],
+      "head_fc_exec_layers": [
+        128,
+        129,
+        177
+      ],
+      "fc_mid_exec_layer": 177
+    },
+    {
+      "head_id": 17,
+      "block": 1,
+      "head_in_block": 1,
+      "softmax_op": 245,
+      "fc_logits": 242,
+      "fc_mid": 321,
+      "cand_ops_raw": [
+        241,
+        242,
+        321
+      ],
+      "head_fc_ops": [
+        241,
+        242,
+        321
+      ],
+      "head_fc_new_ids": [
+        104,
+        105,
+        137
+      ],
+      "head_fc_exec_layers": [
+        131,
+        132,
+        179
+      ],
+      "fc_mid_exec_layer": 179
+    },
+    {
+      "head_id": 18,
+      "block": 1,
+      "head_in_block": 2,
+      "softmax_op": 250,
+      "fc_logits": 247,
+      "fc_mid": 324,
+      "cand_ops_raw": [
+        246,
+        247,
+        324
+      ],
+      "head_fc_ops": [
+        246,
+        247,
+        324
+      ],
+      "head_fc_new_ids": [
+        106,
+        107,
+        139
+      ],
+      "head_fc_exec_layers": [
+        134,
+        135,
+        181
+      ],
+      "fc_mid_exec_layer": 181
+    },
+    {
+      "head_id": 19,
+      "block": 1,
+      "head_in_block": 3,
+      "softmax_op": 255,
+      "fc_logits": 252,
+      "fc_mid": 327,
+      "cand_ops_raw": [
+        251,
+        252,
+        327
+      ],
+      "head_fc_ops": [
+        251,
+        252,
+        327
+      ],
+      "head_fc_new_ids": [
+        108,
+        109,
+        141
+      ],
+      "head_fc_exec_layers": [
+        137,
+        138,
+        183
+      ],
+      "fc_mid_exec_layer": 183
+    },
+    {
+      "head_id": 20,
+      "block": 1,
+      "head_in_block": 4,
+      "softmax_op": 260,
+      "fc_logits": 257,
+      "fc_mid": 330,
+      "cand_ops_raw": [
+        256,
+        257,
+        330
+      ],
+      "head_fc_ops": [
+        256,
+        257,
+        330
+      ],
+      "head_fc_new_ids": [
+        110,
+        111,
+        143
+      ],
+      "head_fc_exec_layers": [
+        140,
+        141,
+        185
+      ],
+      "fc_mid_exec_layer": 185
+    },
+    {
+      "head_id": 21,
+      "block": 1,
+      "head_in_block": 5,
+      "softmax_op": 265,
+      "fc_logits": 262,
+      "fc_mid": 333,
+      "cand_ops_raw": [
+        261,
+        262,
+        333
+      ],
+      "head_fc_ops": [
+        261,
+        262,
+        333
+      ],
+      "head_fc_new_ids": [
+        112,
+        113,
+        145
+      ],
+      "head_fc_exec_layers": [
+        143,
+        144,
+        187
+      ],
+      "fc_mid_exec_layer": 187
+    },
+    {
+      "head_id": 22,
+      "block": 1,
+      "head_in_block": 6,
+      "softmax_op": 270,
+      "fc_logits": 267,
+      "fc_mid": 336,
+      "cand_ops_raw": [
+        266,
+        267,
+        336
+      ],
+      "head_fc_ops": [
+        266,
+        267,
+        336
+      ],
+      "head_fc_new_ids": [
+        114,
+        115,
+        147
+      ],
+      "head_fc_exec_layers": [
+        146,
+        147,
+        189
+      ],
+      "fc_mid_exec_layer": 189
+    },
+    {
+      "head_id": 23,
+      "block": 1,
+      "head_in_block": 7,
+      "softmax_op": 275,
+      "fc_logits": 272,
+      "fc_mid": 339,
+      "cand_ops_raw": [
+        271,
+        272,
+        339
+      ],
+      "head_fc_ops": [
+        271,
+        272,
+        339
+      ],
+      "head_fc_new_ids": [
+        116,
+        117,
+        149
+      ],
+      "head_fc_exec_layers": [
+        149,
+        150,
+        191
+      ],
+      "fc_mid_exec_layer": 191
+    },
+    {
+      "head_id": 24,
+      "block": 1,
+      "head_in_block": 8,
+      "softmax_op": 280,
+      "fc_logits": 277,
+      "fc_mid": 342,
+      "cand_ops_raw": [
+        276,
+        277,
+        342
+      ],
+      "head_fc_ops": [
+        276,
+        277,
+        342
+      ],
+      "head_fc_new_ids": [
+        118,
+        119,
+        151
+      ],
+      "head_fc_exec_layers": [
+        152,
+        153,
+        193
+      ],
+      "fc_mid_exec_layer": 193
+    },
+    {
+      "head_id": 25,
+      "block": 1,
+      "head_in_block": 9,
+      "softmax_op": 285,
+      "fc_logits": 282,
+      "fc_mid": 345,
+      "cand_ops_raw": [
+        281,
+        282,
+        345
+      ],
+      "head_fc_ops": [
+        281,
+        282,
+        345
+      ],
+      "head_fc_new_ids": [
+        120,
+        121,
+        153
+      ],
+      "head_fc_exec_layers": [
+        155,
+        156,
+        195
+      ],
+      "fc_mid_exec_layer": 195
+    },
+    {
+      "head_id": 26,
+      "block": 1,
+      "head_in_block": 10,
+      "softmax_op": 290,
+      "fc_logits": 287,
+      "fc_mid": 348,
+      "cand_ops_raw": [
+        286,
+        287,
+        348
+      ],
+      "head_fc_ops": [
+        286,
+        287,
+        348
+      ],
+      "head_fc_new_ids": [
+        122,
+        123,
+        155
+      ],
+      "head_fc_exec_layers": [
+        158,
+        159,
+        197
+      ],
+      "fc_mid_exec_layer": 197
+    },
+    {
+      "head_id": 27,
+      "block": 1,
+      "head_in_block": 11,
+      "softmax_op": 295,
+      "fc_logits": 292,
+      "fc_mid": 351,
+      "cand_ops_raw": [
+        291,
+        292,
+        351
+      ],
+      "head_fc_ops": [
+        291,
+        292,
+        351
+      ],
+      "head_fc_new_ids": [
+        124,
+        125,
+        157
+      ],
+      "head_fc_exec_layers": [
+        161,
+        162,
+        199
+      ],
+      "fc_mid_exec_layer": 199
+    },
+    {
+      "head_id": 28,
+      "block": 1,
+      "head_in_block": 12,
+      "softmax_op": 300,
+      "fc_logits": 297,
+      "fc_mid": 354,
+      "cand_ops_raw": [
+        296,
+        297,
+        354
+      ],
+      "head_fc_ops": [
+        296,
+        297,
+        354
+      ],
+      "head_fc_new_ids": [
+        126,
+        127,
+        159
+      ],
+      "head_fc_exec_layers": [
+        164,
+        165,
+        201
+      ],
+      "fc_mid_exec_layer": 201
+    },
+    {
+      "head_id": 29,
+      "block": 1,
+      "head_in_block": 13,
+      "softmax_op": 305,
+      "fc_logits": 302,
+      "fc_mid": 357,
+      "cand_ops_raw": [
+        301,
+        302,
+        357
+      ],
+      "head_fc_ops": [
+        301,
+        302,
+        357
+      ],
+      "head_fc_new_ids": [
+        128,
+        129,
+        161
+      ],
+      "head_fc_exec_layers": [
+        167,
+        168,
+        203
+      ],
+      "fc_mid_exec_layer": 203
+    },
+    {
+      "head_id": 30,
+      "block": 1,
+      "head_in_block": 14,
+      "softmax_op": 310,
+      "fc_logits": 307,
+      "fc_mid": 360,
+      "cand_ops_raw": [
+        306,
+        307,
+        360
+      ],
+      "head_fc_ops": [
+        306,
+        307,
+        360
+      ],
+      "head_fc_new_ids": [
+        130,
+        131,
+        163
+      ],
+      "head_fc_exec_layers": [
+        170,
+        171,
+        205
+      ],
+      "fc_mid_exec_layer": 205
+    },
+    {
+      "head_id": 31,
+      "block": 1,
+      "head_in_block": 15,
+      "softmax_op": 315,
+      "fc_logits": 312,
+      "fc_mid": 363,
+      "cand_ops_raw": [
+        311,
+        312,
+        363
+      ],
+      "head_fc_ops": [
+        311,
+        312,
+        363
+      ],
+      "head_fc_new_ids": [
+        132,
+        133,
+        165
+      ],
+      "head_fc_exec_layers": [
+        173,
+        174,
+        207
+      ],
+      "fc_mid_exec_layer": 207
+    },
+    {
+      "head_id": 32,
+      "block": 2,
+      "head_in_block": 0,
+      "softmax_op": 428,
+      "fc_logits": 425,
+      "fc_mid": 506,
+      "cand_ops_raw": [
+        424,
+        425,
+        506
+      ],
+      "head_fc_ops": [
+        424,
+        425,
+        506
+      ],
+      "head_fc_new_ids": [
+        187,
+        188,
+        220
+      ],
+      "head_fc_exec_layers": [
+        237,
+        238,
+        286
+      ],
+      "fc_mid_exec_layer": 286
+    },
+    {
+      "head_id": 33,
+      "block": 2,
+      "head_in_block": 1,
+      "softmax_op": 433,
+      "fc_logits": 430,
+      "fc_mid": 509,
+      "cand_ops_raw": [
+        429,
+        430,
+        509
+      ],
+      "head_fc_ops": [
+        429,
+        430,
+        509
+      ],
+      "head_fc_new_ids": [
+        189,
+        190,
+        222
+      ],
+      "head_fc_exec_layers": [
+        240,
+        241,
+        288
+      ],
+      "fc_mid_exec_layer": 288
+    },
+    {
+      "head_id": 34,
+      "block": 2,
+      "head_in_block": 2,
+      "softmax_op": 438,
+      "fc_logits": 435,
+      "fc_mid": 512,
+      "cand_ops_raw": [
+        434,
+        435,
+        512
+      ],
+      "head_fc_ops": [
+        434,
+        435,
+        512
+      ],
+      "head_fc_new_ids": [
+        191,
+        192,
+        224
+      ],
+      "head_fc_exec_layers": [
+        243,
+        244,
+        290
+      ],
+      "fc_mid_exec_layer": 290
+    },
+    {
+      "head_id": 35,
+      "block": 2,
+      "head_in_block": 3,
+      "softmax_op": 443,
+      "fc_logits": 440,
+      "fc_mid": 515,
+      "cand_ops_raw": [
+        439,
+        440,
+        515
+      ],
+      "head_fc_ops": [
+        439,
+        440,
+        515
+      ],
+      "head_fc_new_ids": [
+        193,
+        194,
+        226
+      ],
+      "head_fc_exec_layers": [
+        246,
+        247,
+        292
+      ],
+      "fc_mid_exec_layer": 292
+    },
+    {
+      "head_id": 36,
+      "block": 2,
+      "head_in_block": 4,
+      "softmax_op": 448,
+      "fc_logits": 445,
+      "fc_mid": 518,
+      "cand_ops_raw": [
+        444,
+        445,
+        518
+      ],
+      "head_fc_ops": [
+        444,
+        445,
+        518
+      ],
+      "head_fc_new_ids": [
+        195,
+        196,
+        228
+      ],
+      "head_fc_exec_layers": [
+        249,
+        250,
+        294
+      ],
+      "fc_mid_exec_layer": 294
+    },
+    {
+      "head_id": 37,
+      "block": 2,
+      "head_in_block": 5,
+      "softmax_op": 453,
+      "fc_logits": 450,
+      "fc_mid": 521,
+      "cand_ops_raw": [
+        449,
+        450,
+        521
+      ],
+      "head_fc_ops": [
+        449,
+        450,
+        521
+      ],
+      "head_fc_new_ids": [
+        197,
+        198,
+        230
+      ],
+      "head_fc_exec_layers": [
+        252,
+        253,
+        296
+      ],
+      "fc_mid_exec_layer": 296
+    },
+    {
+      "head_id": 38,
+      "block": 2,
+      "head_in_block": 6,
+      "softmax_op": 458,
+      "fc_logits": 455,
+      "fc_mid": 524,
+      "cand_ops_raw": [
+        454,
+        455,
+        524
+      ],
+      "head_fc_ops": [
+        454,
+        455,
+        524
+      ],
+      "head_fc_new_ids": [
+        199,
+        200,
+        232
+      ],
+      "head_fc_exec_layers": [
+        255,
+        256,
+        298
+      ],
+      "fc_mid_exec_layer": 298
+    },
+    {
+      "head_id": 39,
+      "block": 2,
+      "head_in_block": 7,
+      "softmax_op": 463,
+      "fc_logits": 460,
+      "fc_mid": 527,
+      "cand_ops_raw": [
+        459,
+        460,
+        527
+      ],
+      "head_fc_ops": [
+        459,
+        460,
+        527
+      ],
+      "head_fc_new_ids": [
+        201,
+        202,
+        234
+      ],
+      "head_fc_exec_layers": [
+        258,
+        259,
+        300
+      ],
+      "fc_mid_exec_layer": 300
+    },
+    {
+      "head_id": 40,
+      "block": 2,
+      "head_in_block": 8,
+      "softmax_op": 468,
+      "fc_logits": 465,
+      "fc_mid": 530,
+      "cand_ops_raw": [
+        464,
+        465,
+        530
+      ],
+      "head_fc_ops": [
+        464,
+        465,
+        530
+      ],
+      "head_fc_new_ids": [
+        203,
+        204,
+        236
+      ],
+      "head_fc_exec_layers": [
+        261,
+        262,
+        302
+      ],
+      "fc_mid_exec_layer": 302
+    },
+    {
+      "head_id": 41,
+      "block": 2,
+      "head_in_block": 9,
+      "softmax_op": 473,
+      "fc_logits": 470,
+      "fc_mid": 533,
+      "cand_ops_raw": [
+        469,
+        470,
+        533
+      ],
+      "head_fc_ops": [
+        469,
+        470,
+        533
+      ],
+      "head_fc_new_ids": [
+        205,
+        206,
+        238
+      ],
+      "head_fc_exec_layers": [
+        264,
+        265,
+        304
+      ],
+      "fc_mid_exec_layer": 304
+    },
+    {
+      "head_id": 42,
+      "block": 2,
+      "head_in_block": 10,
+      "softmax_op": 478,
+      "fc_logits": 475,
+      "fc_mid": 536,
+      "cand_ops_raw": [
+        474,
+        475,
+        536
+      ],
+      "head_fc_ops": [
+        474,
+        475,
+        536
+      ],
+      "head_fc_new_ids": [
+        207,
+        208,
+        240
+      ],
+      "head_fc_exec_layers": [
+        267,
+        268,
+        306
+      ],
+      "fc_mid_exec_layer": 306
+    },
+    {
+      "head_id": 43,
+      "block": 2,
+      "head_in_block": 11,
+      "softmax_op": 483,
+      "fc_logits": 480,
+      "fc_mid": 539,
+      "cand_ops_raw": [
+        479,
+        480,
+        539
+      ],
+      "head_fc_ops": [
+        479,
+        480,
+        539
+      ],
+      "head_fc_new_ids": [
+        209,
+        210,
+        242
+      ],
+      "head_fc_exec_layers": [
+        270,
+        271,
+        308
+      ],
+      "fc_mid_exec_layer": 308
+    },
+    {
+      "head_id": 44,
+      "block": 2,
+      "head_in_block": 12,
+      "softmax_op": 488,
+      "fc_logits": 485,
+      "fc_mid": 542,
+      "cand_ops_raw": [
+        484,
+        485,
+        542
+      ],
+      "head_fc_ops": [
+        484,
+        485,
+        542
+      ],
+      "head_fc_new_ids": [
+        211,
+        212,
+        244
+      ],
+      "head_fc_exec_layers": [
+        273,
+        274,
+        310
+      ],
+      "fc_mid_exec_layer": 310
+    },
+    {
+      "head_id": 45,
+      "block": 2,
+      "head_in_block": 13,
+      "softmax_op": 493,
+      "fc_logits": 490,
+      "fc_mid": 545,
+      "cand_ops_raw": [
+        489,
+        490,
+        545
+      ],
+      "head_fc_ops": [
+        489,
+        490,
+        545
+      ],
+      "head_fc_new_ids": [
+        213,
+        214,
+        246
+      ],
+      "head_fc_exec_layers": [
+        276,
+        277,
+        312
+      ],
+      "fc_mid_exec_layer": 312
+    },
+    {
+      "head_id": 46,
+      "block": 2,
+      "head_in_block": 14,
+      "softmax_op": 498,
+      "fc_logits": 495,
+      "fc_mid": 548,
+      "cand_ops_raw": [
+        494,
+        495,
+        548
+      ],
+      "head_fc_ops": [
+        494,
+        495,
+        548
+      ],
+      "head_fc_new_ids": [
+        215,
+        216,
+        248
+      ],
+      "head_fc_exec_layers": [
+        279,
+        280,
+        314
+      ],
+      "fc_mid_exec_layer": 314
+    },
+    {
+      "head_id": 47,
+      "block": 2,
+      "head_in_block": 15,
+      "softmax_op": 503,
+      "fc_logits": 500,
+      "fc_mid": 551,
+      "cand_ops_raw": [
+        499,
+        500,
+        551
+      ],
+      "head_fc_ops": [
+        499,
+        500,
+        551
+      ],
+      "head_fc_new_ids": [
+        217,
+        218,
+        250
+      ],
+      "head_fc_exec_layers": [
+        282,
+        283,
+        316
+      ],
+      "fc_mid_exec_layer": 316
+    },
+    {
+      "head_id": 48,
+      "block": 3,
+      "head_in_block": 0,
+      "softmax_op": 616,
+      "fc_logits": 613,
+      "fc_mid": 694,
+      "cand_ops_raw": [
+        612,
+        613,
+        694
+      ],
+      "head_fc_ops": [
+        612,
+        613,
+        694
+      ],
+      "head_fc_new_ids": [
+        272,
+        273,
+        305
+      ],
+      "head_fc_exec_layers": [
+        346,
+        347,
+        395
+      ],
+      "fc_mid_exec_layer": 395
+    },
+    {
+      "head_id": 49,
+      "block": 3,
+      "head_in_block": 1,
+      "softmax_op": 621,
+      "fc_logits": 618,
+      "fc_mid": 697,
+      "cand_ops_raw": [
+        617,
+        618,
+        697
+      ],
+      "head_fc_ops": [
+        617,
+        618,
+        697
+      ],
+      "head_fc_new_ids": [
+        274,
+        275,
+        307
+      ],
+      "head_fc_exec_layers": [
+        349,
+        350,
+        397
+      ],
+      "fc_mid_exec_layer": 397
+    },
+    {
+      "head_id": 50,
+      "block": 3,
+      "head_in_block": 2,
+      "softmax_op": 626,
+      "fc_logits": 623,
+      "fc_mid": 700,
+      "cand_ops_raw": [
+        622,
+        623,
+        700
+      ],
+      "head_fc_ops": [
+        622,
+        623,
+        700
+      ],
+      "head_fc_new_ids": [
+        276,
+        277,
+        309
+      ],
+      "head_fc_exec_layers": [
+        352,
+        353,
+        399
+      ],
+      "fc_mid_exec_layer": 399
+    },
+    {
+      "head_id": 51,
+      "block": 3,
+      "head_in_block": 3,
+      "softmax_op": 631,
+      "fc_logits": 628,
+      "fc_mid": 703,
+      "cand_ops_raw": [
+        627,
+        628,
+        703
+      ],
+      "head_fc_ops": [
+        627,
+        628,
+        703
+      ],
+      "head_fc_new_ids": [
+        278,
+        279,
+        311
+      ],
+      "head_fc_exec_layers": [
+        355,
+        356,
+        401
+      ],
+      "fc_mid_exec_layer": 401
+    },
+    {
+      "head_id": 52,
+      "block": 3,
+      "head_in_block": 4,
+      "softmax_op": 636,
+      "fc_logits": 633,
+      "fc_mid": 706,
+      "cand_ops_raw": [
+        632,
+        633,
+        706
+      ],
+      "head_fc_ops": [
+        632,
+        633,
+        706
+      ],
+      "head_fc_new_ids": [
+        280,
+        281,
+        313
+      ],
+      "head_fc_exec_layers": [
+        358,
+        359,
+        403
+      ],
+      "fc_mid_exec_layer": 403
+    },
+    {
+      "head_id": 53,
+      "block": 3,
+      "head_in_block": 5,
+      "softmax_op": 641,
+      "fc_logits": 638,
+      "fc_mid": 709,
+      "cand_ops_raw": [
+        637,
+        638,
+        709
+      ],
+      "head_fc_ops": [
+        637,
+        638,
+        709
+      ],
+      "head_fc_new_ids": [
+        282,
+        283,
+        315
+      ],
+      "head_fc_exec_layers": [
+        361,
+        362,
+        405
+      ],
+      "fc_mid_exec_layer": 405
+    },
+    {
+      "head_id": 54,
+      "block": 3,
+      "head_in_block": 6,
+      "softmax_op": 646,
+      "fc_logits": 643,
+      "fc_mid": 712,
+      "cand_ops_raw": [
+        642,
+        643,
+        712
+      ],
+      "head_fc_ops": [
+        642,
+        643,
+        712
+      ],
+      "head_fc_new_ids": [
+        284,
+        285,
+        317
+      ],
+      "head_fc_exec_layers": [
+        364,
+        365,
+        407
+      ],
+      "fc_mid_exec_layer": 407
+    },
+    {
+      "head_id": 55,
+      "block": 3,
+      "head_in_block": 7,
+      "softmax_op": 651,
+      "fc_logits": 648,
+      "fc_mid": 715,
+      "cand_ops_raw": [
+        647,
+        648,
+        715
+      ],
+      "head_fc_ops": [
+        647,
+        648,
+        715
+      ],
+      "head_fc_new_ids": [
+        286,
+        287,
+        319
+      ],
+      "head_fc_exec_layers": [
+        367,
+        368,
+        409
+      ],
+      "fc_mid_exec_layer": 409
+    },
+    {
+      "head_id": 56,
+      "block": 3,
+      "head_in_block": 8,
+      "softmax_op": 656,
+      "fc_logits": 653,
+      "fc_mid": 718,
+      "cand_ops_raw": [
+        652,
+        653,
+        718
+      ],
+      "head_fc_ops": [
+        652,
+        653,
+        718
+      ],
+      "head_fc_new_ids": [
+        288,
+        289,
+        321
+      ],
+      "head_fc_exec_layers": [
+        370,
+        371,
+        411
+      ],
+      "fc_mid_exec_layer": 411
+    },
+    {
+      "head_id": 57,
+      "block": 3,
+      "head_in_block": 9,
+      "softmax_op": 661,
+      "fc_logits": 658,
+      "fc_mid": 721,
+      "cand_ops_raw": [
+        657,
+        658,
+        721
+      ],
+      "head_fc_ops": [
+        657,
+        658,
+        721
+      ],
+      "head_fc_new_ids": [
+        290,
+        291,
+        323
+      ],
+      "head_fc_exec_layers": [
+        373,
+        374,
+        413
+      ],
+      "fc_mid_exec_layer": 413
+    },
+    {
+      "head_id": 58,
+      "block": 3,
+      "head_in_block": 10,
+      "softmax_op": 666,
+      "fc_logits": 663,
+      "fc_mid": 724,
+      "cand_ops_raw": [
+        662,
+        663,
+        724
+      ],
+      "head_fc_ops": [
+        662,
+        663,
+        724
+      ],
+      "head_fc_new_ids": [
+        292,
+        293,
+        325
+      ],
+      "head_fc_exec_layers": [
+        376,
+        377,
+        415
+      ],
+      "fc_mid_exec_layer": 415
+    },
+    {
+      "head_id": 59,
+      "block": 3,
+      "head_in_block": 11,
+      "softmax_op": 671,
+      "fc_logits": 668,
+      "fc_mid": 727,
+      "cand_ops_raw": [
+        667,
+        668,
+        727
+      ],
+      "head_fc_ops": [
+        667,
+        668,
+        727
+      ],
+      "head_fc_new_ids": [
+        294,
+        295,
+        327
+      ],
+      "head_fc_exec_layers": [
+        379,
+        380,
+        417
+      ],
+      "fc_mid_exec_layer": 417
+    },
+    {
+      "head_id": 60,
+      "block": 3,
+      "head_in_block": 12,
+      "softmax_op": 676,
+      "fc_logits": 673,
+      "fc_mid": 730,
+      "cand_ops_raw": [
+        672,
+        673,
+        730
+      ],
+      "head_fc_ops": [
+        672,
+        673,
+        730
+      ],
+      "head_fc_new_ids": [
+        296,
+        297,
+        329
+      ],
+      "head_fc_exec_layers": [
+        382,
+        383,
+        419
+      ],
+      "fc_mid_exec_layer": 419
+    },
+    {
+      "head_id": 61,
+      "block": 3,
+      "head_in_block": 13,
+      "softmax_op": 681,
+      "fc_logits": 678,
+      "fc_mid": 733,
+      "cand_ops_raw": [
+        677,
+        678,
+        733
+      ],
+      "head_fc_ops": [
+        677,
+        678,
+        733
+      ],
+      "head_fc_new_ids": [
+        298,
+        299,
+        331
+      ],
+      "head_fc_exec_layers": [
+        385,
+        386,
+        421
+      ],
+      "fc_mid_exec_layer": 421
+    },
+    {
+      "head_id": 62,
+      "block": 3,
+      "head_in_block": 14,
+      "softmax_op": 686,
+      "fc_logits": 683,
+      "fc_mid": 736,
+      "cand_ops_raw": [
+        682,
+        683,
+        736
+      ],
+      "head_fc_ops": [
+        682,
+        683,
+        736
+      ],
+      "head_fc_new_ids": [
+        300,
+        301,
+        333
+      ],
+      "head_fc_exec_layers": [
+        388,
+        389,
+        423
+      ],
+      "fc_mid_exec_layer": 423
+    },
+    {
+      "head_id": 63,
+      "block": 3,
+      "head_in_block": 15,
+      "softmax_op": 691,
+      "fc_logits": 688,
+      "fc_mid": 739,
+      "cand_ops_raw": [
+        687,
+        688,
+        739
+      ],
+      "head_fc_ops": [
+        687,
+        688,
+        739
+      ],
+      "head_fc_new_ids": [
+        302,
+        303,
+        335
+      ],
+      "head_fc_exec_layers": [
+        391,
+        392,
+        425
+      ],
+      "fc_mid_exec_layer": 425
+    },
+    {
+      "head_id": 64,
+      "block": 4,
+      "head_in_block": 0,
+      "softmax_op": 804,
+      "fc_logits": 801,
+      "fc_mid": 882,
+      "cand_ops_raw": [
+        800,
+        801,
+        882
+      ],
+      "head_fc_ops": [
+        800,
+        801,
+        882
+      ],
+      "head_fc_new_ids": [
+        357,
+        358,
+        390
+      ],
+      "head_fc_exec_layers": [
+        455,
+        456,
+        504
+      ],
+      "fc_mid_exec_layer": 504
+    },
+    {
+      "head_id": 65,
+      "block": 4,
+      "head_in_block": 1,
+      "softmax_op": 809,
+      "fc_logits": 806,
+      "fc_mid": 885,
+      "cand_ops_raw": [
+        805,
+        806,
+        885
+      ],
+      "head_fc_ops": [
+        805,
+        806,
+        885
+      ],
+      "head_fc_new_ids": [
+        359,
+        360,
+        392
+      ],
+      "head_fc_exec_layers": [
+        458,
+        459,
+        506
+      ],
+      "fc_mid_exec_layer": 506
+    },
+    {
+      "head_id": 66,
+      "block": 4,
+      "head_in_block": 2,
+      "softmax_op": 814,
+      "fc_logits": 811,
+      "fc_mid": 888,
+      "cand_ops_raw": [
+        810,
+        811,
+        888
+      ],
+      "head_fc_ops": [
+        810,
+        811,
+        888
+      ],
+      "head_fc_new_ids": [
+        361,
+        362,
+        394
+      ],
+      "head_fc_exec_layers": [
+        461,
+        462,
+        508
+      ],
+      "fc_mid_exec_layer": 508
+    },
+    {
+      "head_id": 67,
+      "block": 4,
+      "head_in_block": 3,
+      "softmax_op": 819,
+      "fc_logits": 816,
+      "fc_mid": 891,
+      "cand_ops_raw": [
+        815,
+        816,
+        891
+      ],
+      "head_fc_ops": [
+        815,
+        816,
+        891
+      ],
+      "head_fc_new_ids": [
+        363,
+        364,
+        396
+      ],
+      "head_fc_exec_layers": [
+        464,
+        465,
+        510
+      ],
+      "fc_mid_exec_layer": 510
+    },
+    {
+      "head_id": 68,
+      "block": 4,
+      "head_in_block": 4,
+      "softmax_op": 824,
+      "fc_logits": 821,
+      "fc_mid": 894,
+      "cand_ops_raw": [
+        820,
+        821,
+        894
+      ],
+      "head_fc_ops": [
+        820,
+        821,
+        894
+      ],
+      "head_fc_new_ids": [
+        365,
+        366,
+        398
+      ],
+      "head_fc_exec_layers": [
+        467,
+        468,
+        512
+      ],
+      "fc_mid_exec_layer": 512
+    },
+    {
+      "head_id": 69,
+      "block": 4,
+      "head_in_block": 5,
+      "softmax_op": 829,
+      "fc_logits": 826,
+      "fc_mid": 897,
+      "cand_ops_raw": [
+        825,
+        826,
+        897
+      ],
+      "head_fc_ops": [
+        825,
+        826,
+        897
+      ],
+      "head_fc_new_ids": [
+        367,
+        368,
+        400
+      ],
+      "head_fc_exec_layers": [
+        470,
+        471,
+        514
+      ],
+      "fc_mid_exec_layer": 514
+    },
+    {
+      "head_id": 70,
+      "block": 4,
+      "head_in_block": 6,
+      "softmax_op": 834,
+      "fc_logits": 831,
+      "fc_mid": 900,
+      "cand_ops_raw": [
+        830,
+        831,
+        900
+      ],
+      "head_fc_ops": [
+        830,
+        831,
+        900
+      ],
+      "head_fc_new_ids": [
+        369,
+        370,
+        402
+      ],
+      "head_fc_exec_layers": [
+        473,
+        474,
+        516
+      ],
+      "fc_mid_exec_layer": 516
+    },
+    {
+      "head_id": 71,
+      "block": 4,
+      "head_in_block": 7,
+      "softmax_op": 839,
+      "fc_logits": 836,
+      "fc_mid": 903,
+      "cand_ops_raw": [
+        835,
+        836,
+        903
+      ],
+      "head_fc_ops": [
+        835,
+        836,
+        903
+      ],
+      "head_fc_new_ids": [
+        371,
+        372,
+        404
+      ],
+      "head_fc_exec_layers": [
+        476,
+        477,
+        518
+      ],
+      "fc_mid_exec_layer": 518
+    },
+    {
+      "head_id": 72,
+      "block": 4,
+      "head_in_block": 8,
+      "softmax_op": 844,
+      "fc_logits": 841,
+      "fc_mid": 906,
+      "cand_ops_raw": [
+        840,
+        841,
+        906
+      ],
+      "head_fc_ops": [
+        840,
+        841,
+        906
+      ],
+      "head_fc_new_ids": [
+        373,
+        374,
+        406
+      ],
+      "head_fc_exec_layers": [
+        479,
+        480,
+        520
+      ],
+      "fc_mid_exec_layer": 520
+    },
+    {
+      "head_id": 73,
+      "block": 4,
+      "head_in_block": 9,
+      "softmax_op": 849,
+      "fc_logits": 846,
+      "fc_mid": 909,
+      "cand_ops_raw": [
+        845,
+        846,
+        909
+      ],
+      "head_fc_ops": [
+        845,
+        846,
+        909
+      ],
+      "head_fc_new_ids": [
+        375,
+        376,
+        408
+      ],
+      "head_fc_exec_layers": [
+        482,
+        483,
+        522
+      ],
+      "fc_mid_exec_layer": 522
+    },
+    {
+      "head_id": 74,
+      "block": 4,
+      "head_in_block": 10,
+      "softmax_op": 854,
+      "fc_logits": 851,
+      "fc_mid": 912,
+      "cand_ops_raw": [
+        850,
+        851,
+        912
+      ],
+      "head_fc_ops": [
+        850,
+        851,
+        912
+      ],
+      "head_fc_new_ids": [
+        377,
+        378,
+        410
+      ],
+      "head_fc_exec_layers": [
+        485,
+        486,
+        524
+      ],
+      "fc_mid_exec_layer": 524
+    },
+    {
+      "head_id": 75,
+      "block": 4,
+      "head_in_block": 11,
+      "softmax_op": 859,
+      "fc_logits": 856,
+      "fc_mid": 915,
+      "cand_ops_raw": [
+        855,
+        856,
+        915
+      ],
+      "head_fc_ops": [
+        855,
+        856,
+        915
+      ],
+      "head_fc_new_ids": [
+        379,
+        380,
+        412
+      ],
+      "head_fc_exec_layers": [
+        488,
+        489,
+        526
+      ],
+      "fc_mid_exec_layer": 526
+    },
+    {
+      "head_id": 76,
+      "block": 4,
+      "head_in_block": 12,
+      "softmax_op": 864,
+      "fc_logits": 861,
+      "fc_mid": 918,
+      "cand_ops_raw": [
+        860,
+        861,
+        918
+      ],
+      "head_fc_ops": [
+        860,
+        861,
+        918
+      ],
+      "head_fc_new_ids": [
+        381,
+        382,
+        414
+      ],
+      "head_fc_exec_layers": [
+        491,
+        492,
+        528
+      ],
+      "fc_mid_exec_layer": 528
+    },
+    {
+      "head_id": 77,
+      "block": 4,
+      "head_in_block": 13,
+      "softmax_op": 869,
+      "fc_logits": 866,
+      "fc_mid": 921,
+      "cand_ops_raw": [
+        865,
+        866,
+        921
+      ],
+      "head_fc_ops": [
+        865,
+        866,
+        921
+      ],
+      "head_fc_new_ids": [
+        383,
+        384,
+        416
+      ],
+      "head_fc_exec_layers": [
+        494,
+        495,
+        530
+      ],
+      "fc_mid_exec_layer": 530
+    },
+    {
+      "head_id": 78,
+      "block": 4,
+      "head_in_block": 14,
+      "softmax_op": 874,
+      "fc_logits": 871,
+      "fc_mid": 924,
+      "cand_ops_raw": [
+        870,
+        871,
+        924
+      ],
+      "head_fc_ops": [
+        870,
+        871,
+        924
+      ],
+      "head_fc_new_ids": [
+        385,
+        386,
+        418
+      ],
+      "head_fc_exec_layers": [
+        497,
+        498,
+        532
+      ],
+      "fc_mid_exec_layer": 532
+    },
+    {
+      "head_id": 79,
+      "block": 4,
+      "head_in_block": 15,
+      "softmax_op": 879,
+      "fc_logits": 876,
+      "fc_mid": 927,
+      "cand_ops_raw": [
+        875,
+        876,
+        927
+      ],
+      "head_fc_ops": [
+        875,
+        876,
+        927
+      ],
+      "head_fc_new_ids": [
+        387,
+        388,
+        420
+      ],
+      "head_fc_exec_layers": [
+        500,
+        501,
+        534
+      ],
+      "fc_mid_exec_layer": 534
+    },
+    {
+      "head_id": 80,
+      "block": 5,
+      "head_in_block": 0,
+      "softmax_op": 992,
+      "fc_logits": 989,
+      "fc_mid": 1070,
+      "cand_ops_raw": [
+        988,
+        989,
+        1070
+      ],
+      "head_fc_ops": [
+        988,
+        989,
+        1070
+      ],
+      "head_fc_new_ids": [
+        442,
+        443,
+        475
+      ],
+      "head_fc_exec_layers": [
+        564,
+        565,
+        613
+      ],
+      "fc_mid_exec_layer": 613
+    },
+    {
+      "head_id": 81,
+      "block": 5,
+      "head_in_block": 1,
+      "softmax_op": 997,
+      "fc_logits": 994,
+      "fc_mid": 1073,
+      "cand_ops_raw": [
+        993,
+        994,
+        1073
+      ],
+      "head_fc_ops": [
+        993,
+        994,
+        1073
+      ],
+      "head_fc_new_ids": [
+        444,
+        445,
+        477
+      ],
+      "head_fc_exec_layers": [
+        567,
+        568,
+        615
+      ],
+      "fc_mid_exec_layer": 615
+    },
+    {
+      "head_id": 82,
+      "block": 5,
+      "head_in_block": 2,
+      "softmax_op": 1002,
+      "fc_logits": 999,
+      "fc_mid": 1076,
+      "cand_ops_raw": [
+        998,
+        999,
+        1076
+      ],
+      "head_fc_ops": [
+        998,
+        999,
+        1076
+      ],
+      "head_fc_new_ids": [
+        446,
+        447,
+        479
+      ],
+      "head_fc_exec_layers": [
+        570,
+        571,
+        617
+      ],
+      "fc_mid_exec_layer": 617
+    },
+    {
+      "head_id": 83,
+      "block": 5,
+      "head_in_block": 3,
+      "softmax_op": 1007,
+      "fc_logits": 1004,
+      "fc_mid": 1079,
+      "cand_ops_raw": [
+        1003,
+        1004,
+        1079
+      ],
+      "head_fc_ops": [
+        1003,
+        1004,
+        1079
+      ],
+      "head_fc_new_ids": [
+        448,
+        449,
+        481
+      ],
+      "head_fc_exec_layers": [
+        573,
+        574,
+        619
+      ],
+      "fc_mid_exec_layer": 619
+    },
+    {
+      "head_id": 84,
+      "block": 5,
+      "head_in_block": 4,
+      "softmax_op": 1012,
+      "fc_logits": 1009,
+      "fc_mid": 1082,
+      "cand_ops_raw": [
+        1008,
+        1009,
+        1082
+      ],
+      "head_fc_ops": [
+        1008,
+        1009,
+        1082
+      ],
+      "head_fc_new_ids": [
+        450,
+        451,
+        483
+      ],
+      "head_fc_exec_layers": [
+        576,
+        577,
+        621
+      ],
+      "fc_mid_exec_layer": 621
+    },
+    {
+      "head_id": 85,
+      "block": 5,
+      "head_in_block": 5,
+      "softmax_op": 1017,
+      "fc_logits": 1014,
+      "fc_mid": 1085,
+      "cand_ops_raw": [
+        1013,
+        1014,
+        1085
+      ],
+      "head_fc_ops": [
+        1013,
+        1014,
+        1085
+      ],
+      "head_fc_new_ids": [
+        452,
+        453,
+        485
+      ],
+      "head_fc_exec_layers": [
+        579,
+        580,
+        623
+      ],
+      "fc_mid_exec_layer": 623
+    },
+    {
+      "head_id": 86,
+      "block": 5,
+      "head_in_block": 6,
+      "softmax_op": 1022,
+      "fc_logits": 1019,
+      "fc_mid": 1088,
+      "cand_ops_raw": [
+        1018,
+        1019,
+        1088
+      ],
+      "head_fc_ops": [
+        1018,
+        1019,
+        1088
+      ],
+      "head_fc_new_ids": [
+        454,
+        455,
+        487
+      ],
+      "head_fc_exec_layers": [
+        582,
+        583,
+        625
+      ],
+      "fc_mid_exec_layer": 625
+    },
+    {
+      "head_id": 87,
+      "block": 5,
+      "head_in_block": 7,
+      "softmax_op": 1027,
+      "fc_logits": 1024,
+      "fc_mid": 1091,
+      "cand_ops_raw": [
+        1023,
+        1024,
+        1091
+      ],
+      "head_fc_ops": [
+        1023,
+        1024,
+        1091
+      ],
+      "head_fc_new_ids": [
+        456,
+        457,
+        489
+      ],
+      "head_fc_exec_layers": [
+        585,
+        586,
+        627
+      ],
+      "fc_mid_exec_layer": 627
+    },
+    {
+      "head_id": 88,
+      "block": 5,
+      "head_in_block": 8,
+      "softmax_op": 1032,
+      "fc_logits": 1029,
+      "fc_mid": 1094,
+      "cand_ops_raw": [
+        1028,
+        1029,
+        1094
+      ],
+      "head_fc_ops": [
+        1028,
+        1029,
+        1094
+      ],
+      "head_fc_new_ids": [
+        458,
+        459,
+        491
+      ],
+      "head_fc_exec_layers": [
+        588,
+        589,
+        629
+      ],
+      "fc_mid_exec_layer": 629
+    },
+    {
+      "head_id": 89,
+      "block": 5,
+      "head_in_block": 9,
+      "softmax_op": 1037,
+      "fc_logits": 1034,
+      "fc_mid": 1097,
+      "cand_ops_raw": [
+        1033,
+        1034,
+        1097
+      ],
+      "head_fc_ops": [
+        1033,
+        1034,
+        1097
+      ],
+      "head_fc_new_ids": [
+        460,
+        461,
+        493
+      ],
+      "head_fc_exec_layers": [
+        591,
+        592,
+        631
+      ],
+      "fc_mid_exec_layer": 631
+    },
+    {
+      "head_id": 90,
+      "block": 5,
+      "head_in_block": 10,
+      "softmax_op": 1042,
+      "fc_logits": 1039,
+      "fc_mid": 1100,
+      "cand_ops_raw": [
+        1038,
+        1039,
+        1100
+      ],
+      "head_fc_ops": [
+        1038,
+        1039,
+        1100
+      ],
+      "head_fc_new_ids": [
+        462,
+        463,
+        495
+      ],
+      "head_fc_exec_layers": [
+        594,
+        595,
+        633
+      ],
+      "fc_mid_exec_layer": 633
+    },
+    {
+      "head_id": 91,
+      "block": 5,
+      "head_in_block": 11,
+      "softmax_op": 1047,
+      "fc_logits": 1044,
+      "fc_mid": 1103,
+      "cand_ops_raw": [
+        1043,
+        1044,
+        1103
+      ],
+      "head_fc_ops": [
+        1043,
+        1044,
+        1103
+      ],
+      "head_fc_new_ids": [
+        464,
+        465,
+        497
+      ],
+      "head_fc_exec_layers": [
+        597,
+        598,
+        635
+      ],
+      "fc_mid_exec_layer": 635
+    },
+    {
+      "head_id": 92,
+      "block": 5,
+      "head_in_block": 12,
+      "softmax_op": 1052,
+      "fc_logits": 1049,
+      "fc_mid": 1106,
+      "cand_ops_raw": [
+        1048,
+        1049,
+        1106
+      ],
+      "head_fc_ops": [
+        1048,
+        1049,
+        1106
+      ],
+      "head_fc_new_ids": [
+        466,
+        467,
+        499
+      ],
+      "head_fc_exec_layers": [
+        600,
+        601,
+        637
+      ],
+      "fc_mid_exec_layer": 637
+    },
+    {
+      "head_id": 93,
+      "block": 5,
+      "head_in_block": 13,
+      "softmax_op": 1057,
+      "fc_logits": 1054,
+      "fc_mid": 1109,
+      "cand_ops_raw": [
+        1053,
+        1054,
+        1109
+      ],
+      "head_fc_ops": [
+        1053,
+        1054,
+        1109
+      ],
+      "head_fc_new_ids": [
+        468,
+        469,
+        501
+      ],
+      "head_fc_exec_layers": [
+        603,
+        604,
+        639
+      ],
+      "fc_mid_exec_layer": 639
+    },
+    {
+      "head_id": 94,
+      "block": 5,
+      "head_in_block": 14,
+      "softmax_op": 1062,
+      "fc_logits": 1059,
+      "fc_mid": 1112,
+      "cand_ops_raw": [
+        1058,
+        1059,
+        1112
+      ],
+      "head_fc_ops": [
+        1058,
+        1059,
+        1112
+      ],
+      "head_fc_new_ids": [
+        470,
+        471,
+        503
+      ],
+      "head_fc_exec_layers": [
+        606,
+        607,
+        641
+      ],
+      "fc_mid_exec_layer": 641
+    },
+    {
+      "head_id": 95,
+      "block": 5,
+      "head_in_block": 15,
+      "softmax_op": 1067,
+      "fc_logits": 1064,
+      "fc_mid": 1115,
+      "cand_ops_raw": [
+        1063,
+        1064,
+        1115
+      ],
+      "head_fc_ops": [
+        1063,
+        1064,
+        1115
+      ],
+      "head_fc_new_ids": [
+        472,
+        473,
+        505
+      ],
+      "head_fc_exec_layers": [
+        609,
+        610,
+        643
+      ],
+      "fc_mid_exec_layer": 643
+    }
+  ],
+  "repeated_fcs": {},
+  "fc_newid_to_exec_layer": {
+    "0": 0,
+    "1": 3,
+    "2": 4,
+    "3": 5,
+    "4": 6,
+    "5": 7,
+    "6": 8,
+    "7": 9,
+    "8": 10,
+    "9": 11,
+    "10": 12,
+    "11": 13,
+    "12": 14,
+    "13": 16,
+    "14": 17,
+    "15": 18,
+    "16": 19,
+    "17": 20,
+    "18": 21,
+    "19": 22,
+    "20": 23,
+    "21": 25,
+    "22": 26,
+    "23": 28,
+    "24": 29,
+    "25": 31,
+    "26": 32,
+    "27": 34,
+    "28": 35,
+    "29": 37,
+    "30": 38,
+    "31": 40,
+    "32": 41,
+    "33": 43,
+    "34": 44,
+    "35": 46,
+    "36": 47,
+    "37": 48,
+    "38": 49,
+    "39": 50,
+    "40": 51,
+    "41": 52,
+    "42": 53,
+    "43": 54,
+    "44": 55,
+    "45": 56,
+    "46": 58,
+    "47": 59,
+    "48": 60,
+    "49": 61,
+    "50": 62,
+    "51": 63,
+    "52": 64,
+    "53": 65,
+    "54": 66,
+    "55": 67,
+    "56": 68,
+    "57": 69,
+    "58": 70,
+    "59": 71,
+    "60": 72,
+    "61": 73,
+    "62": 74,
+    "63": 75,
+    "64": 76,
+    "65": 78,
+    "66": 79,
+    "67": 80,
+    "68": 82,
+    "69": 83,
+    "70": 84,
+    "71": 86,
+    "72": 87,
+    "73": 88,
+    "74": 90,
+    "75": 91,
+    "76": 92,
+    "77": 94,
+    "78": 95,
+    "79": 96,
+    "80": 98,
+    "81": 99,
+    "82": 102,
+    "83": 105,
+    "84": 106,
+    "85": 109,
+    "86": 112,
+    "87": 113,
+    "88": 114,
+    "89": 115,
+    "90": 116,
+    "91": 117,
+    "92": 118,
+    "93": 119,
+    "94": 120,
+    "95": 121,
+    "96": 122,
+    "97": 123,
+    "98": 124,
+    "99": 125,
+    "100": 126,
+    "101": 127,
+    "102": 128,
+    "103": 129,
+    "104": 131,
+    "105": 132,
+    "106": 134,
+    "107": 135,
+    "108": 137,
+    "109": 138,
+    "110": 140,
+    "111": 141,
+    "112": 143,
+    "113": 144,
+    "114": 146,
+    "115": 147,
+    "116": 149,
+    "117": 150,
+    "118": 152,
+    "119": 153,
+    "120": 155,
+    "121": 156,
+    "122": 158,
+    "123": 159,
+    "124": 161,
+    "125": 162,
+    "126": 164,
+    "127": 165,
+    "128": 167,
+    "129": 168,
+    "130": 170,
+    "131": 171,
+    "132": 173,
+    "133": 174,
+    "134": 176,
+    "135": 177,
+    "136": 178,
+    "137": 179,
+    "138": 180,
+    "139": 181,
+    "140": 182,
+    "141": 183,
+    "142": 184,
+    "143": 185,
+    "144": 186,
+    "145": 187,
+    "146": 188,
+    "147": 189,
+    "148": 190,
+    "149": 191,
+    "150": 192,
+    "151": 193,
+    "152": 194,
+    "153": 195,
+    "154": 196,
+    "155": 197,
+    "156": 198,
+    "157": 199,
+    "158": 200,
+    "159": 201,
+    "160": 202,
+    "161": 203,
+    "162": 204,
+    "163": 205,
+    "164": 206,
+    "165": 207,
+    "166": 208,
+    "167": 211,
+    "168": 214,
+    "169": 215,
+    "170": 218,
+    "171": 221,
+    "172": 222,
+    "173": 223,
+    "174": 224,
+    "175": 225,
+    "176": 226,
+    "177": 227,
+    "178": 228,
+    "179": 229,
+    "180": 230,
+    "181": 231,
+    "182": 232,
+    "183": 233,
+    "184": 234,
+    "185": 235,
+    "186": 236,
+    "187": 237,
+    "188": 238,
+    "189": 240,
+    "190": 241,
+    "191": 243,
+    "192": 244,
+    "193": 246,
+    "194": 247,
+    "195": 249,
+    "196": 250,
+    "197": 252,
+    "198": 253,
+    "199": 255,
+    "200": 256,
+    "201": 258,
+    "202": 259,
+    "203": 261,
+    "204": 262,
+    "205": 264,
+    "206": 265,
+    "207": 267,
+    "208": 268,
+    "209": 270,
+    "210": 271,
+    "211": 273,
+    "212": 274,
+    "213": 276,
+    "214": 277,
+    "215": 279,
+    "216": 280,
+    "217": 282,
+    "218": 283,
+    "219": 285,
+    "220": 286,
+    "221": 287,
+    "222": 288,
+    "223": 289,
+    "224": 290,
+    "225": 291,
+    "226": 292,
+    "227": 293,
+    "228": 294,
+    "229": 295,
+    "230": 296,
+    "231": 297,
+    "232": 298,
+    "233": 299,
+    "234": 300,
+    "235": 301,
+    "236": 302,
+    "237": 303,
+    "238": 304,
+    "239": 305,
+    "240": 306,
+    "241": 307,
+    "242": 308,
+    "243": 309,
+    "244": 310,
+    "245": 311,
+    "246": 312,
+    "247": 313,
+    "248": 314,
+    "249": 315,
+    "250": 316,
+    "251": 317,
+    "252": 320,
+    "253": 323,
+    "254": 324,
+    "255": 327,
+    "256": 330,
+    "257": 331,
+    "258": 332,
+    "259": 333,
+    "260": 334,
+    "261": 335,
+    "262": 336,
+    "263": 337,
+    "264": 338,
+    "265": 339,
+    "266": 340,
+    "267": 341,
+    "268": 342,
+    "269": 343,
+    "270": 344,
+    "271": 345,
+    "272": 346,
+    "273": 347,
+    "274": 349,
+    "275": 350,
+    "276": 352,
+    "277": 353,
+    "278": 355,
+    "279": 356,
+    "280": 358,
+    "281": 359,
+    "282": 361,
+    "283": 362,
+    "284": 364,
+    "285": 365,
+    "286": 367,
+    "287": 368,
+    "288": 370,
+    "289": 371,
+    "290": 373,
+    "291": 374,
+    "292": 376,
+    "293": 377,
+    "294": 379,
+    "295": 380,
+    "296": 382,
+    "297": 383,
+    "298": 385,
+    "299": 386,
+    "300": 388,
+    "301": 389,
+    "302": 391,
+    "303": 392,
+    "304": 394,
+    "305": 395,
+    "306": 396,
+    "307": 397,
+    "308": 398,
+    "309": 399,
+    "310": 400,
+    "311": 401,
+    "312": 402,
+    "313": 403,
+    "314": 404,
+    "315": 405,
+    "316": 406,
+    "317": 407,
+    "318": 408,
+    "319": 409,
+    "320": 410,
+    "321": 411,
+    "322": 412,
+    "323": 413,
+    "324": 414,
+    "325": 415,
+    "326": 416,
+    "327": 417,
+    "328": 418,
+    "329": 419,
+    "330": 420,
+    "331": 421,
+    "332": 422,
+    "333": 423,
+    "334": 424,
+    "335": 425,
+    "336": 426,
+    "337": 429,
+    "338": 432,
+    "339": 433,
+    "340": 436,
+    "341": 439,
+    "342": 440,
+    "343": 441,
+    "344": 442,
+    "345": 443,
+    "346": 444,
+    "347": 445,
+    "348": 446,
+    "349": 447,
+    "350": 448,
+    "351": 449,
+    "352": 450,
+    "353": 451,
+    "354": 452,
+    "355": 453,
+    "356": 454,
+    "357": 455,
+    "358": 456,
+    "359": 458,
+    "360": 459,
+    "361": 461,
+    "362": 462,
+    "363": 464,
+    "364": 465,
+    "365": 467,
+    "366": 468,
+    "367": 470,
+    "368": 471,
+    "369": 473,
+    "370": 474,
+    "371": 476,
+    "372": 477,
+    "373": 479,
+    "374": 480,
+    "375": 482,
+    "376": 483,
+    "377": 485,
+    "378": 486,
+    "379": 488,
+    "380": 489,
+    "381": 491,
+    "382": 492,
+    "383": 494,
+    "384": 495,
+    "385": 497,
+    "386": 498,
+    "387": 500,
+    "388": 501,
+    "389": 503,
+    "390": 504,
+    "391": 505,
+    "392": 506,
+    "393": 507,
+    "394": 508,
+    "395": 509,
+    "396": 510,
+    "397": 511,
+    "398": 512,
+    "399": 513,
+    "400": 514,
+    "401": 515,
+    "402": 516,
+    "403": 517,
+    "404": 518,
+    "405": 519,
+    "406": 520,
+    "407": 521,
+    "408": 522,
+    "409": 523,
+    "410": 524,
+    "411": 525,
+    "412": 526,
+    "413": 527,
+    "414": 528,
+    "415": 529,
+    "416": 530,
+    "417": 531,
+    "418": 532,
+    "419": 533,
+    "420": 534,
+    "421": 535,
+    "422": 538,
+    "423": 541,
+    "424": 542,
+    "425": 545,
+    "426": 548,
+    "427": 549,
+    "428": 550,
+    "429": 551,
+    "430": 552,
+    "431": 553,
+    "432": 554,
+    "433": 555,
+    "434": 556,
+    "435": 557,
+    "436": 558,
+    "437": 559,
+    "438": 560,
+    "439": 561,
+    "440": 562,
+    "441": 563,
+    "442": 564,
+    "443": 565,
+    "444": 567,
+    "445": 568,
+    "446": 570,
+    "447": 571,
+    "448": 573,
+    "449": 574,
+    "450": 576,
+    "451": 577,
+    "452": 579,
+    "453": 580,
+    "454": 582,
+    "455": 583,
+    "456": 585,
+    "457": 586,
+    "458": 588,
+    "459": 589,
+    "460": 591,
+    "461": 592,
+    "462": 594,
+    "463": 595,
+    "464": 597,
+    "465": 598,
+    "466": 600,
+    "467": 601,
+    "468": 603,
+    "469": 604,
+    "470": 606,
+    "471": 607,
+    "472": 609,
+    "473": 610,
+    "474": 612,
+    "475": 613,
+    "476": 614,
+    "477": 615,
+    "478": 616,
+    "479": 617,
+    "480": 618,
+    "481": 619,
+    "482": 620,
+    "483": 621,
+    "484": 622,
+    "485": 623,
+    "486": 624,
+    "487": 625,
+    "488": 626,
+    "489": 627,
+    "490": 628,
+    "491": 629,
+    "492": 630,
+    "493": 631,
+    "494": 632,
+    "495": 633,
+    "496": 634,
+    "497": 635,
+    "498": 636,
+    "499": 637,
+    "500": 638,
+    "501": 639,
+    "502": 640,
+    "503": 641,
+    "504": 642,
+    "505": 643,
+    "506": 644,
+    "507": 647,
+    "508": 650,
+    "509": 651,
+    "510": 654,
+    "511": 657,
+    "512": 660,
+    "513": 661
+  },
+  "fc_by_block_head_exec": [
+    [
+      [
+        13,
+        14,
+        47
+      ],
+      [
+        22,
+        23,
+        62
+      ],
+      [
+        25,
+        26,
+        64
+      ],
+      [
+        28,
+        29,
+        66
+      ],
+      [
+        31,
+        32,
+        68
+      ],
+      [
+        34,
+        35,
+        49
+      ],
+      [
+        37,
+        38,
+        70
+      ],
+      [
+        40,
+        41,
+        72
+      ],
+      [
+        43,
+        44,
+        74
+      ],
+      [
+        55,
+        56,
+        58
+      ],
+      [
+        75,
+        76,
+        78
+      ],
+      [
+        79,
+        80,
+        82
+      ],
+      [
+        83,
+        84,
+        86
+      ],
+      [
+        87,
+        88,
+        90
+      ],
+      [
+        91,
+        92,
+        94
+      ],
+      [
+        95,
+        96,
+        98
+      ]
+    ],
+    [
+      [
+        128,
+        129,
+        177
+      ],
+      [
+        131,
+        132,
+        179
+      ],
+      [
+        134,
+        135,
+        181
+      ],
+      [
+        137,
+        138,
+        183
+      ],
+      [
+        140,
+        141,
+        185
+      ],
+      [
+        143,
+        144,
+        187
+      ],
+      [
+        146,
+        147,
+        189
+      ],
+      [
+        149,
+        150,
+        191
+      ],
+      [
+        152,
+        153,
+        193
+      ],
+      [
+        155,
+        156,
+        195
+      ],
+      [
+        158,
+        159,
+        197
+      ],
+      [
+        161,
+        162,
+        199
+      ],
+      [
+        164,
+        165,
+        201
+      ],
+      [
+        167,
+        168,
+        203
+      ],
+      [
+        170,
+        171,
+        205
+      ],
+      [
+        173,
+        174,
+        207
+      ]
+    ],
+    [
+      [
+        237,
+        238,
+        286
+      ],
+      [
+        240,
+        241,
+        288
+      ],
+      [
+        243,
+        244,
+        290
+      ],
+      [
+        246,
+        247,
+        292
+      ],
+      [
+        249,
+        250,
+        294
+      ],
+      [
+        252,
+        253,
+        296
+      ],
+      [
+        255,
+        256,
+        298
+      ],
+      [
+        258,
+        259,
+        300
+      ],
+      [
+        261,
+        262,
+        302
+      ],
+      [
+        264,
+        265,
+        304
+      ],
+      [
+        267,
+        268,
+        306
+      ],
+      [
+        270,
+        271,
+        308
+      ],
+      [
+        273,
+        274,
+        310
+      ],
+      [
+        276,
+        277,
+        312
+      ],
+      [
+        279,
+        280,
+        314
+      ],
+      [
+        282,
+        283,
+        316
+      ]
+    ],
+    [
+      [
+        346,
+        347,
+        395
+      ],
+      [
+        349,
+        350,
+        397
+      ],
+      [
+        352,
+        353,
+        399
+      ],
+      [
+        355,
+        356,
+        401
+      ],
+      [
+        358,
+        359,
+        403
+      ],
+      [
+        361,
+        362,
+        405
+      ],
+      [
+        364,
+        365,
+        407
+      ],
+      [
+        367,
+        368,
+        409
+      ],
+      [
+        370,
+        371,
+        411
+      ],
+      [
+        373,
+        374,
+        413
+      ],
+      [
+        376,
+        377,
+        415
+      ],
+      [
+        379,
+        380,
+        417
+      ],
+      [
+        382,
+        383,
+        419
+      ],
+      [
+        385,
+        386,
+        421
+      ],
+      [
+        388,
+        389,
+        423
+      ],
+      [
+        391,
+        392,
+        425
+      ]
+    ],
+    [
+      [
+        455,
+        456,
+        504
+      ],
+      [
+        458,
+        459,
+        506
+      ],
+      [
+        461,
+        462,
+        508
+      ],
+      [
+        464,
+        465,
+        510
+      ],
+      [
+        467,
+        468,
+        512
+      ],
+      [
+        470,
+        471,
+        514
+      ],
+      [
+        473,
+        474,
+        516
+      ],
+      [
+        476,
+        477,
+        518
+      ],
+      [
+        479,
+        480,
+        520
+      ],
+      [
+        482,
+        483,
+        522
+      ],
+      [
+        485,
+        486,
+        524
+      ],
+      [
+        488,
+        489,
+        526
+      ],
+      [
+        491,
+        492,
+        528
+      ],
+      [
+        494,
+        495,
+        530
+      ],
+      [
+        497,
+        498,
+        532
+      ],
+      [
+        500,
+        501,
+        534
+      ]
+    ],
+    [
+      [
+        564,
+        565,
+        613
+      ],
+      [
+        567,
+        568,
+        615
+      ],
+      [
+        570,
+        571,
+        617
+      ],
+      [
+        573,
+        574,
+        619
+      ],
+      [
+        576,
+        577,
+        621
+      ],
+      [
+        579,
+        580,
+        623
+      ],
+      [
+        582,
+        583,
+        625
+      ],
+      [
+        585,
+        586,
+        627
+      ],
+      [
+        588,
+        589,
+        629
+      ],
+      [
+        591,
+        592,
+        631
+      ],
+      [
+        594,
+        595,
+        633
+      ],
+      [
+        597,
+        598,
+        635
+      ],
+      [
+        600,
+        601,
+        637
+      ],
+      [
+        603,
+        604,
+        639
+      ],
+      [
+        606,
+        607,
+        641
+      ],
+      [
+        609,
+        610,
+        643
+      ]
+    ]
+  ],
+  "block2_fc_mid_exec_layers": [
+    286,
+    288,
+    290,
+    292,
+    294,
+    296,
+    298,
+    300,
+    302,
+    304,
+    306,
+    308,
+    310,
+    312,
+    314,
+    316
+  ]
+}

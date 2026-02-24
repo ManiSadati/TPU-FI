@@ -9,13 +9,8 @@ from typing import Union
 from common_tpu import load_model, load_input_data, run_inference
 from utils import copy_tf_tensor, log_and_crash, attention_calculation, which_attention_layer2log
 
-from attention_fc_graph_map import build_attention_fc_map_from_tflite, get_logged_layers_attention
+from attention_fc_graph_map import build_attention_fc_map_from_tflite, get_logged_layers_attention, AttentionMapping
 
-
-
-def get_logged_layers(fi_layer: int):
-    # if your FI layer is the *new FC id*:
-    return get_logged_layers_attention(fi_layer, attn_map)
 
 from fi_runner import FIRunConfig, FITask, run_fault_injection
 
@@ -62,11 +57,15 @@ def main():
     n_images = min(args.testsamples, len(images))
     img_indices = [args.imageindex] if args.imageindex is not None else list(range(n_images))
 
-    attn_map = build_attention_fc_map_from_tflite(args.model)
+
+    attn_map = AttentionMapping("head_fc_mapping_3fc_exec.json")
 
     def get_logged_layers(fi_layer: int):
         if args.check_attention:
-            return get_logged_layers_attention(fi_layer, attn_map)
+            ll = attn_map.get_logged_layers_attention(fi_layer)
+            if(ll == None):
+                ll = []
+            return ll
         return []
 
     def prepare_input(img_index: int):
