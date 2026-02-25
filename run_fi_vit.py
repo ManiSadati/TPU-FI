@@ -39,7 +39,7 @@ def parse_args():
 
 
 
-def are_equal(lhs: tf.Tensor, rhs: tf.Tensor, threshold: Union[None, float]) -> bool:
+def are_equal(lhs: tf.Tensor, rhs: tf.Tensor, threshold) -> bool:
     if threshold is not None:
         return np.all(np.abs(lhs.numpy() - rhs.numpy()) <= threshold)
     return np.all(tf.equal(lhs, rhs))
