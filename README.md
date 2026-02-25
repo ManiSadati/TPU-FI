@@ -53,7 +53,7 @@ Recommended minimum:
 
 ### 4.1 Create a Docker image
 
-Create `Dockerfile`:
+Go the directory containing the [Dockerfile](Dockerfile), or simply create the `Dockerfile`:
 
 ```dockerfile
 FROM ubuntu:22.04
@@ -70,14 +70,14 @@ RUN ln -sf /usr/bin/python3 /usr/bin/python && \
 WORKDIR /workspace
 ```
 
-Build and run:
+Using the [Dockerfile](Dockerfile), build and run the container:
 
 ```bash
 docker build -t tf_min_dev .
 docker run --name tf_tfbuild -it -v $HOME/tfdata:/workspace tf_min_dev
 ```
 
-If the container already exists:
+If the container already exists (future runs):
 
 ```bash
 docker start -ai tf_tfbuild
