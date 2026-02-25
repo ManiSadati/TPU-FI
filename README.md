@@ -33,7 +33,8 @@ Key files/folders:
 - `fi_config.py`: FI control-plane utilities and fault sampling logic.
 - `getFIT.py`: computes FIT/statistical summaries from CSV files of SDC results.
 - `process_attention_results.py`: summarizes attention-level diff outputs.
-- `run_fi.sh`: example long-running campaign script.
+- `execute_fi.sh`: example long-running campaign script.
+- `execute_fi_small.sh`: shorter example of `execute_fi.sh` (takes around 1 or 2 hours).
 
 Outputs:
 - `results/*.csv`: campaign raw and processed summaries.
@@ -202,6 +203,5 @@ Common controls:
 
 ## 6. Larger Campaigns
 
-`run_fi.sh` is intended as a long-running multi-model campaign template takes multiple days to complete.
-`run_fi_small.sh` is a small and less accurate subset of run_fi.sh that will take ~2 hours.
-
+`execute_fi.sh` is intended as a long-running multi-model campaign template takes multiple days to complete.
+`execute_fi_small.sh` is a small and less accurate subset of `execute_fi.sh` that takes about 2 hours.
