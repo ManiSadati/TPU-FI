@@ -70,14 +70,14 @@ RUN ln -sf /usr/bin/python3 /usr/bin/python && \
 WORKDIR /workspace
 ```
 
-Using the [Dockerfile](Dockerfile), build and run the container:
+Build and run:
 
 ```bash
 docker build -t tf_min_dev .
 docker run --name tf_tfbuild -it -v $HOME/tfdata:/workspace tf_min_dev
 ```
 
-If the container already exists (future runs):
+If the container is already built (future runs) use the following command instead:
 
 ```bash
 docker start -ai tf_tfbuild
