@@ -22,4 +22,5 @@ apt-get update
 apt-get install patchelf
 apt update && apt install -y patchelf
 pip install Pillow
+pip install pandas
 
