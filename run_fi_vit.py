@@ -4,7 +4,7 @@ from pathlib import Path
 
 import numpy as np
 import tensorflow as tf
-from typing import Union
+from typing import List
 
 from common_tpu import load_model, load_input_data, run_inference
 from utils import copy_tf_tensor, log_and_crash, attention_calculation, which_attention_layer2log
@@ -124,8 +124,13 @@ def main():
     )
 
     os.makedirs("./results", exist_ok=True)
+
+    img_suffix = ""
+    if args.imageindex is not None:
+        img_suffix = "(img{})".format(args.imageindex)
+
     cfg = FIRunConfig(
-        csv_filename=f"./results/FI-vit-{args.model_p}-results{ "(img"+str(args.imageindex)+")" if args.imageindex is not None else ""}.csv",
+        csv_filename="./results/FI-vit-{}-results{}.csv".format(args.model_p, img_suffix),
         start_layer=args.start_layer,
         end_layer=args.end_layer,
         max_iterations=args.iterations,
