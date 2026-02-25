@@ -1,6 +1,7 @@
 # DSN 2026 Artifact Evaluation Guide: TPU-FI
 
-This repository contains the artifact for the TPU-FI paper.
+This repository contains the artifact for the TPU-FI framework proposed in the paper "Thinking Inside the Box: Injecting Realistic Radiation Faults in ML Accelerators".
+
 TPU-FI is a software fault-injection framework for TFLite models, implemented by instrumenting TensorFlow/TFLite kernels and driving campaigns from Python.
 
 This guide explains:
