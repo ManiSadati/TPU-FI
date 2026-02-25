@@ -194,7 +194,7 @@ def build_attention_fc_map_from_tflite(
         if fc_logits is None or fc_mid is None:
             continue
 
-        # Your final rule: 3 candidates only
+        # final rule: 3 candidates only
         cand_ops = [fc_logits - 1, fc_logits, fc_mid]
         # Keep only true FC ops and map to new ids
         cand_new_ids = []

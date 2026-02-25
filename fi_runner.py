@@ -14,7 +14,6 @@ Model-specific behavior is injected via callbacks (task interface):
 - how to create golden representation
 - how to compute error / SDC
 
-Keep your model scripts separate (ViT vs Segmentation) and thin.
 """
 
 from __future__ import annotations

@@ -86,7 +86,6 @@ def main():
     img_indices = [args.imageindex] if args.imageindex is not None else list(range(len(images)))
 
     def prepare_input(img_index: int):
-        # keep your indexing convention
         return images[img_index, 0, :, :, :]
 
     def infer(image):

@@ -46,7 +46,7 @@ def mean_and_err(values: List[float], err: str) -> Tuple[float, float]:
 
 def load_block2_obs_exec_from_mapping(mapping_path: Path, heads_per_block: int = 16) -> Tuple[List[int], Dict[int, int]]:
     """
-    Uses your static JSON produced from CSV:
+    Uses static JSON:
       - fc_by_block_head_exec: [6][16][3] execution-layer indices
       - block2_fc_mid_exec_layers: [16] execution-layer indices (fc_mid)
     Returns:
