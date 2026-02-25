@@ -86,10 +86,6 @@ def main():
     n_images = min(args.testsamples, len(images))
     img_indices = [args.imageindex] if args.imageindex is not None else list(range(n_images))
 
-    if(args.check_confidence):
-        print_image_confidences(interpreter, images, img_indices)
-        exit
-
     attn_map = AttentionMapping("head_fc_mapping_3fc_exec.json")
 
     def get_logged_layers(fi_layer: int):
@@ -138,6 +134,10 @@ def main():
 
     run_fault_injection(task, cfg)
     print(f"Results saved in {cfg.csv_filename}")
+
+    if(args.check_confidence):
+        print_image_confidences(interpreter, images, img_indices)
+
 
 
 

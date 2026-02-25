@@ -15,7 +15,7 @@ def parse_args():
     parser.add_argument("--iterations", "-it", default=1000, type=int)
     parser.add_argument("--start_layer", "-start_layer", default=0, type=int,
                         help="start_layer")
-    parser.add_argument("--end_layer", "-end_layer", default=662, type=int,
+    parser.add_argument("--end_layer", "-end_layer", default=56, type=int,
                         help="end_layer")
     parser.add_argument("--imageindex", "-idx", type=int, help="Specify a single image index to process")
     args = parser.parse_args()
