@@ -10,7 +10,7 @@ from pathlib import Path
 from typing import Dict, List, Tuple
 
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 # Filename format:
 # diff_<obsExec>-<injLayer>-<img>-<fi_type>-<iter>.npy
@@ -158,14 +158,14 @@ def main():
     # -------------------------
     # Plot 1: avg metric (top8 heads)
     # -------------------------
-    plt.figure()
-    plt.bar(ranks, means, yerr=errs)
-    plt.xlabel("Top observer head rank (0..7)")
-    plt.ylabel(f"{args.metric} of diff (avg across files)")
-    plt.title(f"Top {topk} observer heads (block2 fc_mid) with {args.err} error bars")
-    plt.xticks(ranks, labels)  # show which original head each rank is
-    plt.tight_layout()
-    out1 = out_dir / f"top{topk}_avg_{args.metric}_{args.err}.png"
+    # plt.figure()
+    # plt.bar(ranks, means, yerr=errs)
+    # plt.xlabel("Top observer head rank (0..7)")
+    # plt.ylabel(f"{args.metric} of diff (avg across files)")
+    # plt.title(f"Top {topk} observer heads (block2 fc_mid) with {args.err} error bars")
+    # plt.xticks(ranks, labels)  # show which original head each rank is
+    # plt.tight_layout()
+    # out1 = out_dir / f"top{topk}_avg_{args.metric}_{args.err}.png"
     # plt.savefig(out1)
     # plt.close()
     # print(f"Saved plot: {out1}")
@@ -189,14 +189,14 @@ def main():
         if per_rank_mean[winner_rank] != float("-inf"):
             scores[winner_rank] += 1
 
-    plt.figure()
-    plt.bar(ranks, scores)
-    plt.xlabel("Top observer head rank (0..7)")
-    plt.ylabel("Winner score (#images where head had max avg diff)")
-    plt.title(f"Top {topk} observer heads: per-image winner score")
-    plt.xticks(ranks, labels)
-    plt.tight_layout()
-    out2 = out_dir / f"top{topk}_winner_score.png"
+    # plt.figure()
+    # plt.bar(ranks, scores)
+    # plt.xlabel("Top observer head rank (0..7)")
+    # plt.ylabel("Winner score (#images where head had max avg diff)")
+    # plt.title(f"Top {topk} observer heads: per-image winner score")
+    # plt.xticks(ranks, labels)
+    # plt.tight_layout()
+    # out2 = out_dir / f"top{topk}_winner_score.png"
     # plt.savefig(out2)
     # plt.close()
     # print(f"Saved plot: {out2}")
@@ -210,9 +210,19 @@ def main():
         f.write("rank  head  obs_exec_layer  mean  err  n_samples\n")
         for r, (h, mval, errv, obs_exec, n) in enumerate(top):
             f.write(f"{r:>4}  {h:>4}  {obs_exec:>13}  {mval:.6g}  {errv:.6g}  {n}\n")
-        f.write("\nWinner scores by rank:\n")
+        f.write("\nMax Diff heads by rank:\n")
         for r, sc in enumerate(scores):
             f.write(f"rank {r} ({labels[r]}): {sc}\n")
+
+
+    print(f"Top {topk} observer heads (sorted by mean {args.metric}):\n")
+    print("rank  head  obs_exec_layer  mean  err  n_samples\n")
+    for r, (h, mval, errv, obs_exec, n) in enumerate(top):
+        print(f"{r:>4}  {h:>4}  {obs_exec:>13}  {mval:.6g}  {errv:.6g}  {n}\n")
+    print("\nMax Diff heads by rank:\n")
+    for r, sc in enumerate(scores):
+        print(f"rank {r} ({labels[r]}): {sc}\n")
+
 
     print(f"Wrote summary: {summary}")
 
