@@ -9,4 +9,7 @@ RUN apt-get update && apt-get install -y \
 RUN ln -sf /usr/bin/python3 /usr/bin/python && \
     ln -sf /usr/bin/pip3 /usr/bin/pip
 
-WORKDIR /workspace
+WORKDIR /home
+
+ADD . /home/TPU-FI
+WORKDIR /home/TPU-FI
