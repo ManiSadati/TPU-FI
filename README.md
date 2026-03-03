@@ -53,28 +53,13 @@ Recommended minimum:
 
 ### 4.1 Create a Docker image
 
-Go the directory containing the [Dockerfile](Dockerfile), or simply create the `Dockerfile`:
-
-```dockerfile
-FROM ubuntu:22.04
-
-RUN apt-get update && apt-get install -y \
-    python3 python3-pip python3-venv \
-    build-essential curl wget git unzip \
-    ca-certificates software-properties-common \
-    && rm -rf /var/lib/apt/lists/*
-
-RUN ln -sf /usr/bin/python3 /usr/bin/python && \
-    ln -sf /usr/bin/pip3 /usr/bin/pip
-
-WORKDIR /workspace
-```
+Go the directory containing the [Dockerfile](Dockerfile):
 
 Build and run:
 
 ```bash
 docker build -t tf_min_dev .
-docker run --name tf_tfbuild -it -v $HOME/tfdata:/workspace tf_min_dev
+docker run --name tf_tfbuild -it -v $HOME/TPU-FI tf_min_dev
 ```
 
 If the container is already built (future runs) use the following command instead:
@@ -83,25 +68,17 @@ If the container is already built (future runs) use the following command instea
 docker start -ai tf_tfbuild
 ```
 
-### 4.2 Clone and install prerequisites
+### 4.2 Clone, install prerequisites and configure TensorFlow
 
 Inside the container:
 
 ```bash
-cd /workspace
-git clone --recurse-submodules https://github.com/ManiSadati/TPU-FI.git
-cd TPU-FI
 bash install.sh
 ```
 
-### 4.3 Configure and build TensorFlow
-
-```bash
-cd /workspace/TPU-FI/third_party/tensorflow
-./configure
-```
-
 Accept defaults unless your environment requires changes.
+
+### 4.3 Build TensorFlow
 
 Build wheel and install (this will take multiple hours):
 
