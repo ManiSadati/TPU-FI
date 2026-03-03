@@ -1,3 +1,4 @@
+mkdir third_party
 cd third_party
 git clone --recurse-submodules https://github.com/ManiSadati/tensorflow.git
 cd /home/TPU-FI

@@ -27,7 +27,7 @@ Fault models used by the scripts:
 
 Key files/folders:
 - `benchmarks/`: prepackaged `.tflite` models and `.npy` inputs.
-- `third_party/`: initially empty folder to later hold the TensorFlow source subtree used for kernel instrumentation/build.
+- `third_party/`: a generated folder to hold the TensorFlow source subtree used for kernel instrumentation/build.
 - `run_fi_vit.py`: FI driver for ViT models.
 - `run_fi_segmentation.py`: FI driver for segmentation models.
 - `fi_runner.py`: shared FI loop.
