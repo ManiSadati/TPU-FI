@@ -27,7 +27,7 @@ Fault models used by the scripts:
 
 Key files/folders:
 - `benchmarks/`: prepackaged `.tflite` models and `.npy` inputs.
-- `third_party/tensorflow/`: TensorFlow source subtree used for kernel instrumentation/build.
+- `third_party/`: initially empty folder to later hold the TensorFlow source subtree used for kernel instrumentation/build.
 - `run_fi_vit.py`: FI driver for ViT models.
 - `run_fi_segmentation.py`: FI driver for segmentation models.
 - `fi_runner.py`: shared FI loop.
@@ -44,7 +44,7 @@ Outputs:
 ## 3. System Requirements
 
 Recommended minimum:
-- Linux x86_64
+- Linux x86_64 (Ubuntu 20.04+)
 - Docker
 - 8+ GB RAM
 - 16+ GB free disk
@@ -52,10 +52,10 @@ Recommended minimum:
 ## 4. Setup and Build
 
 ### 4.1 Create a Docker image
+*Expected Setup Time: 5 min*
 
-Go the directory containing the [Dockerfile](Dockerfile):
-
-Build and run:
+Ensure that you are in the repository root (`/home/TPU-FI`).
+Build an image from the [Dockerfile](Dockerfile) by running:
 
 ```bash
 docker build -t tf_min_dev .
@@ -68,7 +68,8 @@ If the container is already built (future runs) use the following command instea
 docker start -ai tf_tfbuild
 ```
 
-### 4.2 Clone, install prerequisites and configure TensorFlow
+### 4.2 Clone, install prerequisites and configure build options for customized TensorFlow
+*Expected Setup Time: 10 min*
 
 Inside the container:
 
@@ -76,23 +77,24 @@ Inside the container:
 bash install.sh
 ```
 
-Accept defaults unless your environment requires changes.
+Accept defaults by repeatedly pressing enter unless your environment requires changes.
 
-### 4.3 Build TensorFlow
+### 4.3 Build customized TensorFlow
+*Expected Setup Time: 30 min to 3 hours (Depending on Host System)*
 
-Build wheel and install (this will take multiple hours):
+Build wheel and install.
 
 ```bash
-bazel build -j $(nproc) //tensorflow/tools/pip_package:wheel --repo_env=WHEEL_NAME=tensorflow_cpu
-pip uninstall tensorflow-cpu -y
-pip install bazel-bin/tensorflow/tools/pip_package/wheel_house/tensorflow_cpu-2.19.0-cp310-cp310-linux_x86_64.whl
+bash install_tensorflow.sh
 ```
 
-## 5. Minimum Working Example (about 10 minutes)
+## 5. Minimum Working Example (under 30 minutes)
 
 ### 5.1 ViT quick campaign
+*Expected Activity Time: 5 min*
 
-Run the command below from the repository root:
+Ensure that you are in the repository root (`/home/TPU-FI`).
+Run the command below.
 
 ```bash
 python run_fi_vit.py \
@@ -124,6 +126,11 @@ python run_fi_vit.py -h
 
 
 ### 5.2 Segmentation quick campaign (optional)
+**For a minimal demo run or a quick artifact evaluation, you may skip this subactivity and proceed directly to result processing (Section 5.3) below.**
+*Expected Activity Time: 15 min*
+
+
+Ensure that you are in the repository root (`/home/TPU-FI`).
 
 Example command:
 
@@ -144,8 +151,11 @@ Notes:
 
 
 ### 5.3 Result processing and interpretation
+*Expected Activity Time: 5 minutes*
 
 The ViT/segmentation FI scripts produce CSV files in `results/` containing per-layer and per-fault-model statistics (including SDC/error counts) for fault models `single`, `small-box`, `medium-box`, and `cpu`.
+
+Ensure that you are in the repository root (`/home/TPU-FI`).
 
 Run:
 
@@ -179,7 +189,10 @@ Common controls:
 - `--imageindex`: run one sample only (faster for artifact checks).
 - `--start_layer`, `--end_layer`: FI layer interval (`end_layer` exclusive).
 
-## 6. Larger Campaigns
+
+## 6. Larger Campaigns (Optional)
+**Not recommended for quick demos.**
+*Expected Activity Time: Multiple Days*
 
 `execute_fi.sh` is intended as a long-running multi-model campaign template takes multiple days to complete.
 `execute_fi_small.sh` is a small and less accurate subset of `execute_fi.sh` that takes about 2 hours.
