@@ -190,6 +190,34 @@ Common controls:
 - `--start_layer`, `--end_layer`: FI layer interval (`end_layer` exclusive).
 
 
+### 5.4 Making sense of the Results
+
+This section gives one concrete example of how to read the generated files. If you ran the ViT command from Section 5.1 exactly as written, the main raw output will be `results/FI-vit-16-results(img0).csv`.
+
+This CSV contains one row per `(layer, fault type)` pair. Each layer appears four times, once for each fault model: `single`, `small-box`, `medium-box`, and `cpu`. The main columns are:
+- `layer`: layer index where the fault was injected.
+- `name`: TensorFlow/TFLite kernel or layer type for that row, such as `FullyConnected` or `BroadcastMul6DSlow`(MatMul).
+- `type`: fault model used for that row.
+- `total runs`: number of injections executed for that `(layer, fault type)` pair.
+- `errors`: number of runs whose output tensor differs from the golden run (SDCs).
+- `sdc_count`: number of critical SDC events. For ViT16, this means the predicted output class changed. For segmentation, this corresponds to more than 1% of output classifications changing.
+- `sdc_rate`: `sdc_count / total runs`.
+- `d(out_c)`, `layer area`, `num_ops`: layer descriptors used later for normalization and FIT estimation.
+
+
+After running `python getFIT.py` (in Section 5.3), the file `results/Full_FI-vit-16-results(img0).csv` adds derived columns such as `portion_of_tpu`, `fault_type_fit_rate`, `layer_vs_fault_fit_rate`, `fit_times_avf`, and `fit_times_avf_critical`. These are the per-row FIT-based estimates used to move from raw SDC counts to reliability-oriented summaries. In practice:
+- `fit_times_avf` is the estimated FIT contribution of that row.
+- `fit_times_avf_critical` is the critical-only FIT contribution of that row.
+- Higher values indicate rows that contribute more strongly to overall vulnerability.
+
+`getFIT.py` also produces two summary files that are easier to compare against the paper:
+- `results/ByFaultType_Full_FI-vit-16-results(img0).csv`: aggregates by fault model. This is the easiest file to inspect when asking which of `single`, `small-box`, `medium-box`, or `cpu` produces the largest average SDC or FIT contribution.
+- `results/ByLayerType_Full_FI-vit-16-results(img0).csv`: aggregates by layer type. This is the easiest file to inspect when comparing classes of layers such as `FullyConnected` vs. `BroadcastMul6DSlow`.
+
+
+
+For accurate paper-scale numbers, use the larger campaigns in Section 6 instead of the minimum working example.
+
 ## 6. Larger Campaigns (Optional)
 **Not recommended for quick demos.**
 *Expected Activity Time: Multiple Days*
