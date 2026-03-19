@@ -9,7 +9,7 @@ python run_fi_segmentation.py --imageindex 0 --architecture=deeplab --model_type
 
 
 for i in $(seq 0 3); do
-  python run_fi_vit.py --imageindex $i --iterations=5 --model_p=16 --check_confidence --check_attention --end_layer=22
+  python run_fi_vit.py --imageindex $i --iterations=5 --model_p=16 --check_confidence --check_attention --end_layer=50
 done
 
 
