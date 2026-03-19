@@ -191,6 +191,7 @@ Common controls:
 
 
 ### 5.4 Making sense of the Results
+*Expected Activity Time: 5 minutes*
 
 This section gives one concrete example of how to read the generated files. If you ran the ViT command from Section 5.1 exactly as written, the main raw output will be `results/FI-vit-16-results(img0).csv`.
 
@@ -209,14 +210,16 @@ After running `python getFIT.py` (in Section 5.3), the file `results/Full_FI-vit
 - `fit_times_avf` is the estimated FIT contribution of that row.
 - `fit_times_avf_critical` is the critical-only FIT contribution of that row.
 - Higher values indicate rows that contribute more strongly to overall vulnerability.
+- This file could be used to gather results for generation of Figure 10 in the paper by averaging the SDC rates of different fault types in each layer.
 
 `getFIT.py` also produces two summary files that are easier to compare against the paper:
-- `results/ByFaultType_Full_FI-vit-16-results(img0).csv`: aggregates by fault model. This is the easiest file to inspect when asking which of `single`, `small-box`, `medium-box`, or `cpu` produces the largest average SDC or FIT contribution.
-- `results/ByLayerType_Full_FI-vit-16-results(img0).csv`: aggregates by layer type. This is the easiest file to inspect when comparing classes of layers such as `FullyConnected` vs. `BroadcastMul6DSlow`.
+- `results/ByFaultType_Full_FI-vit-16-results(img0).csv`: aggregates by fault model. This is the easiest file to inspect when asking which of `single`, `small-box`, `medium-box`, or `cpu` produces the largest average SDC or FIT contribution. This file could be used for the analysis in Figure 6, 7, 8, and 11, as well as the comparison results in RQ2.(2) (`cpu` vs other fault types).
+- `results/ByLayerType_Full_FI-vit-16-results(img0).csv`: aggregates by layer type. This is the easiest file to inspect when comparing different layer types such as `FullyConnected` vs. `BroadcastMul6DSlow` (used in Figure 9).
 
 
+Finally, when the ViT run includes `--check_confidence` and `--check_attention`, the framework also saves golden confidence information (for Figure 11) and tensor-difference logs in `diff_results/`. Running `process_attention_results.py` summarizes these differences into `attention_results_exec_top8/top_heads_summary.txt`, which is the same analysis path used for the attention-head study discussed in Figure 12.
 
-For accurate paper-scale numbers, use the larger campaigns in Section 6 instead of the minimum working example.
+This section is intended for demo purposes only, so the resulting numbers should not be treated as accurate paper-scale results. For more accurate results, refer to the larger campaigns in Section 6.
 
 ## 6. Larger Campaigns (Optional)
 **Not recommended for quick demos.**
