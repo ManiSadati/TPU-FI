@@ -140,7 +140,7 @@ def fi_init_inject(layer, img_index, type, it, dimensions):
     # - "single"    : box area = 1, inject prob = 1.0
     # - "small-box" : area ∈ [41, 113], inject prob = 0.07
     # - "medium-box": area ∈ [949, 1351], inject prob = 0.035
-    # - "cpu"       : (singl uniform bit flips), box area = 1, inject prob = 1.0
+    # - "cpu"       : (single uniform bit flips), box area = 1, inject prob = 1.0
     #
     # Box sampling: choose a target "area", then sample (box_x, box_y) such that
     # box_x * box_y ≈ area, with constraints by x_size/y_size.
@@ -255,3 +255,4 @@ def fi_post_process(layer_output_list, fi_layer, img_index, fault_types, max_ite
                 diff = output_tensor - golden_tensor
                 np.save(f"./diff_results/diff_{layer_output}-{fi_layer}-{img_index}-{type}-{it}.npy", diff)
     return
+
