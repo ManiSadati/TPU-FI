@@ -88,6 +88,8 @@ Build wheel and install.
 bash install_tensorflow.sh
 ```
 
+This build includes the TFLite fault-injection implementation in `tensorflow/lite/kernels/internal/reference/integer_ops/fault_injection.h`, along with modifications to several TFLite kernels, mainly under `tensorflow/lite/kernels/internal/reference/integer_ops/`.
+
 ## 5. Minimum Working Example (under 30 minutes)
 
 ### 5.1 ViT quick campaign
