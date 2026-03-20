@@ -193,33 +193,33 @@ Common controls:
 ### 5.4 Making sense of the Results
 *Expected Activity Time: 5 minutes*
 
-This section gives one concrete example of how to read the generated files. If you ran the ViT command from Section 5.1 exactly as written, the main raw output will be `results/FI-vit-16-results(img0).csv`.
+This section gives one concrete example of how to read the generated files and how they connect to the analysis in the paper. The important point is that Section 5 uses the same workflow as the paper, but on a much smaller campaign. The files and metrics are therefore interpreted in the same way, even though the resulting numbers are only for demonstration.
 
-This CSV contains one row per `(layer, fault type)` pair. Each layer appears four times, once for each fault model: `single`, `small-box`, `medium-box`, and `cpu`. The main columns are:
+If you ran the ViT command from Section 5.1 exactly as written, the main raw output will be `results/FI-vit-16-results(img0).csv`. If you change the run arguments, the output filename may change accordingly. This CSV contains one row per `(layer, fault type)` pair. Each layer appears four times, once for each fault model: `single`, `small-box`, `medium-box`, and `cpu`. The main columns are:
 - `layer`: layer index where the fault was injected.
-- `name`: TensorFlow/TFLite kernel or layer type for that row, such as `FullyConnected` or `BroadcastMul6DSlow`(MatMul).
+- `name`: TensorFlow/TFLite kernel or layer type for that row, such as `FullyConnected` or `BroadcastMul6DSlow` (MatMul).
 - `type`: fault model used for that row.
 - `total runs`: number of injections executed for that `(layer, fault type)` pair.
-- `errors`: number of runs whose output tensor differs from the golden run (SDCs).
+- `errors`: number of runs whose output tensor differs from the golden run.
 - `sdc_count`: number of critical SDC events. For ViT16, this means the predicted output class changed. For segmentation, this corresponds to more than 1% of output classifications changing.
 - `sdc_rate`: `sdc_count / total runs`.
 - `d(out_c)`, `layer area`, `num_ops`: layer descriptors used later for normalization and FIT estimation.
 
+As one example, the first row of `FI-vit-16-results(img0).csv` is:
 
-After running `python getFIT.py` (in Section 5.3), the file `results/Full_FI-vit-16-results(img0).csv` adds derived columns such as `portion_of_tpu`, `fault_type_fit_rate`, `layer_vs_fault_fit_rate`, `fit_times_avf`, and `fit_times_avf_critical`. These are the per-row FIT-based estimates used to move from raw SDC counts to reliability-oriented summaries. In practice:
+
+After running `getFIT.py` (Section 5.3), the file `results/Full_FI-vit-16-results(img0).csv` adds derived columns such as `portion_of_tpu`, `fault_type_fit_rate`, `layer_vs_fault_fit_rate`, `fit_times_avf`, and `fit_times_avf_critical`. These convert the raw FI outcomes into FIT-oriented estimates. In practice:
 - `fit_times_avf` is the estimated FIT contribution of that row.
 - `fit_times_avf_critical` is the critical-only FIT contribution of that row.
-- Higher values indicate rows that contribute more strongly to overall vulnerability.
-- This file could be used to gather results for generation of Figure 10 in the paper by averaging the SDC rates of different fault types in each layer.
+- `Full_*.csv` is the most direct file for layer-by-layer analysis similar to Figure 10.
 
 `getFIT.py` also produces two summary files that are easier to compare against the paper:
-- `results/ByFaultType_Full_FI-vit-16-results(img0).csv`: aggregates by fault model. This is the easiest file to inspect when asking which of `single`, `small-box`, `medium-box`, or `cpu` produces the largest average SDC or FIT contribution. This file could be used for the analysis in Figure 6, 7, 8, and 11, as well as the comparison results in RQ2.(2) (`cpu` vs other fault types).
-- `results/ByLayerType_Full_FI-vit-16-results(img0).csv`: aggregates by layer type. This is the easiest file to inspect when comparing different layer types such as `FullyConnected` vs. `BroadcastMul6DSlow` (used in Figure 9).
+- `results/ByFaultType_Full_FI-vit-16-results(img0).csv`: aggregates by fault model. This is the easiest file to inspect when asking which of `single`, `small-box`, `medium-box`, or `cpu` produces the largest average SDC or FIT contribution. This is the most natural demo file for reproducing the same type of fault-type comparison used in Figures 6, 7, 8, and 11.
+- `results/ByLayerType_Full_FI-vit-16-results(img0).csv`: aggregates by layer type. This is the easiest file to inspect when comparing different layer types such as `FullyConnected` vs. `BroadcastMul6DSlow`, following the same type of analysis used in Figure 9.
 
+Finally, when the ViT run includes `--check_confidence` and `--check_attention`, the framework also saves golden confidence information (for Figure 11) and tensor-difference logs in `diff_results/`. Running `process_attention_results.py` summarizes these differences into `attention_results_exec_top8/top_heads_summary.txt`, following the same processing path used for the attention-head analysis associated with Figure 12.
 
-Finally, when the ViT run includes `--check_confidence` and `--check_attention`, the framework also saves golden confidence information (for Figure 11) and tensor-difference logs in `diff_results/`. Running `process_attention_results.py` summarizes these differences into `attention_results_exec_top8/top_heads_summary.txt`, which is the same analysis path used for the attention-head study discussed in Figure 12.
-
-This section is intended for demo purposes only, so the resulting numbers should not be treated as accurate paper-scale results. For more accurate results, refer to the larger campaigns in Section 6.
+Note that this section is intended for demo purposes only, so the numbers from this small run should not be treated as accurate paper-scale results. If the same scripts are run with more iterations, more images, and full layer coverage as described in Section 6, then the same workflow can be used to obtain the paper-scale results.
 
 ## 6. Larger Campaigns (Optional)
 **Not recommended for quick demos.**
