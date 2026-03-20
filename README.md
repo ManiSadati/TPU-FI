@@ -197,6 +197,8 @@ Common controls:
 
 This section gives one concrete example of how to read the generated files and how they connect to the analysis in the paper. The important point is that Section 5 uses the same workflow as the paper, but on a much smaller campaign. The files and metrics are therefore interpreted in the same way, even though the resulting numbers are only for demonstration.
 
+<br>
+
 If you ran the ViT command from Section 5.1 exactly as written, the main raw output will be `results/FI-vit-16-results(img0).csv`. If you change the run arguments, the output filename may change accordingly. This CSV contains one row per `(layer, fault type)` pair. Each layer appears four times, once for each fault model: `single`, `small-box`, `medium-box`, and `cpu`. The main columns are:
 - `layer`: layer index where the fault was injected.
 - `name`: TensorFlow/TFLite kernel or layer type for that row, such as `FullyConnected` or `BroadcastMul6DSlow` (MatMul).
@@ -207,8 +209,7 @@ If you ran the ViT command from Section 5.1 exactly as written, the main raw out
 - `sdc_rate`: `sdc_count / total runs`.
 - `d(out_c)`, `layer area`, `num_ops`: layer descriptors used later for normalization and FIT estimation.
 
-As one example, the first row of `FI-vit-16-results(img0).csv` is:
-
+<br>
 
 After running `getFIT.py` (Section 5.3), the file `results/Full_FI-vit-16-results(img0).csv` adds derived columns such as `portion_of_tpu`, `fault_type_fit_rate`, `layer_vs_fault_fit_rate`, `fit_times_avf`, and `fit_times_avf_critical`. These convert the raw FI outcomes into FIT-oriented estimates. In practice:
 - `fit_times_avf` is the estimated FIT contribution of that row.
@@ -219,7 +220,11 @@ After running `getFIT.py` (Section 5.3), the file `results/Full_FI-vit-16-result
 - `results/ByFaultType_Full_FI-vit-16-results(img0).csv`: aggregates by fault model. This is the easiest file to inspect when asking which of `single`, `small-box`, `medium-box`, or `cpu` produces the largest average SDC or FIT contribution. This is the most natural demo file for reproducing the same type of fault-type comparison used in Figures 6, 7, 8, and 11.
 - `results/ByLayerType_Full_FI-vit-16-results(img0).csv`: aggregates by layer type. This is the easiest file to inspect when comparing different layer types such as `FullyConnected` vs. `BroadcastMul6DSlow`, following the same type of analysis used in Figure 9.
 
+<br>
+
 Finally, by including `--check_confidence` and `--check_attention` flags in `run_fi_vit.py` run (Section 5.1), the framework also prints the golden confidence information (for Figure 11) and saves tensor-difference logs in `diff_results/`. Running `process_attention_results.py` summarizes these differences into `attention_results_exec_top8/top_heads_summary.txt`, following the same processing path used for the attention-head analysis associated with Figure 12.
+
+<br>
 
 Note that this section is intended for demo purposes only, so the numbers from this small run should not be treated as accurate paper-scale results. If the same scripts are run with more iterations, more images, and full layer coverage as described in Section 6, then the same workflow can be used to obtain the paper-scale results.
 
