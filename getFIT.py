@@ -15,16 +15,12 @@ def add_fit_columns():
         print(f"Results directory not found: {results_dir}")
         return
 
-    # Iterate over all CSV files in ./results
+    # Iterate over all CSV files in ./results that have not been processed at all (start with FI)
     for filename in os.listdir(results_dir):
         if not filename.endswith(".csv"):
             continue
         
-        if filename.startswith("Full"):
-            continue
-
-        # Optional: skip already-processed files
-        if filename.endswith("_by_fault_type.csv"):
+        if not filename.startswith("FI-"):
             continue
 
         file_path = os.path.join(results_dir, filename)
@@ -66,18 +62,12 @@ def get_fit_sums():
         print(f"Results directory not found: {results_dir}")
         return
 
-    # Iterate over all CSV files in ./results
+    # Iterate over all CSV files in ./results that already have been processed in the first stage (start with Full)
     for filename in os.listdir(results_dir):
         if not filename.endswith(".csv"):
             continue
 
         if not filename.startswith("Full"):
-            continue
-
-        
-
-        # Optional: skip already-processed files
-        if filename.endswith("_by_fault_type.csv"):
             continue
 
         file_path = os.path.join(results_dir, filename)
