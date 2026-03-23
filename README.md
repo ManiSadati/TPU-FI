@@ -204,17 +204,45 @@ If you ran the ViT command from Section 5.1 exactly as written, the main raw out
 - `name`: TensorFlow/TFLite kernel or layer type for that row, such as `FullyConnected` or `BroadcastMul6DSlow` (MatMul).
 - `type`: fault model used for that row.
 - `total runs`: number of injections executed for that `(layer, fault type)` pair.
-- `errors`: number of runs whose output tensor differs from the golden run.
-- `sdc_count`: number of critical SDC events. For ViT16, this means the predicted output class changed. For segmentation, this corresponds to more than 1% of output classifications changing.
-- `sdc_rate`: `sdc_count / total runs`.
+- `sdc_count`: number of runs whose output differs from the golden run.
+- `critical_sdc_count`: number of critical SDC events. For ViT16, this means the predicted output class changed. For segmentation, this corresponds to more than 1% of output classifications changing.
+- `critical_sdc_rate`: `critical_sdc_count / total runs`.
 - `d(out_c)`, `layer area`, `num_ops`: layer descriptors used later for normalization and FIT estimation.
+
+For example, the first 7 lines look like:
+
+| layer | name | type | total runs | sdc_count | critical_sdc_count | critical_sdc_rate | d(out_c) | layer area | num_ops |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | FullyConnected | single | 5 | 5 | 2 | 0.4 | 1 | 4096 | 3145728 |
+| 0 | FullyConnected | small-box | 5 | 5 | 1 | 0.2 | 1 | 4096 | 3145728 |
+| 0 | FullyConnected | medium-box | 5 | 5 | 3 | 0.6 | 1 | 4096 | 3145728 |
+| 0 | FullyConnected | cpu | 5 | 5 | 1 | 0.2 | 1 | 4096 | 3145728 |
+| 1 | BroadcastMul6DSlow | single | 5 | 4 | 0 | 0.0 | 1 | 4096 | 4096 |
+| 1 | BroadcastMul6DSlow | small-box | 5 | 4 | 1 | 0.2 | 1 | 4096 | 4096 |
+| ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+
+Note that your results may differ because the fault injections are random and the demo uses a relatively small number of injections, so the measured rates are not expected to be fully stable.
 
 <br>
 
-After running `getFIT.py` (Section 5.3), the file `results/Full_FI-vit-16-results(img0).csv` adds derived columns such as `portion_of_tpu`, `fault_type_fit_rate`, `layer_vs_fault_fit_rate`, `fit_times_avf`, and `fit_times_avf_critical`. These convert the raw FI outcomes into FIT-oriented estimates. In practice:
+After running `getFIT.py` (Section 5.3), the file `results/Full_FI-vit-16-results(img0).csv` adds derived columns such as `sdc_rate`, `num_ops_limited`, `portion_of_tpu`, `fault_type_fit_rate`, `layer_vs_fault_fit_rate`, `fit_times_avf`, and `fit_times_avf_critical`. These convert the raw FI outcomes into FIT-oriented estimates. In practice:
 - `fit_times_avf` is the estimated FIT contribution of that row.
 - `fit_times_avf_critical` is the critical-only FIT contribution of that row.
 - `Full_*.csv` is the most direct file for layer-by-layer analysis similar to Figure 10.
+
+For the same ViT example, the first 7 lines are:
+
+| layer | name | type | total runs | sdc_count | critical_sdc_count | critical_sdc_rate | d(out_c) | layer area | num_ops | sdc_rate | num_ops_limited | portion_of_tpu | fault_type_fit_rate | layer_vs_fault_fit_rate | fit_times_avf | fit_times_avf_critical |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 0 | FullyConnected | single | 5 | 5 | 2 | 0.4 | 1 | 4096 | 3145728 | 1.0 | 65536 | 0.0052083 | 13.41935484 | 0.069892473125 | 0.069892473125 | 0.0279569892499 |
+| 0 | FullyConnected | small-box | 5 | 5 | 1 | 0.2 | 1 | 4096 | 3145728 | 1.0 | 65536 | 0.0052083 | 3.634408602 | 0.01892921146875 | 0.01892921146875 | 0.003785842 |
+| 0 | FullyConnected | medium-box | 5 | 5 | 3 | 0.6 | 1 | 4096 | 3145728 | 1.0 | 65536 | 0.0052083 | 8.946236559 | 0.046594982078125 | 0.046594982078125 | 0.0279569892468 |
+| 0 | FullyConnected | cpu | 5 | 5 | 1 | 0.2 | 1 | 4096 | 3145728 | 1.0 | 65536 | 0.0052083 | 0.0 | 0.0 | 0.0 | 0.0 |
+| 1 | BroadcastMul6DSlow | single | 5 | 4 | 0 | 0.0 | 1 | 4096 | 4096 | 0.8 | 4096 | 0.00032552 | 13.41935484 | 0.0043682795703125 | 0.00349462365624 | 0.0 |
+| 1 | BroadcastMul6DSlow | small-box | 5 | 4 | 1 | 0.2 | 1 | 4096 | 4096 | 0.8 | 4096 | 0.00032552 | 3.634408602 | 0.001183075716796875 | 0.0009464605734375 | 0.0002366151433 |
+| ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... | ... |
+
+<br>
 
 `getFIT.py` also produces two summary files that are easier to compare against the paper:
 - `results/ByFaultType_Full_FI-vit-16-results(img0).csv`: aggregates by fault model. This is the easiest file to inspect when asking which of `single`, `small-box`, `medium-box`, or `cpu` produces the largest average SDC or FIT contribution. This is the most natural demo file for reproducing the same type of fault-type comparison used in Figures 6, 7, 8, and 11.
