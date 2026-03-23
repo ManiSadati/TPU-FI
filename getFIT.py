@@ -34,14 +34,14 @@ def add_fit_columns():
             print(f"  Failed to read {file_path}: {e}")
             continue
         
-        df['sdc_rate'] = df['errors'] / df['total runs']
+        df['sdc_rate'] = df['sdc_count'] / df['total runs']
         df['num_ops_limited'] = df['num_ops'].clip(upper=256*256)
-        df['critical_sdc_rate'] = df['sdc_count'] / df['total runs']
+        df['critical_sdc_rate'] = df['critical_sdc_count'] / df['total runs']
         df['portion_of_tpu'] = df['num_ops_limited'] * 100 / 1258291200
         df['fault_type_fit_rate'] = df['type'].map(fault_types_fit_rates)
         df['layer_vs_fault_fit_rate'] = df['portion_of_tpu'] * df['fault_type_fit_rate']
-        df['fit_times_avf'] = df['errors'] * df['layer_vs_fault_fit_rate'] / df['total runs']
-        df['fit_times_avf_critical'] = df['sdc_count'] * df['layer_vs_fault_fit_rate'] / df['total runs']
+        df['fit_times_avf'] = df['sdc_count'] * df['layer_vs_fault_fit_rate'] / df['total runs']
+        df['fit_times_avf_critical'] = df['critical_sdc_count'] * df['layer_vs_fault_fit_rate'] / df['total runs']
         file_path = os.path.join(results_dir, f"Full_{model}.csv")
         df.to_csv(file_path, index=False)
         print(f"full file saved to {file_path}")

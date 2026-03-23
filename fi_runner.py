@@ -5,14 +5,14 @@ Shared FI loop for TPU-FI.
 This module centralizes the *experiment engine*:
 - per-layer profiling (fi_init_profile + run golden)
 - per-fault-type injections (fi_init_inject + run faulty)
-- per-iteration bookkeeping (errors, SDC, CSV)
+- per-iteration bookkeeping (SDC, Critical SDC)
 - optional tensor-dump post-processing (fi_post_process)
 
 Model-specific behavior is injected via callbacks (task interface):
 - how to prepare input
 - how to run inference
 - how to create golden representation
-- how to compute error / SDC
+- how to compute (critical) SDC
 
 """
 
@@ -87,7 +87,7 @@ def run_fault_injection(task: FITask, cfg: FIRunConfig) -> None:
     Run fault injection from cfg.start_layer .. cfg.end_layer-1 and write CSV.
 
     CSV columns match your existing scripts:
-    ["layer", "name", "type", "total runs", "errors", "sdc_count", "sdc_rate",
+    ["layer", "name", "type", "total runs", "sdc_count", "critical_sdc_count", "critical_sdc_rate",
      "d(out_c)", "layer area", "num_ops"]
     """
     init_fi()
@@ -95,8 +95,8 @@ def run_fault_injection(task: FITask, cfg: FIRunConfig) -> None:
     with open(cfg.csv_filename, mode="w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow([
-            "layer", "name", "type", "total runs", "errors",
-            "sdc_count", "sdc_rate", "d(out_c)", "layer area", "num_ops"
+            "layer", "name", "type", "total runs", "sdc_count",
+            "critical_sdc_count", "critical_sdc_rate", "d(out_c)", "layer area", "num_ops"
         ])
 
         for fi_layer in range(cfg.start_layer, cfg.end_layer):
@@ -141,8 +141,8 @@ def run_fault_injection(task: FITask, cfg: FIRunConfig) -> None:
 
                 layer_name = ""
                 total_runs = 0
-                errors = 0
                 sdc_count = 0
+                crit_sdc_count = 0
                 c = -1
                 layer_area = -1
                 num_ops = -1
@@ -169,15 +169,15 @@ def run_fault_injection(task: FITask, cfg: FIRunConfig) -> None:
 
                         total_runs += 1
                         if is_error:
-                            errors += 1
-                        if is_sdc:
                             sdc_count += 1
+                        if is_sdc:
+                            crit_sdc_count += 1
 
                 if total_runs > 0:
-                    sdc_rate = sdc_count / total_runs
+                    crit_sdc_rate = crit_sdc_count / total_runs
                     writer.writerow([
-                        fi_layer, layer_name, fi_type, total_runs, errors,
-                        sdc_count, sdc_rate, c, layer_area, num_ops
+                        fi_layer, layer_name, fi_type, total_runs, sdc_count,
+                        crit_sdc_count, crit_sdc_rate, c, layer_area, num_ops
                     ])
 
                 # Post-process tensor dumps (diff_results/*.npy)
