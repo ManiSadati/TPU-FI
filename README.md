@@ -2,6 +2,7 @@
 
 This repository contains the TPU-FI framework presented in the paper ["Thinking Inside the Box: Injecting Realistic Radiation Faults in ML Accelerators"](https://blogs.ubc.ca/dependablesystemslab/2026/04/29/thinking-inside-the-box-injecting-realistic-radiation-faults-in-ml-accelerators/).
 The full code and data artifacts are available at [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19202320.svg)](https://doi.org/10.5281/zenodo.19202320).
+The archived artifact version of this repository includes a prebuilt customized TensorFlow .whl, allowing users to skip Section 4.3 and complete installation (all of Section 4) in under 10 minutes.
 
 TPU-FI is a software fault-injection framework for TFLite models, implemented by instrumenting TensorFlow/TFLite kernels and driving campaigns from Python.
 
