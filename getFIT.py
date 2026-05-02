@@ -1,12 +1,14 @@
 import os
 import pandas as pd
 
+MAGIC_NUMBER_CONVOLUTION = 5 * (36 / 26)
+MAX_TPU_SIZE = 64 * 64
 
 def add_fit_columns():
     fault_types_fit_rates = {
-        'single': 13.41935484,
-        'small-box': 3.634408602,
-        'medium-box': 8.946236559,
+        'single': 13.41935484 * MAGIC_NUMBER_CONVOLUTION,
+        'small-box': 3.634408602 * MAGIC_NUMBER_CONVOLUTION,
+        'medium-box': 8.946236559 * MAGIC_NUMBER_CONVOLUTION,
         'cpu': 0.0
     }
     results_dir = "./results"
@@ -35,9 +37,9 @@ def add_fit_columns():
             continue
         
         df['sdc_rate'] = df['sdc_count'] / df['total runs']
-        df['num_ops_limited'] = df['num_ops'].clip(upper=256*256)
+        df['num_ops_limited'] = df['num_ops'].clip(upper=MAX_TPU_SIZE)
         df['critical_sdc_rate'] = df['critical_sdc_count'] / df['total runs']
-        df['portion_of_tpu'] = df['num_ops_limited'] * 100 / 1258291200
+        df['portion_of_tpu'] = df['num_ops_limited'] / (MAX_TPU_SIZE)
         df['fault_type_fit_rate'] = df['type'].map(fault_types_fit_rates)
         df['layer_vs_fault_fit_rate'] = df['portion_of_tpu'] * df['fault_type_fit_rate']
         df['fit_times_avf'] = df['sdc_count'] * df['layer_vs_fault_fit_rate'] / df['total runs']
