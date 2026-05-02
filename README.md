@@ -1,18 +1,19 @@
-# DSN 2026 Artifact Evaluation Guide: TPU-FI
+# TPU-FI
 
-This repository contains the artifact for the TPU-FI framework proposed in the paper "Thinking Inside the Box: Injecting Realistic Radiation Faults in ML Accelerators". Data (as well as the code) artifacts are available at [https://zenodo.org/records/19202320](https://zenodo.org/records/19202320) .
+This repository contains the TPU-FI framework presented in the paper ["Thinking Inside the Box: Injecting Realistic Radiation Faults in ML Accelerators"](https://blogs.ubc.ca/dependablesystemslab/2026/04/29/thinking-inside-the-box-injecting-realistic-radiation-faults-in-ml-accelerators/).
+The full code and data artifacts are available at [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.19202320.svg)](https://doi.org/10.5281/zenodo.19202320).
 
 TPU-FI is a software fault-injection framework for TFLite models, implemented by instrumenting TensorFlow/TFLite kernels and driving campaigns from Python.
 
 
-
 This guide explains:
-- what is included in the artifact,
+- what is included in this repository,
 - how to build/run it,
 - how to reproduce the main workflow on a small scale,
 - where outputs are written.
 
-## 1. Artifact Scope
+
+## 1. Repository Scope
 
 TPU-FI supports bit-flip fault injection campaigns on:
 - Vision Transformer (ViT) classifiers,
@@ -29,27 +30,30 @@ Fault models used by the scripts:
 
 Key files/folders:
 - `benchmarks/`: prepackaged `.tflite` models and `.npy` inputs.
-- `third_party/`: a generated folder to hold the TensorFlow source subtree used for kernel instrumentation/build.
-- `run_fi_vit.py`: FI driver for ViT models.
-- `run_fi_segmentation.py`: FI driver for segmentation models.
-- `fi_runner.py`: shared FI loop.
-- `fi_config.py`: FI control-plane utilities and fault sampling logic.
-- `getFIT.py`: computes FIT/statistical summaries from CSV files of SDC results.
-- `process_attention_results.py`: summarizes attention-level diff outputs.
+- `Dockerfile`: instructions to build the TPU-FI docker image
 - `execute_fi.sh`: example long-running campaign script.
 - `execute_fi_small.sh`: shorter example of `execute_fi.sh` (takes around 1 or 2 hours).
+- `fi_config.py`: FI control-plane utilities and fault sampling logic.
+- `fi_runner.py`: shared FI loop.
+- `getFIT.py`: computes FIT/statistical summaries from CSV files of SDC results.
+- `install.sh`: automated instructions to install project dependencies
+- `process_attention_results.py`: summarizes attention-level diff outputs.
+- `run_fi_vit.py`: FI driver for ViT models.
+- `run_fi_segmentation.py`: FI driver for segmentation models.
+- `third_party/`: a generated folder to hold the TensorFlow source subtree used for kernel instrumentation/build.
 
 Outputs:
-- `results/*.csv`: campaign raw and processed summaries.
 - `diff_results/*.npy`: tensor-level diffs for logged attention observation points.
+- `results/*.csv`: campaign raw and processed summaries.
 
 ## 3. System Requirements
 
 Recommended minimum:
 - Linux x86_64 (Ubuntu 20.04+)
-- Docker
+- Docker (You will need to have **superuser** privileges to use Docker.)
 - 8+ GB RAM
 - 16+ GB free disk
+
 
 ## 4. Setup and Build
 
@@ -60,14 +64,14 @@ Ensure that you are in the repository root (`/home/TPU-FI`).
 Build an image from the [Dockerfile](Dockerfile) by running:
 
 ```bash
-docker build -t tf_min_dev .
-docker run --name tf_tfbuild -it -v $HOME/TPU-FI tf_min_dev
+sudo docker build -t tf_min_dev .
+sudo docker run --name tf_tfbuild -it tf_min_dev
 ```
 
 If the container is already built (future runs) use the following command instead:
 
 ```bash
-docker start -ai tf_tfbuild
+sudo docker start -ai tf_tfbuild
 ```
 
 ### 4.2 Clone, install prerequisites and configure build options for customized TensorFlow
@@ -90,7 +94,8 @@ Build wheel and install.
 bash install_tensorflow.sh
 ```
 
-This build includes the TFLite fault-injection implementation in `tensorflow/lite/kernels/internal/reference/integer_ops/fault_injection.h`, along with modifications to several TFLite kernels, mainly under `tensorflow/lite/kernels/internal/reference/integer_ops/`.
+Note that the TensorFlow (.whl) build includes the TFLite fault-injection implementation in `third_party/tensorflow/lite/kernels/internal/reference/integer_ops/fault_injection.h`, along with modifications to several TFLite kernels, mainly under `third_party/tensorflow/lite/kernels/internal/reference/integer_ops/`.
+
 
 ## 5. Minimum Working Example (under 30 minutes)
 
@@ -130,7 +135,7 @@ python run_fi_vit.py -h
 
 
 ### 5.2 Segmentation quick campaign (optional)
-**For a minimal demo run or a quick artifact evaluation, you may skip this subactivity and proceed directly to result processing (Section 5.3) below.**
+**For a minimal demo run, you may skip this subactivity and proceed directly to result processing (Section 5.3) below.**
 *Expected Activity Time: 15 min*
 
 
@@ -190,7 +195,7 @@ python run_fi_segmentation.py -h
 
 Common controls:
 - `--iterations`: injections per `(layer, fault_type)` configuration.
-- `--imageindex`: run one sample only (faster for artifact checks).
+- `--imageindex`: run one sample only (faster for demo runs).
 - `--start_layer`, `--end_layer`: FI layer interval (`end_layer` exclusive).
 
 
@@ -258,9 +263,25 @@ Finally, by including `--check_confidence` and `--check_attention` flags in `run
 
 Note that this section is intended for demo purposes only, so the numbers from this small run should not be treated as accurate paper-scale results. If the same scripts are run with more iterations, more images, and full layer coverage as described in Section 6, then the same workflow can be used to obtain the paper-scale results.
 
+
 ## 6. Larger Campaigns (Optional)
 **Not recommended for quick demos.**
 *Expected Activity Time: Multiple Days*
 
 `execute_fi.sh` is intended as a long-running multi-model campaign template takes multiple days to complete.
 `execute_fi_small.sh` is a small and less accurate subset of `execute_fi.sh` that takes about 2 hours.
+
+
+## Citation
+
+Please cite the following paper if you use our tool.
+
+```
+@inproceedings{Coelho2026_DSN,
+  author    = {Coelho, Bruno Loureiro and Sadati, Mani and Chan, Abraham and Hands, Alex and Pattabiraman, Karthik and Rech, Paolo},
+  title     = {{Thinking Inside the Box: Injecting Realistic Radiation Faults in ML Accelerators}},
+  booktitle = {IEEE/IFIP International Conference on Dependable Systems and Networks (DSN)},
+  year      = {2026}
+}
+```
+
